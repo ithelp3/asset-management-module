@@ -1,0 +1,10 @@
+import 'package:asset_management_module/Model/pwa.dart';
+import 'package:asset_management_module/Model/user_auth.dart';
+import 'package:flutter/cupertino.dart';
+
+class NavKey{
+  static final navKey = GlobalKey<NavigatorState>();
+  static String? data = 'FINfQ==ICAgICJ1c2VyX2lkIjogMzY0NzMsDQogICAgInR5cGUiOiAyLA0KICAgICJjb21wYW55X2lkIjogMTI3NzYsDQogICAgInBhY2thZ2VfaWQiOiA2LA0KICAgICJlbXBfaWQiOiA5OTc4NSwNCiAgICAiZW1wX3BpbiI6ICIxIiwNCiAgICAibW9kdWxlX2lkIjogMywNCiAgICAiaXBfYWRkcmVzcyI6ICIxOTIuMTY4LjEuOTEiLA0KICAgICJwbGF0Zm9ybSI6ICJhbmRyb2lkIiwNCiAgICAibGFuZ3VhZ2UiOiAiaWQiLA0KICAgICJ0aGVtZSI6ICJsaWdodCIsDQogICAgImVtYWlsIjogInByb2dyYW1tZXJiY3MzQGZpbmdlcnNwb3QuY29tIg0Kew0KSPOT';
+  static UserAuth? user;
+  static Pwa? pwa;
+}
