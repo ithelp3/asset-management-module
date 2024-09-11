@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:asset_management_module/home/controller.dart';
 import 'package:asset_management_module/model/submission.dart';
 import 'package:flutter/material.dart';
@@ -167,10 +169,15 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                                 child: Text(item.name ?? '-',
                                     style: const TextStyle(fontSize: 13)),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 2),
+                              Container(
+                                alignment: Alignment.center,
+                                margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
+                                decoration: BoxDecoration(
+                                    color: const Color(0xFF3f87b9),
+                                    borderRadius: BorderRadius.circular(4)
+                                ),
                                 child: Text(item.description ?? '-',
-                                    style: const TextStyle(fontSize: 13)),
+                                    style: const TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold)),
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 2),
@@ -217,6 +224,7 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                               Text('Asset',
                                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                               Text('Status',
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                               Text('Date',
                                 textAlign: TextAlign.center,
@@ -232,13 +240,13 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                               ),
                               Container(
                                 alignment: Alignment.center,
-                                padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 1),
+                                margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
                                 decoration: BoxDecoration(
-                                  color: Color(0xFF3f87b9), 
+                                  color: const Color(0xFF3f87b9),
                                   borderRadius: BorderRadius.circular(4)
                                 ),
                                 child: Text(item.statusName ?? '-',
-                                    style: const TextStyle(fontSize: 13, color: Colors.white)),
+                                    style: const TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold)),
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 2),
@@ -296,10 +304,15 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                                 child: Text(item.component ?? '-',
                                     style: const TextStyle(fontSize: 13)),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 2),
+                              Container(
+                                alignment: Alignment.center,
+                                margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
+                                decoration: BoxDecoration(
+                                    color: const Color(0xFF3f87b9),
+                                    borderRadius: BorderRadius.circular(4)
+                                ),
                                 child: Text(item.statusName ?? '-',
-                                    style: const TextStyle(fontSize: 13)),
+                                    style: const TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold)),
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 2),
