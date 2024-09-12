@@ -1,4 +1,5 @@
 import 'package:asset_management_module/home/view.dart';
+import 'package:asset_management_module/landing/view.dart';
 import 'package:asset_management_module/splash_screen/view.dart';
 import 'package:asset_management_module/utils/data/nav_key.dart';
 import 'package:asset_management_module/utils/localization/key.dart';
@@ -10,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
   setPathUrlStrategy();
   runApp(const MyApp());
@@ -22,6 +24,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      navigatorKey: NavKey.navKey,
+      debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.light,
@@ -29,7 +33,7 @@ class MyApp extends StatelessWidget {
       locale: const Locale('id', 'ID'),
       // initialRoute: '/home',
       getPages: [
-        GetPage(name: '/', page: () => const SplashScreenPage()),
+        GetPage(name: '/', page: () => const LandingPage()),
         // GetPage(name: '/', page: () => const SplashScreenPage()),
         GetPage(name: '/home', page: () => const HomePage()),
       ],

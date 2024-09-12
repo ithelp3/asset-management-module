@@ -1,13 +1,13 @@
-import 'dart:ui';
-
+import 'package:asset_management_module/component_widget/skeleton_dashboard.dart';
 import 'package:asset_management_module/home/controller.dart';
-import 'package:asset_management_module/model/submission.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
+@override
 Widget dashboard(BuildContext context, HomeController ctr) {
-  double height = MediaQuery.of(context).size.height;
+  // double height = MediaQuery.of(context).size.height;
   return Scaffold(
+    key: const ValueKey(0),
     body: CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -42,49 +42,49 @@ Widget dashboard(BuildContext context, HomeController ctr) {
         SliverToBoxAdapter(
           child: Column(
             children: [
-              Container(
-                  margin: const EdgeInsets.all(10),
-                  height: 260,
-                  child: Card(
-                    child: Column(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text('Asset by Status',
-                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
-                              ),
-                              Icon(Icons.expand_less_outlined, size: 36,)
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 0),
-                          child: PieChart(
-                            dataMap: {
-                              for(final item in ctr.pieChartAssetByCategory) item.name?.toString() ?? 'N/A': double.tryParse(item.total.toString()) ?? 0,
-                            },
-                            colorList: const [
-                              Color(0XFF3F87B9),
-                              Color(0XFF75B7EC),
-                              Color(0XFFFDC543),
-                              Color(0XFFE08241),
-                            ],
-                            chartLegendSpacing: 20,
-                            chartValuesOptions: const ChartValuesOptions(
-                              decimalPlaces: 0,
-                              chartValueBackgroundColor: Colors.white,
+              if(!ctr.progressDashboard.value) Container(
+                margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
+                height: 260,
+                child: Card(
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text('Asset by Status',
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
                             ),
-                            chartRadius: MediaQuery.of(context).size.width/2.4,
-                          ),
+                            Icon(Icons.expand_less_outlined, size: 36,)
+                          ],
                         ),
-                      ],
-                    ),
-                  )
-              ),
-              Container(
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 0),
+                        child: PieChart(
+                          dataMap: {
+                            for(final item in ctr.pieChartAssetByCategory) item.name?.toString() ?? 'N/A': double.tryParse(item.total.toString()) ?? 0,
+                          },
+                          colorList: const [
+                            Color(0XFF3F87B9),
+                            Color(0XFF75B7EC),
+                            Color(0XFFFDC543),
+                            Color(0XFFE08241),
+                          ],
+                          chartLegendSpacing: 20,
+                          chartValuesOptions: const ChartValuesOptions(
+                            decimalPlaces: 0,
+                            chartValueBackgroundColor: Colors.white,
+                          ),
+                          chartRadius: MediaQuery.of(context).size.width/2.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ) else skeletonPie(),
+              if(!ctr.progressDashboard.value) Container(
                 margin: const EdgeInsets.all(10),
                 height: 260,
                 alignment: Alignment.centerLeft,
@@ -125,7 +125,7 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                     ],
                   ),
                 )
-              ),
+              ) else skeletonPie(),
               Card(
                 margin: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                 color: Colors.white,

@@ -1,4 +1,7 @@
+import 'package:asset_management_module/account/account.dart';
+import 'package:asset_management_module/asset/assets.dart';
 import 'package:asset_management_module/dashboard/dashboard.dart';
+import 'package:asset_management_module/depreciation/depreciation.dart';
 import 'package:asset_management_module/home/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,20 +9,21 @@ import 'package:get/get.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return GetBuilder(
       init: HomeController(),
-      builder: (ctr) => Obx(() => Scaffold(
-        body: [
-          dashboard(context, ctr),
-          Text('asset'),
-          Text('reminder'),
-          Text('depresiasi'),
-          Text('akun'),
-        ][ctr.navbarBottomIdx.value],
+      builder: (ctr) {
+        return Scaffold(
+          primary: true,
+          body: <Widget>[
+            dashboard(context, ctr),
+            assets(context, ctr),
+            const Text('reminder'),
+            depreciation(context, ctr),
+            account(context, ctr),
+          ][ctr.navbarBottomIdx.value],
         bottomNavigationBar: Container(
           color: Colors.white,
           height: 70,
@@ -140,7 +144,8 @@ class HomePage extends StatelessWidget {
             ],
           ),
         )
-      ))
+      );
+      }
     );
   }
 }

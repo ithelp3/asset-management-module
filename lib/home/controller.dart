@@ -1,10 +1,13 @@
 import 'package:asset_management_module/Model/user_auth.dart';
+import 'package:asset_management_module/model/asset.dart';
+import 'package:asset_management_module/model/depreciation.dart';
 import 'package:asset_management_module/model/pie_cart.dart';
 import 'package:asset_management_module/model/recent_component.dart';
 import 'package:asset_management_module/model/recent_status.dart';
 import 'package:asset_management_module/model/submission.dart';
 import 'package:asset_management_module/utils/data/client.dart';
 import 'package:asset_management_module/utils/data/nav_key.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
@@ -15,6 +18,17 @@ class HomeController extends GetxController {
   RxList<RecentAsset> recentAssets = <RecentAsset>[].obs;
   RxList<RecentComponent> recentComponents = <RecentComponent>[].obs;
   RxList<Submission> submission = <Submission>[].obs;
+  RxBool progressDashboard = false.obs;
+
+  RxList<Asset> assets = <Asset>[].obs;
+  RxList<Asset> assetSearch = <Asset>[].obs;
+  Rx<TextEditingController> fieldSearchAsset = TextEditingController().obs;
+  RxBool progressAsset = false.obs;
+
+  RxList<Depreciation> depreciations = <Depreciation>[].obs;
+  RxList<Depreciation> depreciationSearch = <Depreciation>[].obs;
+  Rx<TextEditingController> fieldSearchDep = TextEditingController().obs;
+  RxBool progressDep = false.obs;
 
   RxBool errorBanner = false.obs;
 
@@ -22,6 +36,25 @@ class HomeController extends GetxController {
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
+    getDashboard();
+  }
+
+  void selectNavbarBottomIdx(int idx) {
+    navbarBottomIdx.value = idx;
+    if(idx == 0){
+      getDashboard();
+    } else if(idx == 1) {
+      getAssets();
+    } else if(idx == 2) {
+
+     }else if(idx == 3) {
+      getDepreciations();
+    }
+    update();
+  }
+
+  void getDashboard() async {
+    progressDashboard.value = true;
     await DioClient().get('/dashboard/data-total',).then((res) {
       pieChartAssetByCategory.value = List.from(res['data']['asset_by_category'].map((json) => PieChart.fromJson(json)));
       pieChartAssetByStatus.value = List.from(res['data']['asset_by_status'].map((json) => PieChart.fromJson(json)));
@@ -29,9 +62,32 @@ class HomeController extends GetxController {
       recentComponents.value = List.from(res['data']['recent_component'].map((json) => RecentComponent.fromJson(json)));
       submission.value = List.from(res['data']['submission'].map((json) => Submission.fromJson(json)));
     });
+    progressDashboard.value = false;
+    update();
   }
 
-  void selectNavbarBottomIdx(int idx) {
-    navbarBottomIdx.value = idx;
+  void getAssets() async {
+    progressAsset.value = true;
+    await DioClient().get('/asset/list').then((res) {
+      assets.value = List.from(res['data'].map((json) => Asset.fromJson(json)));
+    });
+    progressAsset.value = false;
+    update();
+  }
+
+  void getDepreciations() async {
+    progressDep.value = true;
+    await DioClient().get('/depreciation/list').then((res) {
+      depreciations.value = List.from(res['data'].map((json) => Depreciation.fromJson(json)));
+    });
+    progressDep.value = false;
+    update();
+  }
+
+  void onSearchDep(String key) {
+    print('~~$key');
+    depreciationSearch.value = depreciations.where((item) => item.name!.toLowerCase() == key.toLowerCase()).toList();
+    print('~~ ${depreciationSearch}');
+    update();
   }
 }

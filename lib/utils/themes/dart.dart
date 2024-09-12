@@ -6,6 +6,8 @@ final darkTheme = ThemeData(
   dividerTheme: const DividerThemeData(color: Colors.transparent),
   dialogBackgroundColor: const Color(0xFF272d34),
   cardColor: const Color(0xFF272d34),
+  scaffoldBackgroundColor: const Color(0xFF263238),
+  primaryColor: const Color(0xFF272d34),
   colorScheme: const ColorScheme.dark(
     brightness: Brightness.dark,
     primary: Color(0xFF3f87b9),
@@ -16,6 +18,9 @@ final darkTheme = ThemeData(
     surfaceTintColor: Color(0xFF272d34),
     backgroundColor: Color(0xFF272d34),
     centerTitle: true,
+  ),
+  cardTheme: CardTheme(
+    color: const Color(0xFF272d34)
   ),
   // useMaterial3: true,
   pageTransitionsTheme: const PageTransitionsTheme(
