@@ -48,7 +48,8 @@ Widget depreciation(BuildContext context, HomeController ctr) {
               ),
             )
         ),
-        if(!ctr.progressDep.value && (ctr.depreciationSearch.isNotEmpty || ctr.depreciations.isNotEmpty)) SliverList(delegate: SliverChildBuilderDelegate(
+        if(!ctr.progressDep.value && (ctr.depreciationSearch.isNotEmpty ||
+            ( ctr.depreciations.isNotEmpty ))) SliverList(delegate: SliverChildBuilderDelegate(
           childCount: ctr.depreciationSearch.isEmpty
               ? ctr.depreciations.length
               : ctr.depreciationSearch.length,

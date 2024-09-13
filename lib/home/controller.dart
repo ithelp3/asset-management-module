@@ -44,11 +44,11 @@ class HomeController extends GetxController {
     if(idx == 0){
       getDashboard();
     } else if(idx == 1) {
-      getAssets();
+      if(assets.isEmpty) getAssets();
     } else if(idx == 2) {
 
      }else if(idx == 3) {
-      getDepreciations();
+      if(depreciations.isEmpty) getDepreciations();
     }
     update();
   }
@@ -85,9 +85,7 @@ class HomeController extends GetxController {
   }
 
   void onSearchDep(String key) {
-    print('~~$key');
-    depreciationSearch.value = depreciations.where((item) => item.name!.toLowerCase() == key.toLowerCase()).toList();
-    print('~~ ${depreciationSearch}');
+    depreciationSearch.value = depreciations.where((item) => item.name!.contains((key))).toList();
     update();
   }
 }

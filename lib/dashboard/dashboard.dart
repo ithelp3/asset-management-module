@@ -5,7 +5,6 @@ import 'package:pie_chart/pie_chart.dart';
 
 @override
 Widget dashboard(BuildContext context, HomeController ctr) {
-  // double height = MediaQuery.of(context).size.height;
   return Scaffold(
     key: const ValueKey(0),
     body: CustomScrollView(
