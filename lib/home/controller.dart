@@ -60,7 +60,7 @@ class HomeController extends GetxController {
       pieChartAssetByStatus.value = List.from(res['data']['asset_by_status'].map((json) => PieChart.fromJson(json)));
       recentAssets.value = List.from(res['data']['recent_asset'].map((json) => RecentAsset.fromJson(json)));
       recentComponents.value = List.from(res['data']['recent_component'].map((json) => RecentComponent.fromJson(json)));
-      submission.value = List.from(res['data']['submission'].map((json) => Submission.fromJson(json)));
+      // submission.value = List.from(res['data']['submission'].map((json) => Submission.fromJson(json)));
     });
     progressDashboard.value = false;
     update();
@@ -84,8 +84,17 @@ class HomeController extends GetxController {
     update();
   }
 
+  //Asset
+  void onSearchAsset(String key) {
+    assetSearch.value = assets.where((item) =>
+        item.name!.toLowerCase().contains((key.toLowerCase()))).toList();
+    update();
+  }
+
+  //Depreciation
   void onSearchDep(String key) {
-    depreciationSearch.value = depreciations.where((item) => item.name!.contains((key))).toList();
+    depreciationSearch.value = depreciations.where((item) =>
+        item.name!.toLowerCase().contains((key.toLowerCase()))).toList();
     update();
   }
 }

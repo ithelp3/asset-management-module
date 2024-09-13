@@ -8,58 +8,73 @@ import 'package:flutter/material.dart';
 Widget assets(BuildContext context, HomeController ctr) {
   return Scaffold(
     key: const ValueKey(1),
-    body: CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          title: Text('Asset',),
-          centerTitle: true,
-          backgroundColor: Theme.of(context).brightness == Brightness.light
+    appBar: AppBar(
+        title: Text('Asset',),
+        centerTitle: true,
+        backgroundColor: Theme.of(context).brightness == Brightness.light
             ? Colors.white
             : const Color(0xFF272d34),
-          automaticallyImplyLeading: false,
-            bottom: PreferredSize(
-              preferredSize: const Size(double.infinity, 80),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(bottom: BorderSide(color: Colors.grey.shade300))
+        automaticallyImplyLeading: false,
+        bottom: PreferredSize(
+          preferredSize: const Size(double.infinity, 80),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(bottom: BorderSide(color: Colors.grey.shade300))
+            ),
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: 'Kamu lagi cari apa?',
+                prefixIcon: Icon(Icons.search, color: Colors.grey.shade700, size: 22,),
+                fillColor: const Color(0xFFE1EAF0),
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Kamu lagi cari apa?',
-                    prefixIcon: Icon(Icons.search, color: Colors.grey.shade700, size: 22,),
-                    fillColor: const Color(0xFFE1EAF0),
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          color: Color(0xFF6DC0ED)
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    contentPadding: EdgeInsets.zero,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                      color: Color(0xFF6DC0ED)
                   ),
-                  style: const TextStyle(fontSize: 14),
-                  controller: ctr.fieldSearchAsset.value,
-                  // onChanged: (value) => ctr.onSearch(value),
+                  borderRadius: BorderRadius.circular(10),
                 ),
+                contentPadding: EdgeInsets.zero,
               ),
-            )
-        ),
-        if(!ctr.progressAsset.value) SliverList(delegate: SliverChildBuilderDelegate(
-          childCount: ctr.assets.length,
-          (context, index) {
-            Asset item = ctr.assets[index];
-            return itemAsset(context, ctr, item);
-          },
-        )) else SliverList(delegate: SliverChildBuilderDelegate(
-          (context, idx) => skeletonAssetItem(),
-          childCount: 8,
-        ))
-      ],
+              style: const TextStyle(fontSize: 14),
+              controller: ctr.fieldSearchAsset.value,
+              onChanged: (value) => ctr.onSearchAsset(value),
+            ),
+          ),
+        )
+    ),
+    body: (!ctr.progressAsset.value && ctr.assets.isNotEmpty &&
+        ctr.fieldSearchAsset.value.value.text == '')? ListView.builder(
+      itemCount: ctr.assets.length,
+      itemBuilder: (context, index) {
+        Asset item = ctr.assets[index];
+        return itemAsset(context, ctr, item);
+      },
+    ) : (!ctr.progressAsset.value && ctr.assetSearch.isNotEmpty
+        && ctr.fieldSearchAsset.value.value.text != '') ? ListView.builder(
+      itemCount: ctr.assetSearch.length,
+      itemBuilder: (context, index) {
+        Asset item = ctr.assetSearch[index];
+        return itemAsset(context, ctr, item);
+      },
+    ) : ctr.progressAsset.value ? ListView.builder(
+      itemCount: 8,
+      itemBuilder: (context, idx) => skeletonAssetItem(),
+    ) : Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/4),
+      child: const Column(
+          children: [
+            Icon(Icons.folder_off_outlined, size: 80, color: Color(0xFF3f87b9),),
+            Divider(height: 10,),
+            Text('data is empty',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF3f87b9)),)
+          ]
+      ),
     ),
     floatingActionButton: Visibility(
       visible: !(MediaQuery.of(context).viewInsets.bottom != 0),
