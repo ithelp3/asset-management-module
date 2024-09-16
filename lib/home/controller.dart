@@ -1,4 +1,5 @@
 import 'package:asset_management_module/Model/user_auth.dart';
+import 'package:asset_management_module/asset/add_edit_asset/view.dart';
 import 'package:asset_management_module/model/asset.dart';
 import 'package:asset_management_module/model/depreciation.dart';
 import 'package:asset_management_module/model/pie_cart.dart';
@@ -89,6 +90,16 @@ class HomeController extends GetxController {
     assetSearch.value = assets.where((item) =>
         item.name!.toLowerCase().contains((key.toLowerCase()))).toList();
     update();
+  }
+
+  void assetAddEdit(String label, Asset? asset) {
+    Get.to(const AddEditAssetPage(),
+      routeName: '/assets/${label == 'add' ? 'add' : 'edit'}',
+      arguments: {
+        'type': label == 'add' ? 'add' : 'edit',
+        if(label == 'edit') 'data': asset
+      },
+    );
   }
 
   //Depreciation

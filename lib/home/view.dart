@@ -121,7 +121,7 @@ class HomePage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () => ctr.selectNavbarBottomIdx(4),
-                child: Container(
+                child: SizedBox(
                   width: width/5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

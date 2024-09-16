@@ -63,13 +63,16 @@ Widget itemAsset(BuildContext context, HomeController ctr, Asset item) {
                 )),
                 PopupMenuButton(
                   itemBuilder: (ctx) => [
-                    {'label': 'assign', 'icon': Icons.file_present_outlined},
-                    {'label': 'edit', 'icon': Icons.edit},
-                    {'label': 'delete', 'icon': Icons.delete_outline_outlined},
+                    {'label': 'assign'.tr, 'icon': Icons.file_present_outlined},
+                    {'label': 'edit'.tr, 'icon': Icons.edit},
+                    {'label': 'delete'.tr, 'icon': Icons.delete_outline_outlined},
                   ].map((i) {
                     String label = i['label'].toString();
                     IconData icon = i['icon'] as IconData;
                     return PopupMenuItem(
+                        onTap: () {
+                          if(label == 'edit'.tr) ctr.assetAddEdit('edit', item);
+                        },
                         child: Row(
                           children: [
                             Icon(icon, color: const Color(0xFF3f87b9),),

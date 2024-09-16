@@ -79,7 +79,7 @@ Widget assets(BuildContext context, HomeController ctr) {
     floatingActionButton: Visibility(
       visible: !(MediaQuery.of(context).viewInsets.bottom != 0),
       child: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => ctr.assetAddEdit('add', null),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40)
         ),
