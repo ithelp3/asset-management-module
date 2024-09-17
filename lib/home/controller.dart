@@ -1,5 +1,7 @@
 import 'package:asset_management_module/Model/user_auth.dart';
 import 'package:asset_management_module/asset/add_edit_asset/view.dart';
+import 'package:asset_management_module/asset/assign_unassign/view.dart';
+import 'package:asset_management_module/component_widget/loading.dart';
 import 'package:asset_management_module/model/asset.dart';
 import 'package:asset_management_module/model/depreciation.dart';
 import 'package:asset_management_module/model/pie_cart.dart';
@@ -8,6 +10,7 @@ import 'package:asset_management_module/model/recent_status.dart';
 import 'package:asset_management_module/model/submission.dart';
 import 'package:asset_management_module/utils/data/client.dart';
 import 'package:asset_management_module/utils/data/nav_key.dart';
+import 'package:asset_management_module/component_widget/dialog_info_delete.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -37,6 +40,7 @@ class HomeController extends GetxController {
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
+    progressDashboard.value = true;
     getDashboard();
   }
 
@@ -55,13 +59,12 @@ class HomeController extends GetxController {
   }
 
   void getDashboard() async {
-    progressDashboard.value = true;
     await DioClient().get('/dashboard/data-total',).then((res) {
       pieChartAssetByCategory.value = List.from(res['data']['asset_by_category'].map((json) => PieChart.fromJson(json)));
       pieChartAssetByStatus.value = List.from(res['data']['asset_by_status'].map((json) => PieChart.fromJson(json)));
       recentAssets.value = List.from(res['data']['recent_asset'].map((json) => RecentAsset.fromJson(json)));
       recentComponents.value = List.from(res['data']['recent_component'].map((json) => RecentComponent.fromJson(json)));
-      // submission.value = List.from(res['data']['submission'].map((json) => Submission.fromJson(json)));
+      submission.value = List.from(res['data']['submission'].map((json) => Submission.fromJson(json)));
     });
     progressDashboard.value = false;
     update();
@@ -92,14 +95,63 @@ class HomeController extends GetxController {
     update();
   }
 
-  void assetAddEdit(String label, Asset? asset) {
-    Get.to(const AddEditAssetPage(),
+  void assetAddEdit(String label, Asset? asset) async {
+    final result = await Get.to(const AddEditAssetPage(),
       routeName: '/assets/${label == 'add' ? 'add' : 'edit'}',
       arguments: {
         'type': label == 'add' ? 'add' : 'edit',
         if(label == 'edit') 'data': asset
       },
     );
+
+    if(result == null) return;
+    getAssets();
+  }
+
+  void assetDelete(context, Asset asset) async {
+    final result = await Get.dialog(dialogInfoDelete(context,
+      height: 160 ,
+      title: 'delete_asset'.tr,
+      info: 'Are you going to delete the {name} Asset data?'.trParams({'value': asset.assetName!})
+    ));
+    
+    if(result == null || !result) return;
+    LoadingFullscreen.startLoading();
+    await DioClient().delete('/asset/delete',
+      data: {
+        'id': asset.id
+      }
+    ).then((res) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.lightBlue,
+          content: Text('successful_'.trParams({'value': 'delete_asset'.tr})),
+          behavior: SnackBarBehavior.floating,
+        )
+      );
+      getAssets();
+    }).catchError((err) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.redAccent,
+          content: Text('Oppss..!!'),
+          behavior: SnackBarBehavior.floating,
+        )
+      );
+    });
+    LoadingFullscreen.stopLoading();
+  }
+
+  void assignUnassign(Asset item) async {
+    final result = await Get.to(const AssignUnassignPage(),
+      routeName: (item.status == '2') ? '/asset/un-assign' : '/asset/assign',
+      arguments: {
+        'data': item
+      }
+    );
+
+    if(result == null) return;
+    getAssets();
   }
 
   //Depreciation

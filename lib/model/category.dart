@@ -35,4 +35,17 @@ class Category {
     updatedAt: json["updated_at"],
     saasCompanyId: json["saas_company_id"],
   );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "kode": kode,
+    "name": name,
+    "parent_id": parentId,
+    "group_id": groupId,
+    "number": number,
+    "status": status,
+    "created_at": createdAt,
+    "updated_at": updatedAt,
+    "saas_company_id": saasCompanyId,
+  };
 }

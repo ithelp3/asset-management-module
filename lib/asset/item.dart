@@ -58,13 +58,13 @@ Widget itemAsset(BuildContext context, HomeController ctr, Asset item) {
                             borderRadius: BorderRadius.circular(4)
                         ),
                         child: Text(item.statusName ?? 'N/A',
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),))
+                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),))
                   ],
                 )),
                 PopupMenuButton(
                   itemBuilder: (ctx) => [
-                    {'label': 'assign'.tr, 'icon': Icons.file_present_outlined},
-                    {'label': 'edit'.tr, 'icon': Icons.edit},
+                    {'label': (item.status != '2') ? 'assign'.tr : 'un_assign'.tr, 'icon': Icons.file_present_outlined},
+                    {'label': 'edit'.tr, 'icon': Icons.edit_note_outlined},
                     {'label': 'delete'.tr, 'icon': Icons.delete_outline_outlined},
                   ].map((i) {
                     String label = i['label'].toString();
@@ -72,7 +72,10 @@ Widget itemAsset(BuildContext context, HomeController ctr, Asset item) {
                     return PopupMenuItem(
                         onTap: () {
                           if(label == 'edit'.tr) ctr.assetAddEdit('edit', item);
+                          if(label == 'delete'.tr) ctr.assetDelete(context, item);
+                          if(label == 'assign'.tr || label == 'un_assign'.tr) ctr.assignUnassign(item);
                         },
+                        height: 32,
                         child: Row(
                           children: [
                             Icon(icon, color: const Color(0xFF3f87b9),),

@@ -23,4 +23,13 @@ class Office {
     updatedAt: json["updated_at"],
     saasCompanyId: json["saas_company_id"],
   );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "inisial": inisial,
+    "created_at": createdAt,
+    "updated_at": updatedAt,
+    "saas_company_id": saasCompanyId,
+  };
 }

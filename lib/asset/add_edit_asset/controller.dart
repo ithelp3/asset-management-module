@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:asset_management_module/component_widget/dialog_item_select.dart';
+import 'package:asset_management_module/component_widget/loading.dart';
 import 'package:asset_management_module/model/asset.dart';
 import 'package:asset_management_module/model/brand.dart';
 import 'package:asset_management_module/model/building.dart';
@@ -10,8 +14,10 @@ import 'package:asset_management_module/model/status.dart';
 import 'package:asset_management_module/model/supplier.dart';
 import 'package:asset_management_module/model/user.dart';
 import 'package:asset_management_module/utils/data/client.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_web_file_selector/flutter_web_file_selector.dart';
+import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:intl/intl.dart';
 
 class AddEditAssetController extends GetxController {
@@ -59,6 +65,11 @@ class AddEditAssetController extends GetxController {
   RxList<Brand> brands = <Brand>[].obs;
   Rx<Brand> brand = Brand().obs;
   DateTime? selectedDate;
+  List warrantyTypes = ['days', 'months', 'Years'];
+  RxInt warrantyType = 1.obs;
+  XFile? imageFile;
+  RxString imageName = ''.obs;
+  RxBool showAlertImage = false.obs;
 
   @override
   void onInit() async {
@@ -121,6 +132,162 @@ class AddEditAssetController extends GetxController {
       fieldWarranty.value.value = TextEditingValue(text: asset.value.warranty ?? 'N/A');
       fieldCost.value.value = TextEditingValue(text: asset.value.cost ?? '0.0');
       fieldDescription.value.value = TextEditingValue(text: asset.value.description ?? '');
+      warrantyType.value = asset.value.warrantyType != 0 ? asset.value.warrantyType! : 0;
+      fieldWarranty.value.value = TextEditingValue(text: asset.value.warranty ?? '0');
+      imageName.value = asset.value.picture ?? 'N/A';
+    }
+  }
+
+  void selectItem(context, String key) async {
+    String label = '';
+    List<Item> items = [];
+    if(key == 'status') {
+      label = 'status'.tr;
+      items = statuses.map((i) => Item(
+        label: i.name,
+        value: i.id
+      )).toList();
+    } else if(key == 'person') {
+      label = 'select_@'.trParams({'value': 'person_on_charger'.tr});
+      items = users.map((i) => Item(
+          label: i.fullName,
+          value: i.id
+      )).toList();
+    } else if(key == 'office') {
+      label = 'select_@'.trParams({'value': 'office'.tr});
+      items = offices.map((i) => Item(
+          label: i.name,
+          value: i.id
+      )).toList();
+    } else if(key == 'building') {
+      label = 'select_@'.trParams({'value': 'building'.tr});
+      items = buildings.map((i) => Item(
+          label: i.name,
+          value: i.id
+      )).toList();
+    } else if(key == 'floor') {
+      label = 'select_@'.trParams({'value': 'floor'.tr});
+      items = floors.map((i) => Item(
+          label: i.name,
+          value: i.id
+      )).toList();
+    } else if(key == 'room') {
+      label = 'select_@'.trParams({'value': 'room'.tr});
+      items = rooms.map((i) => Item(
+          label: i.name,
+          value: i.id
+      )).toList();
+    } else if(key == 'group') {
+      label = 'select_@'.trParams({'value': 'group'.tr});
+      items = groups.map((i) => Item(
+          label: i.name,
+          value: i.id
+      )).toList();
+    } else if(key == 'category') {
+      label = 'select_@'.trParams({'value': 'category'.tr});
+      items = categories.map((i) => Item(
+          label: i.name,
+          value: i.id
+      )).toList();
+    } else if(key == 'sub-category') {
+      label = 'select_@'.trParams({'value': 'sub-category'.tr});
+      items = subCategories.map((i) => Item(
+          label: i.name,
+          value: i.id
+      )).toList();
+    } else if(key == 'supplier') {
+      label = 'select_@'.trParams({'value': 'supplier'.tr});
+      items = suppliers.map((i) => Item(
+          label: i.name,
+          value: i.id
+      )).toList();
+    } else if(key == 'brand') {
+      label = 'select_@'.trParams({'value': 'brand'.tr});
+      items = brands.map((i) => Item(
+          label: i.name,
+          value: i.id
+      )).toList();
+    } else if(key == 'warranty') {
+      label = 'select_@'.trParams({'value': 'warranty_type'.tr});
+      items = [
+        {'label': 'days'.tr, 'value': 1},
+        {'label': 'months'.tr, 'value': 2},
+        {'label': 'years'.tr, 'value': 3}
+      ].map((i) => Item(
+          label: i['label'].toString(),
+          value: i['value']
+      )).toList();
+    }
+
+    dynamic result = await showDialog(
+      context: context,
+      builder: (context) => dialogItemSelect(context,
+        label: label,
+        items: items
+      )
+    );
+    if(result == null) return;
+
+    if(key == 'status') {
+      status.value = statuses.firstWhere((i) => i.id == result['value']);
+      fieldStatus.value.value = TextEditingValue(text: status.value.name!);
+    } else if(key == 'person') {
+      user.value = users.firstWhere((i) => i.id == result['value']);
+      fieldPersonOnCharger.value.value = TextEditingValue(text: user.value.fullName!);
+    } else if(key == 'office') {
+      office.value = offices.firstWhere((i) => i.id == result['value']);
+      fieldOffice.value.value = TextEditingValue(text: office.value.name!);
+      DioClient().get('/location/building-by-office/${office.value.id}').then((res) =>
+        buildings.value = List.from(res['data'].map((i) => Building.fromJson(i)))
+      );
+    } else if(key == 'building') {
+      building.value = buildings.firstWhere((i) => i.id == result['value']);
+      fieldBuilding.value.value = TextEditingValue(text: building.value.name!);
+      DioClient().get('/location/floor-by-building/${building.value.id}').then((res) {
+        floors.value = List.from(res['data'].map((i) => Floor.fromJson(i)));
+      });
+    } else if(key == 'floor') {
+      floor.value = floors.firstWhere((i) => i.id == result['value']);
+      fieldFloor.value.value = TextEditingValue(text: floor.value.name!);
+      DioClient().get('/location/room-by-floor/${floor.value.id}').then((res) {
+        rooms.value = List.from(res['data'].map((i) => Room.fromJson(i)));
+      });
+    } else if(key == 'room') {
+      room.value = rooms.firstWhere((i) => i.id == result['value']);
+      fieldRoom.value.value = TextEditingValue(text: room.value.name!);
+    } else if(key == 'group') {
+      group.value = groups.firstWhere((i) => i.id == result['value']);
+      fieldGroup.value.value = TextEditingValue(text: group.value.name!);
+      DioClient().get('/category/by-group/${group.value.id}').then((res) {
+        categories.value = List.from(res['data'].map((i) => Category.fromJson(i)));
+      });
+    } else if(key == 'category') {
+      category.value = categories.firstWhere((i) => i.id == result['value']);
+      fieldCategory.value.value = TextEditingValue(text: category.value.name!);
+      DioClient().get('/category/sub-category-by-category/${category.value.id}').then((res) {
+        subCategories.value = List.from(res['data'].map((i) => Category.fromJson(i)));
+      });
+    } else if(key == 'sub-category') {
+      subCategory.value = subCategories.firstWhere((i) => i.id == result['value']);
+      fieldSubCategory.value.value = TextEditingValue(text: subCategory.value.name!);
+      DioClient().post('/asset/generate-code',
+        data: {
+          'office': office.value.id,
+          'floor': floor.value.id,
+          'room': room.value.id,
+          'group': group.value.id,
+          'category': category.value.id,
+          'subcategory': subCategory.value.id
+        }
+      ).then((res) => fieldTagAsset.value.value = TextEditingValue(text: res['code']));
+    } else if(key == 'supplier') {
+      supplier.value = suppliers.firstWhere((i) => i.id == result['value']);
+      fieldSupplier.value.value = TextEditingValue(text: supplier.value.name!);
+    } else if(key == 'brand') {
+      brand.value = brands.firstWhere((i) => i.id == result['value']);
+      fieldBrand.value.value = TextEditingValue(text: brand.value.name!);
+    } else if(key == 'warranty') {
+      warrantyType.value = result['value'];
     }
   }
 
@@ -136,5 +303,82 @@ class AddEditAssetController extends GetxController {
     String selectDate = DateFormat('yyyy-MM-dd').format(date);
     fieldPurchaseDate.value.value = TextEditingValue(text: selectDate);
     selectedDate = date;
+  }
+
+  void selectedImage(List<XFile> files) async {
+    showAlertImage.value = false;
+    if(files.isEmpty) return;
+
+    imageFile = files.first;
+    imageName.value = files.first.name;
+    final bytes = await files.first.readAsBytes();
+    if((bytes.lengthInBytes/(1024 *1024)) > 4) showAlertImage.value = true;
+    update();
+  }
+
+  void save(context) async {
+    LoadingFullscreen.startLoading();
+    dynamic bytes;
+    if(imageFile != null ) bytes = await imageFile!.readAsBytes();
+    final payload = FormData.fromMap({
+      if(type.value == 'edit') 'id': asset.value.id,
+      'picture': imageFile != null
+          ? MultipartFile.fromBytes(bytes, filename: imageFile!.name, contentType: DioMediaType('image', 'jpeg'))
+          : null,
+      'office': office.value.toJson(),
+      'building': building.value.toJson(),
+      'floor': floor.value.toJson(),
+      'room': room.value.toJson(),
+      'group': group.value.toJson(),
+      'category': category.value.toJson(),
+      'subcategory': subCategory.value.toJson(),
+      'message': fieldTagAsset.value.value.text,
+      'name': fieldName.value.value.text,
+      'supplierid': supplier.value.id,
+      'brandid': brand.value.id,
+      'serial': fieldSerial.value.value.text,
+      if(type.value == 'add') 'quantity': 1,
+      'purchasedate': (type.value == 'edit' && selectedDate == null)
+          ? DateFormat('yyyy-MM-dd').format(DateFormat('dd-MM-yyyy').parse(asset.value.purchaseDate!))
+          : selectedDate,
+      'cost': fieldCost.value.value.text,
+      'warranty_type': warrantyType.value,
+      'warranty': fieldWarranty.value.value.text,
+      'status': status.value.id,
+      'description': fieldDescription.value.value.text,
+      'pic': user.value.id,
+      'tax_report': '0',
+    });
+
+    dynamic response;
+    if(type.value == 'add') {
+      response = await DioClient().post('/asset/add',
+          data: payload
+      );
+    } else {
+      response = await DioClient().post('/asset/update',
+          data: payload
+      );
+    }
+
+    LoadingFullscreen.stopLoading();
+    if(response['success'] ?? false) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.lightBlue,
+            content: Text('successful_'.trParams({'value': 'create_asset'.tr})),
+            behavior: SnackBarBehavior.floating,
+          )
+      );
+      Get.back(result: true);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.redAccent,
+            content: Text('Oppss..!!'),
+            behavior: SnackBarBehavior.floating,
+          )
+      );
+    }
   }
 }

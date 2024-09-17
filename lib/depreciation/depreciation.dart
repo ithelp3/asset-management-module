@@ -3,12 +3,13 @@ import 'package:asset_management_module/depreciation/item.dart';
 import 'package:asset_management_module/home/controller.dart';
 import 'package:asset_management_module/model/depreciation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 Widget depreciation(BuildContext context, HomeController ctr) {
   return Scaffold(
     key: const ValueKey(3),
     appBar: AppBar(
-        title: Text('Depreciation',),
+        title: Text('depreciation'.tr,),
         centerTitle: true,
         backgroundColor: Theme.of(context).brightness == Brightness.light
             ? Colors.white
@@ -39,7 +40,6 @@ Widget depreciation(BuildContext context, HomeController ctr) {
                 ),
                 contentPadding: EdgeInsets.zero,
               ),
-              style: const TextStyle(fontSize: 14),
               controller: ctr.fieldSearchDep.value,
               onChanged: (value) => ctr.onSearchDep(value),
             ),
@@ -47,13 +47,17 @@ Widget depreciation(BuildContext context, HomeController ctr) {
         )
     ),
     body: (!ctr.progressDep.value && ctr.depreciations.isNotEmpty &&
-        ctr.fieldSearchDep.value.value.text == '') ? ListView.builder(
+        ctr.fieldSearchDep.value.value.text == '') ? RefreshIndicator(
+        backgroundColor: Colors.white,
+        child: ListView.builder(
           itemCount:  ctr.depreciations.length,
           itemBuilder: (context, index) {
             Depreciation item = ctr.depreciations[index];
             return itemDepreciation(context, ctr, item);
           },
-        ) : (!ctr.progressDep.value &&( ctr.depreciationSearch.isNotEmpty && ctr.fieldSearchDep.value.value.text != '')) ? ListView.builder(
+        ),
+        onRefresh: () async => ctr.getDepreciations()
+    ) : (!ctr.progressDep.value &&( ctr.depreciationSearch.isNotEmpty && ctr.fieldSearchDep.value.value.text != '')) ? ListView.builder(
           itemCount: ctr.depreciationSearch.length,
           itemBuilder: (context, index) {
             Depreciation item = ctr.depreciationSearch[index];

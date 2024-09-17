@@ -22,22 +22,25 @@ class AssetDetailsPage extends StatelessWidget {
       init: AssetDetailsController(),
       builder: (ctr) => Obx(() => Scaffold(
         appBar: AppBar(
-          title: Text('Detail asset', style: TextStyle(),),
+          title: Text('detail_asset'.tr,),
           backgroundColor: Colors.white,
           leading: GestureDetector(
             onTap: () => Get.back(),
             child: const Icon(Icons.arrow_back_ios, color: Colors.black,)),
           centerTitle: true,
           bottom: PreferredSize(
-              preferredSize: const Size(double.infinity, 200),
+              preferredSize: const Size(double.infinity, 210),
               child: Column(
                 children: [
                   !ctr.progress.value ? Column(
                     children: [
                       if(ctr.details.value.qr != '') Image.memory(const Base64Decoder().convert(ctr.details.value.qr!)),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.all(10),
                         child: Text('${ctr.details.value.name} (${ctr.details.value.assetTag ?? 'N/A'})',
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(fontWeight: FontWeight.bold),),
                       ),
                       Padding(

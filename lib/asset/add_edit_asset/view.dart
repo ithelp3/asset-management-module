@@ -1,5 +1,6 @@
 import 'package:asset_management_module/asset/add_edit_asset/controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_web_file_selector/flutter_web_file_selector.dart';
 import 'package:get/get.dart';
 
 class AddEditAssetPage extends StatelessWidget {
@@ -42,12 +43,10 @@ class AddEditAssetPage extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
                         validator: (value) => (value == null || value.isEmpty)
                             ? 'please_fill_in_@'.trParams({'value': 'name'})
                             : null,
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldName.value,
                       ),
                     ),
@@ -55,6 +54,7 @@ class AddEditAssetPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        onTap: () => ctr.selectItem(context, 'status'),
                         decoration: InputDecoration(
                           labelText: 'status'.tr,
                           hintText: 'write_the_@_here'.trParams({'value': 'status'}),
@@ -65,20 +65,22 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
                         validator: (value) => (value == null || value.isEmpty)
                             ? 'please_fill_in_@'.trParams({'value': 'status'})
                             : null,
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldStatus.value,
                       ),
                     ),Padding(
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        onTap: () => ctr.selectItem(context, 'person'),
                         decoration: InputDecoration(
                           labelText: 'person_on_changer'.tr,
                           hintText: 'write_the_@_here'.trParams({'value': 'person_on_changer'}),
@@ -89,20 +91,22 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
                         validator: (value) => (value == null || value.isEmpty)
                             ? 'please_fill_in_@'.trParams({'value': 'person_on_charger'})
                             : null,
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldPersonOnCharger.value,
                       ),
                     ),Padding(
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        onTap: () => ctr.selectItem(context, 'office'),
                         decoration: InputDecoration(
                           labelText: 'office'.tr,
                           hintText: 'write_the_@_here'.trParams({'value': 'office'}),
@@ -113,20 +117,23 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
                         validator: (value) => (value == null || value.isEmpty)
                             ? 'please_fill_in_@'.trParams({'value': 'office'})
                             : null,
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldOffice.value,
                       ),
                     ),Padding(
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enabled: ctr.buildings.isNotEmpty,
+                        onTap: () => ctr.selectItem(context, 'building'),
                         decoration: InputDecoration(
                           labelText: 'building'.tr,
                           hintText: 'write_the_@_here'.trParams({'value': 'building'}),
@@ -137,20 +144,23 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
                         validator: (value) => (value == null || value.isEmpty)
                             ? 'please_fill_in_@'.trParams({'value': 'building'})
                             : null,
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldBuilding.value,
                       ),
                     ),Padding(
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enabled: ctr.floors.isNotEmpty,
+                        onTap: () => ctr.selectItem(context, 'floor'),
                         decoration: InputDecoration(
                           labelText: 'floor'.tr,
                           hintText: 'write_the_@_here'.trParams({'value': 'floor'}),
@@ -161,17 +171,20 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldFloor.value,
                       ),
                     ),Padding(
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enabled: ctr.rooms.isNotEmpty,
+                        onTap: () => ctr.selectItem(context, 'room'),
                         decoration: InputDecoration(
                           labelText: 'room'.tr,
                           hintText: 'write_the_@_here'.trParams({'value': 'room'}),
@@ -182,17 +195,19 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldRoom.value,
                       ),
                     ),Padding(
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        onTap: () => ctr.selectItem(context, 'group'),
                         decoration: InputDecoration(
                           labelText: 'group'.tr,
                           hintText: 'write_the_@_here'.trParams({'value': 'group'}),
@@ -203,20 +218,23 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
                         validator: (value) => (value == null || value.isEmpty)
                             ? 'please_fill_in_@'.trParams({'value': 'group'})
                             : null,
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldGroup.value,
                       ),
                     ),Padding(
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enabled: ctr.categories.isNotEmpty,
+                        onTap: () => ctr.selectItem(context, 'category'),
                         decoration: InputDecoration(
                           labelText: 'category'.tr,
                           hintText: 'write_the_@_here'.trParams({'value': 'category'}),
@@ -227,11 +245,12 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
-                        style: const TextStyle(fontSize: 14),
                         validator: (value) => (value == null || value.isEmpty)
                             ? 'please_fill_in_@'.trParams({'value': 'category'})
                             : null,
@@ -242,6 +261,8 @@ class AddEditAssetPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enabled: ctr.subCategories.isNotEmpty,
+                        onTap: () => ctr.selectItem(context, 'sub-category'),
                         decoration: InputDecoration(
                           labelText: 'sub_category'.tr,
                           hintText: 'write_the_@_here'.trParams({'value': 'sub_category'}),
@@ -252,14 +273,15 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
                         validator: (value) => (value == null || value.isEmpty)
                             ? 'please_fill_in_@'.trParams({'value': 'sub_category'})
                             : null,
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldSubCategory.value,
                       ),
                     ),
@@ -275,14 +297,15 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
                         validator: (value) => (value == null || value.isEmpty)
                             ? 'please_fill_in_@'.trParams({'value': 'tag_asset'})
                             : null,
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldTagAsset.value,
                       ),
                     ),
@@ -290,6 +313,7 @@ class AddEditAssetPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        onTap: () => ctr.selectItem(context, 'supplier'),
                         decoration: InputDecoration(
                           labelText: 'supplier'.tr,
                           hintText: 'write_the_@_here'.trParams({'value': 'supplier'}),
@@ -300,17 +324,19 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldSupplier.value,
                       ),
                     ),Padding(
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        onTap: () => ctr.selectItem(context, 'brand'),
                         decoration: InputDecoration(
                           labelText: 'brand'.tr,
                           hintText: 'write_the_@_here'.trParams({'value': 'brand'}),
@@ -321,11 +347,12 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldBrand.value,
                       ),
                     ),
@@ -341,11 +368,12 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldSerial.value,
                       ),
                     ),
@@ -364,34 +392,54 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldPurchaseDate.value,
+                        validator: (value) => (value == null || value.isEmpty)
+                            ? 'please_fill_in_@'.trParams({'value': 'purchase_date'})
+                            : null,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
-                        readOnly: true,
                         decoration: InputDecoration(
                           labelText: 'warranty'.tr,
                           hintText: 'write_the_@_here'.trParams({'value': 'warranty'}),
                           prefixIcon: const Icon(Icons.date_range_outlined, color: Color(0xFF3f87b9), size: 22,),
-                          suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
+                          suffixIcon: GestureDetector(
+                            onTap: () => ctr.selectItem(context, 'warranty'),
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 12),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(ctr.warrantyTypes[ctr.warrantyType.value-1]),
+                                  const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
+                                ],
+                              ),
+                            ),
+                          ),
                           filled: true,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
-                        style: const TextStyle(fontSize: 14),
+                        keyboardType: TextInputType.number,
                         controller: ctr.fieldWarranty.value,
+                        validator: (value) => (value == null || value.isEmpty)
+                            ? 'please_fill_in_@'.trParams({'value': 'warranty'})
+                            : null,
                       ),
                     ),
                     Padding(
@@ -406,12 +454,13 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.zero,
                         ),
                         keyboardType: TextInputType.number,
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldCost.value,
                       ),
                     ),
@@ -427,14 +476,45 @@ class AddEditAssetPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFF3f87b9)
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          // contentPadding: EdgeInsets.zero,
                         ),
                         minLines: 2,
                         maxLines: 3,
-                        style: const TextStyle(fontSize: 14),
                         controller: ctr.fieldDescription.value,
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 10, left: 10, right: 10,),
+                      padding: const EdgeInsets.only(top: 20, bottom: 20, right: 10),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: const Color(0xFF3f87b9))
+                      ),
+                      child: WebFileSelector(
+                        onData: (files) async => ctr.selectedImage(files),
+                        accept: '.png, .jpg, .jpeg,',
+                        multiple: false,
+                        child: Row(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(left: 10, right: 10),
+                              child: Icon(Icons.upload_rounded, color: Color(0xFF3f87b9), size: 30,),
+                            ),
+                            Expanded(
+                              child: Text(ctr.imageName.value != '' ? ctr.imageName.value : 'upload image jpeg, jpg, png (max 4 MB)',
+                                style: TextStyle(color: ctr.imageName.value != ''
+                                    ? Colors. black
+                                  :  Colors.grey
+                                ),),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -448,13 +528,16 @@ class AddEditAssetPage extends StatelessWidget {
               ),
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6)
                       ),
                       backgroundColor: const Color(0xFF3f87b9),
                       foregroundColor: Colors.white
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    if(ctr.formKey.value.currentState!.validate())ctr.save(context);
+                  },
                   child: Text('save'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
               ),
             )

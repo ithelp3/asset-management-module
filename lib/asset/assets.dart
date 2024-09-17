@@ -3,13 +3,14 @@ import 'package:asset_management_module/component_widget/skeleton_asset.dart';
 import 'package:asset_management_module/home/controller.dart';
 import 'package:asset_management_module/model/asset.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 @override
 Widget assets(BuildContext context, HomeController ctr) {
   return Scaffold(
     key: const ValueKey(1),
     appBar: AppBar(
-        title: Text('Asset',),
+        title: Text('asset'.tr,),
         centerTitle: true,
         backgroundColor: Theme.of(context).brightness == Brightness.light
             ? Colors.white
@@ -48,12 +49,16 @@ Widget assets(BuildContext context, HomeController ctr) {
         )
     ),
     body: (!ctr.progressAsset.value && ctr.assets.isNotEmpty &&
-        ctr.fieldSearchAsset.value.value.text == '')? ListView.builder(
-      itemCount: ctr.assets.length,
-      itemBuilder: (context, index) {
-        Asset item = ctr.assets[index];
-        return itemAsset(context, ctr, item);
-      },
+        ctr.fieldSearchAsset.value.value.text == '') ? RefreshIndicator(
+        backgroundColor: Colors.white,
+        child: ListView.builder(
+          itemCount: ctr.assets.length,
+          itemBuilder: (context, index) {
+            Asset item = ctr.assets[index];
+            return itemAsset(context, ctr, item);
+          },
+        ),
+        onRefresh: () async => ctr.getAssets()
     ) : (!ctr.progressAsset.value && ctr.assetSearch.isNotEmpty
         && ctr.fieldSearchAsset.value.value.text != '') ? ListView.builder(
       itemCount: ctr.assetSearch.length,
