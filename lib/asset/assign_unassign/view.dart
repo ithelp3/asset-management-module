@@ -32,7 +32,6 @@ class AssignUnassignPage extends StatelessWidget {
                       readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'tag_asset'.tr,
-                        hintText: 'write_the_@_here'.trParams({'value': 'tag_asset'}),
                         prefixIcon: const Icon(Icons.tag_outlined, color: Color(0xFF3f87b9), size: 22,),
                         filled: true,
                         border: OutlineInputBorder(
@@ -54,7 +53,6 @@ class AssignUnassignPage extends StatelessWidget {
                       readOnly: true,
                       decoration: InputDecoration(
                         labelText: 'asset'.tr,
-                        hintText: 'write_the_@_here'.trParams({'value': 'asset'.tr}),
                         prefixIcon: const Icon(Icons.web_asset_outlined, color: Color(0xFF3f87b9), size: 22,),
                         filled: true,
                         border: OutlineInputBorder(
@@ -73,12 +71,13 @@ class AssignUnassignPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 14, left: 10, right: 10),
                     child: TextFormField(
+                      readOnly: true,
                       onTap: () {
                         if(ctr.asset.value.status != '2') ctr.selectItem(context);
                       },
                       decoration: InputDecoration(
                         labelText: 'assign'.tr,
-                        hintText: 'write_the_@_here'.trParams({'value': 'assign'.tr}),
+                        hintText: 'select_item_field'.trParams({'value': 'assign'.tr}),
                         prefixIcon: const Icon(Icons.assignment_ind_outlined, color: Color(0xFF3f87b9), size: 22,),
                         suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                         filled: true,
@@ -93,7 +92,7 @@ class AssignUnassignPage extends StatelessWidget {
                         ),
                       ),
                       validator: (value) => (value == null || value.isEmpty)
-                          ? 'please_fill_in_@'.trParams({'value': 'assign'.tr})
+                          ? 'please_in_field'.trParams({'value': 'assign'.tr})
                           : null,
                       controller: ctr.fieldAssign.value,
                     ),
@@ -101,10 +100,11 @@ class AssignUnassignPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 14, left: 10, right: 10),
                     child: TextFormField(
+                      readOnly: true,
                       onTap: () => ctr.selectDate(context),
                       decoration: InputDecoration(
                         labelText: 'assign_date'.tr,
-                        hintText: 'write_the_@_here'.trParams({'value': 'assign_date'.tr}),
+                        hintText: 'select_item_field'.trParams({'value': 'assign_date'.tr}),
                         prefixIcon: const Icon(Icons.date_range_outlined, color: Color(0xFF3f87b9), size: 22,),
                         suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                         filled: true,
@@ -119,7 +119,7 @@ class AssignUnassignPage extends StatelessWidget {
                         ),
                       ),
                       validator: (value) => (value == null || value.isEmpty)
-                          ? 'please_fill_in_@'.trParams({'value': 'assign_date'.tr})
+                          ? 'please_in_field'.trParams({'value': 'assign_date'.tr})
                           : null,
                       controller: ctr.fieldAssignDate.value,
                     ),
@@ -144,7 +144,7 @@ class AssignUnassignPage extends StatelessWidget {
                       foregroundColor: Colors.white
                   ),
                   onPressed: () {
-                    // if(ctr.formKey.value.currentState!.validate()) ctr.save(context);
+                    if(ctr.formKey.value.currentState!.validate()) ctr.save(context);
                   },
                   child: Text('save'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
               ),

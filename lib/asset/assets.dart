@@ -26,7 +26,7 @@ Widget assets(BuildContext context, HomeController ctr) {
             ),
             child: TextFormField(
               decoration: InputDecoration(
-                hintText: 'Kamu lagi cari apa?',
+                hintText: 'what_are_you_looking_for'.tr,
                 prefixIcon: Icon(Icons.search, color: Colors.grey.shade700, size: 22,),
                 fillColor: const Color(0xFFE1EAF0),
                 filled: true,
@@ -72,12 +72,12 @@ Widget assets(BuildContext context, HomeController ctr) {
     ) : Container(
       alignment: Alignment.center,
       margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/4),
-      child: const Column(
+      child: Column(
           children: [
-            Icon(Icons.folder_off_outlined, size: 80, color: Color(0xFF3f87b9),),
-            Divider(height: 10,),
-            Text('data is empty',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF3f87b9)),)
+            const Icon(Icons.folder_off_outlined, size: 80, color: Color(0xFF3f87b9),),
+            const Divider(height: 10,),
+            Text('no_data_available'.tr,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF3f87b9)),)
           ]
       ),
     ),
@@ -88,7 +88,7 @@ Widget assets(BuildContext context, HomeController ctr) {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40)
         ),
-        backgroundColor: Color(0xFF3f87b9),
+        backgroundColor: const Color(0xFF3f87b9),
         child: const Icon(Icons.add, size: 30,),
       )
     ),

@@ -30,7 +30,7 @@ Widget itemAsset(BuildContext context, HomeController ctr, Asset item) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  child: Image.network(item.pictures!.replaceAll('192.168.1.135:8400', 'asset.fingerspot.net',),
+                  child: Image.network(item.pictures ?? 'asset.fingerspot.net',
                     width: 90,
                     height: 60,
                     errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
@@ -69,18 +69,20 @@ Widget itemAsset(BuildContext context, HomeController ctr, Asset item) {
                   ].map((i) {
                     String label = i['label'].toString();
                     IconData icon = i['icon'] as IconData;
+                    bool enable =  !(item.approvalStatus == 1 && (label == 'assign'.tr || label == 'un_assign'.tr));
                     return PopupMenuItem(
                         onTap: () {
                           if(label == 'edit'.tr) ctr.assetAddEdit('edit', item);
                           if(label == 'delete'.tr) ctr.assetDelete(context, item);
                           if(label == 'assign'.tr || label == 'un_assign'.tr) ctr.assignUnassign(item);
                         },
-                        height: 32,
+                        enabled: enable,
+                        height: 34,
                         child: Row(
                           children: [
                             Icon(icon, color: const Color(0xFF3f87b9),),
                             const VerticalDivider(width: 10,),
-                            Text(label, style: const TextStyle(color: Color(0xFF3f87b9)),),
+                            Text(label, style: TextStyle(color: enable ? const Color(0xFF3f87b9) : Colors.blue.shade100),),
                           ],
                         )
                     );
@@ -125,10 +127,10 @@ Widget itemAsset(BuildContext context, HomeController ctr, Asset item) {
                 2: FlexColumnWidth(),
               },
               children: [
-                {'label': 'Tag Asset', 'value': item.assetTag},
-                {'label': 'Category', 'value': item.categoryName},
-                {'label': 'Assignment', 'value': item.assign},
-                {'label': 'Location', 'value': item.locations},
+                {'label': 'tag_asset'.tr, 'value': item.assetTag},
+                {'label': 'category'.tr, 'value': item.categoryName},
+                {'label': 'assigned'.tr, 'value': item.assign},
+                {'label': 'location'.tr, 'value': item.locations},
               ].map((i) => TableRow(
                   children: [
                     Text(i['label'].toString(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),),

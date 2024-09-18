@@ -1,6 +1,8 @@
 class Depreciation {
   int? id;
   int? assetId;
+  String? component;
+  String? componentCost;
   int? componentId;
   int? addedFrom;
   int? depreciationFormula;
@@ -19,6 +21,8 @@ class Depreciation {
   Depreciation({
     this.id,
     this.assetId,
+    this.component,
+    this.componentCost,
     this.componentId,
     this.addedFrom,
     this.depreciationFormula,
@@ -38,6 +42,8 @@ class Depreciation {
   factory Depreciation.fromJson(Map<String, dynamic> json) => Depreciation(
     id: json["id"],
     assetId: json["assetid"],
+    component: json["component"],
+    componentCost: json["componentCost"],
     componentId: json["componentid"],
     addedFrom: json["addedfrom"],
     depreciationFormula: json["depreciation_formula"],

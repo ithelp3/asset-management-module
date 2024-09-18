@@ -1,7 +1,7 @@
 import 'package:asset_management_module/home/controller.dart';
 import 'package:asset_management_module/model/depreciation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 Widget itemDepreciation(BuildContext context, HomeController ctr, Depreciation item) {
   return Container(
@@ -29,19 +29,24 @@ Widget itemDepreciation(BuildContext context, HomeController ctr, Depreciation i
               ),
               PopupMenuButton(
                 itemBuilder: (ctx) => [
-                  {'label': 'edit', 'icon': Icons.edit},
-                  {'label': 'delete', 'icon': Icons.delete_outline_outlined},
+                  {'label': 'edit'.tr, 'icon': Icons.edit_note_outlined},
+                  {'label': 'delete'.tr, 'icon': Icons.delete_outline_outlined},
                 ].map((i) {
                   String label = i['label'].toString();
                   IconData icon = i['icon'] as IconData;
                   return PopupMenuItem(
+                      onTap: () {
+                        if(label == 'edit'.tr) ctr.addEditDep('edit', item);
+                        if(label == 'delete'.tr) ctr.deleteDep(context, item);
+                      },
+                      height: 34,
                       child: Row(
                         children: [
                           Icon(icon, color: const Color(0xFF3f87b9),),
                           const VerticalDivider(width: 10,),
                           Text(label, style: const TextStyle(color: Color(0xFF3f87b9)),),
                         ],
-                      )
+                      ),
                   );
                 }).toList(),
                 style: const ButtonStyle(
@@ -49,7 +54,6 @@ Widget itemDepreciation(BuildContext context, HomeController ctr, Depreciation i
                     padding: WidgetStatePropertyAll(EdgeInsets.zero)
                 ),
                 padding: EdgeInsets.zero,
-                // splashRadius: 0,
                 icon: const Icon(Icons.more_vert_outlined),
               )
             ],
@@ -87,12 +91,12 @@ Widget itemDepreciation(BuildContext context, HomeController ctr, Depreciation i
               2: FlexColumnWidth(),
             },
             children: [
-              {'label': 'Category', 'value': item.category},
-              {'label': 'Cost', 'value': item.cost},
-              {'label': 'Asset Value', 'value': item.depreciationFormula == 1
+              {'label': 'category'.tr, 'value': item.category},
+              {'label': 'cost'.tr, 'value': item.cost},
+              {'label': 'asset_value'.tr, 'value': item.depreciationFormula == 1
                   ? item.assetValue
                   : item.depreciationRate},
-              {'label': 'Period', 'value': item.period},
+              {'label': 'period'.tr, 'value': item.period},
             ].map((i) => TableRow(
                 children: [
                   Text(i['label'].toString(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),),

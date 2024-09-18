@@ -1,6 +1,7 @@
 import 'package:asset_management_module/asset/asset_details/controller.dart';
 import 'package:asset_management_module/model/asset_file.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 Widget files(BuildContext context, AssetDetailsController ctr) {
   return  ctr.files.isNotEmpty ? ListView.builder(
@@ -42,8 +43,8 @@ Widget files(BuildContext context, AssetDetailsController ctr) {
                     2: FlexColumnWidth(),
                   },
                   children: [
-                    {'label': 'Date', 'value': item.updatedAt},
-                    {'label': 'File', 'value': item.filename},
+                    {'label': 'date'.tr, 'value': item.updatedAt},
+                    {'label': 'file'.tr, 'value': item.filename},
                   ].map((i) => TableRow(
                       children: [
                         Padding(
@@ -67,11 +68,11 @@ Widget files(BuildContext context, AssetDetailsController ctr) {
       }
   ) : Padding(
     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/4),
-    child: const Column(
+    child: Column(
       children: [
-        Icon(Icons.folder_off_outlined, color: Color(0xFF3f87b9), size: 80,),
-        Divider(height: 10,),
-        Text('No Data Available', style: TextStyle(fontWeight: FontWeight.bold),)
+        const Icon(Icons.folder_off_outlined, color: Color(0xFF3f87b9), size: 80,),
+        const Divider(height: 10,),
+        Text('no_data_available'.tr, style: const TextStyle(fontWeight: FontWeight.bold),)
       ],
     ),
   );

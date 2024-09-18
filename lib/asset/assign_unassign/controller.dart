@@ -46,14 +46,14 @@ class AssignUnassignController extends GetxController {
 
   void selectItem(context) async {
     dynamic result = await showDialog(
-        context: context,
-        builder: (context) => dialogItemSelect(context,
-            label: 'select_@'.trParams({'value': 'person_on_charger'.tr}),
-            items: assigns.map((i) => Item(
-              label: i.fullName,
-              value: i,
-            )).toList()
-        )
+      context: context,
+      builder: (context) => dialogItemSelect(context,
+        label: 'select_item_label'.trParams({'value': 'person_on_charge'.tr}),
+        items: assigns.map((i) => Item(
+          label: i.fullName,
+          value: i,
+        )).toList()
+      )
     );
     if(result == null) return;
     User selected = result['value'];
@@ -65,17 +65,18 @@ class AssignUnassignController extends GetxController {
     LoadingFullscreen.startLoading();
     Map<String, dynamic> payload = {
       'id': asset.value.id,
-      'employeeid': assigns.firstWhere((i) => i.fullName == asset.value.assign).id
+      'employeeid': assigns.firstWhere((i) => i.fullName == asset.value.assign).id,
+      'date': DateFormat('yyyy-MM-dd').format(selectedDate!),
     };
-    
+
     if(asset.value.status != '2') {
       payload['type'] = 1;
-      await DioClient().post('/asset/assign-or-unassign',
+      response = await DioClient().post('/asset/assign-or-unassign',
         data: payload
       );
     } else {
       payload['type'] = 2;
-      await DioClient().post('/asset/assign-or-unassign',
+      response = await DioClient().post('/asset/assign-or-unassign',
           data: payload
       );
     }
@@ -85,7 +86,7 @@ class AssignUnassignController extends GetxController {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.lightBlue,
-            content: Text('successful_'.trParams({'value': 'create_asset'.tr})),
+            content: Text('successful_'.trParams({'value': asset.value.status != '2' ? 'assign'.tr : 'un_assign'.tr})),
             behavior: SnackBarBehavior.floating,
           )
       );

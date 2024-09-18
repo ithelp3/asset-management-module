@@ -47,13 +47,13 @@ class AssetDetailsPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Table(
                           columnWidths: const {
-                            0: FlexColumnWidth(0.5),
+                            0: FlexColumnWidth(0.4),
                             1: IntrinsicColumnWidth(),
                             2: FlexColumnWidth(),
                           },
                           children: [
-                            {'label': 'type', 'value': ctr.details.value.categoryName},
-                            {'label': 'status', 'value': ctr.details.value.statusName},
+                            {'label': 'type'.tr, 'value': ctr.details.value.categoryName},
+                            {'label': 'status'.tr, 'value': ctr.details.value.statusName},
                           ].map((i) => TableRow(
                               children: [
                                 Text(i['label'] ?? 'N/A', style: const TextStyle(fontWeight: FontWeight.bold),),
@@ -70,7 +70,7 @@ class AssetDetailsPage extends StatelessWidget {
                       isScrollable: true,
                       tabAlignment: TabAlignment.start,
                       dividerColor: Colors.transparent,
-                      tabs: ['rincian', 'komponen', 'maintenance', 'riwayat', 'file', 'depresiasi', 'log activivitas'].map((i) => Tab(
+                      tabs: ['details'.tr, 'component'.tr, 'maintenance'.tr, 'history'.tr, 'file'.tr, 'depreciation'.tr, 'log_activity'.tr].map((i) => Tab(
                         child: Text(i),
                       )).toList()
                   )

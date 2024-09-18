@@ -142,73 +142,73 @@ class AddEditAssetController extends GetxController {
     String label = '';
     List<Item> items = [];
     if(key == 'status') {
-      label = 'status'.tr;
+      label = 'select_item_label'.trParams({'value': 'status'.tr});
       items = statuses.map((i) => Item(
         label: i.name,
         value: i.id
       )).toList();
     } else if(key == 'person') {
-      label = 'select_@'.trParams({'value': 'person_on_charger'.tr});
+      label = 'select_item_label'.trParams({'value': 'person_on_charge'.tr});
       items = users.map((i) => Item(
           label: i.fullName,
           value: i.id
       )).toList();
     } else if(key == 'office') {
-      label = 'select_@'.trParams({'value': 'office'.tr});
+      label = 'select_item_label'.trParams({'value': 'office'.tr});
       items = offices.map((i) => Item(
           label: i.name,
           value: i.id
       )).toList();
     } else if(key == 'building') {
-      label = 'select_@'.trParams({'value': 'building'.tr});
+      label = 'select_item_label'.trParams({'value': 'building'.tr});
       items = buildings.map((i) => Item(
           label: i.name,
           value: i.id
       )).toList();
     } else if(key == 'floor') {
-      label = 'select_@'.trParams({'value': 'floor'.tr});
+      label = 'select_item_label'.trParams({'value': 'floor'.tr});
       items = floors.map((i) => Item(
           label: i.name,
           value: i.id
       )).toList();
     } else if(key == 'room') {
-      label = 'select_@'.trParams({'value': 'room'.tr});
+      label = 'select_item_label'.trParams({'value': 'room'.tr});
       items = rooms.map((i) => Item(
           label: i.name,
           value: i.id
       )).toList();
     } else if(key == 'group') {
-      label = 'select_@'.trParams({'value': 'group'.tr});
+      label = 'select_item_label'.trParams({'value': 'group'.tr});
       items = groups.map((i) => Item(
           label: i.name,
           value: i.id
       )).toList();
     } else if(key == 'category') {
-      label = 'select_@'.trParams({'value': 'category'.tr});
+      label = 'select_item_label'.trParams({'value': 'category'.tr});
       items = categories.map((i) => Item(
           label: i.name,
           value: i.id
       )).toList();
     } else if(key == 'sub-category') {
-      label = 'select_@'.trParams({'value': 'sub-category'.tr});
+      label = 'select_item_label'.trParams({'value': 'sub-category'.tr});
       items = subCategories.map((i) => Item(
           label: i.name,
           value: i.id
       )).toList();
     } else if(key == 'supplier') {
-      label = 'select_@'.trParams({'value': 'supplier'.tr});
+      label = 'select_item_label'.trParams({'value': 'supplier'.tr});
       items = suppliers.map((i) => Item(
           label: i.name,
           value: i.id
       )).toList();
     } else if(key == 'brand') {
-      label = 'select_@'.trParams({'value': 'brand'.tr});
+      label = 'select_item_label'.trParams({'value': 'brand'.tr});
       items = brands.map((i) => Item(
           label: i.name,
           value: i.id
       )).toList();
     } else if(key == 'warranty') {
-      label = 'select_@'.trParams({'value': 'warranty_type'.tr});
+      label = 'select_item_label'.trParams({'value': 'warranty_type'.tr});
       items = [
         {'label': 'days'.tr, 'value': 1},
         {'label': 'months'.tr, 'value': 2},
@@ -366,7 +366,7 @@ class AddEditAssetController extends GetxController {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.lightBlue,
-            content: Text('successful_'.trParams({'value': 'create_asset'.tr})),
+            content: Text('successful_'.trParams({'value': 'add_asset'.tr})),
             behavior: SnackBarBehavior.floating,
           )
       );

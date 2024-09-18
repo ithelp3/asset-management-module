@@ -31,7 +31,7 @@ class AddEditAssetPage extends StatelessWidget {
                       child: TextFormField(
                         decoration: InputDecoration(
                           labelText: 'name'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'name'}),
+                          hintText: 'write_in_field'.trParams({'value': 'name'.tr}),
                           prefixIcon: const Icon(Icons.web_asset_outlined, color: Color(0xFF3f87b9), size: 22,),
                           filled: true,
                           border: OutlineInputBorder(
@@ -45,7 +45,7 @@ class AddEditAssetPage extends StatelessWidget {
                           ),
                         ),
                         validator: (value) => (value == null || value.isEmpty)
-                            ? 'please_fill_in_@'.trParams({'value': 'name'})
+                            ? 'please_in_field'.trParams({'value': 'name'.tr})
                             : null,
                         controller: ctr.fieldName.value,
                       ),
@@ -57,7 +57,7 @@ class AddEditAssetPage extends StatelessWidget {
                         onTap: () => ctr.selectItem(context, 'status'),
                         decoration: InputDecoration(
                           labelText: 'status'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'status'}),
+                          hintText: 'select_item_field'.trParams({'value': 'status'.tr}),
                           prefixIcon: const Icon(Icons.sync, color: Color(0xFF3f87b9), size: 22,),
                           suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                           filled: true,
@@ -72,7 +72,7 @@ class AddEditAssetPage extends StatelessWidget {
                           ),
                         ),
                         validator: (value) => (value == null || value.isEmpty)
-                            ? 'please_fill_in_@'.trParams({'value': 'status'})
+                            ? 'please_in_field'.trParams({'value': 'status'.tr})
                             : null,
                         controller: ctr.fieldStatus.value,
                       ),
@@ -82,8 +82,8 @@ class AddEditAssetPage extends StatelessWidget {
                         readOnly: true,
                         onTap: () => ctr.selectItem(context, 'person'),
                         decoration: InputDecoration(
-                          labelText: 'person_on_changer'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'person_on_changer'}),
+                          labelText: 'person_on_charge'.tr,
+                          hintText: 'select_item_field'.trParams({'value': 'person_on_charge'.tr}),
                           prefixIcon: const Icon(Icons.person, color: Color(0xFF3f87b9), size: 22,),
                           suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                           filled: true,
@@ -98,7 +98,7 @@ class AddEditAssetPage extends StatelessWidget {
                           ),
                         ),
                         validator: (value) => (value == null || value.isEmpty)
-                            ? 'please_fill_in_@'.trParams({'value': 'person_on_charger'})
+                            ? 'please_in_field'.trParams({'value': 'person_on_charge'.tr})
                             : null,
                         controller: ctr.fieldPersonOnCharger.value,
                       ),
@@ -109,7 +109,7 @@ class AddEditAssetPage extends StatelessWidget {
                         onTap: () => ctr.selectItem(context, 'office'),
                         decoration: InputDecoration(
                           labelText: 'office'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'office'}),
+                          hintText: 'select_item_field'.trParams({'value': 'office'.tr}),
                           prefixIcon: const Icon(Icons.maps_home_work_outlined, color: Color(0xFF3f87b9), size: 22,),
                           suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                           filled: true,
@@ -124,7 +124,7 @@ class AddEditAssetPage extends StatelessWidget {
                           ),
                         ),
                         validator: (value) => (value == null || value.isEmpty)
-                            ? 'please_fill_in_@'.trParams({'value': 'office'})
+                            ? 'please_in_field'.trParams({'value': 'office'.tr})
                             : null,
                         controller: ctr.fieldOffice.value,
                       ),
@@ -136,7 +136,7 @@ class AddEditAssetPage extends StatelessWidget {
                         onTap: () => ctr.selectItem(context, 'building'),
                         decoration: InputDecoration(
                           labelText: 'building'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'building'}),
+                          hintText: 'select_item_field'.trParams({'value': 'building'.tr}),
                           prefixIcon: const Icon(Icons.maps_home_work_outlined, color: Color(0xFF3f87b9), size: 22,),
                           suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                           filled: true,
@@ -151,7 +151,7 @@ class AddEditAssetPage extends StatelessWidget {
                           ),
                         ),
                         validator: (value) => (value == null || value.isEmpty)
-                            ? 'please_fill_in_@'.trParams({'value': 'building'})
+                            ? 'please_in_field'.trParams({'value': 'building'.tr})
                             : null,
                         controller: ctr.fieldBuilding.value,
                       ),
@@ -163,7 +163,7 @@ class AddEditAssetPage extends StatelessWidget {
                         onTap: () => ctr.selectItem(context, 'floor'),
                         decoration: InputDecoration(
                           labelText: 'floor'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'floor'}),
+                          hintText: 'select_item_field'.trParams({'value': 'floor'.tr}),
                           prefixIcon: const Icon(Icons.door_back_door_outlined, color: Color(0xFF3f87b9), size: 22,),
                           suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                           filled: true,
@@ -187,7 +187,7 @@ class AddEditAssetPage extends StatelessWidget {
                         onTap: () => ctr.selectItem(context, 'room'),
                         decoration: InputDecoration(
                           labelText: 'room'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'room'}),
+                          hintText: 'select_item_field'.trParams({'value': 'room'.tr}),
                           prefixIcon: const Icon(Icons.meeting_room_outlined, color: Color(0xFF3f87b9), size: 22,),
                           suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                           filled: true,
@@ -210,7 +210,7 @@ class AddEditAssetPage extends StatelessWidget {
                         onTap: () => ctr.selectItem(context, 'group'),
                         decoration: InputDecoration(
                           labelText: 'group'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'group'}),
+                          hintText: 'select_item_field'.trParams({'value': 'group'.tr}),
                           prefixIcon: const Icon(Icons.category_outlined, color: Color(0xFF3f87b9), size: 22,),
                           suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                           filled: true,
@@ -225,7 +225,7 @@ class AddEditAssetPage extends StatelessWidget {
                           ),
                         ),
                         validator: (value) => (value == null || value.isEmpty)
-                            ? 'please_fill_in_@'.trParams({'value': 'group'})
+                            ? 'please_in_field'.trParams({'value': 'group'.tr})
                             : null,
                         controller: ctr.fieldGroup.value,
                       ),
@@ -237,7 +237,7 @@ class AddEditAssetPage extends StatelessWidget {
                         onTap: () => ctr.selectItem(context, 'category'),
                         decoration: InputDecoration(
                           labelText: 'category'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'category'}),
+                          hintText: 'select_item_field'.trParams({'value': 'category'.tr}),
                           prefixIcon: const Icon(Icons.category_outlined, color: Color(0xFF3f87b9), size: 22,),
                           suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                           filled: true,
@@ -252,7 +252,7 @@ class AddEditAssetPage extends StatelessWidget {
                           ),
                         ),
                         validator: (value) => (value == null || value.isEmpty)
-                            ? 'please_fill_in_@'.trParams({'value': 'category'})
+                            ? 'please_in_field'.trParams({'value': 'category'.tr})
                             : null,
                         controller: ctr.fieldCategory.value,
                       ),
@@ -265,7 +265,7 @@ class AddEditAssetPage extends StatelessWidget {
                         onTap: () => ctr.selectItem(context, 'sub-category'),
                         decoration: InputDecoration(
                           labelText: 'sub_category'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'sub_category'}),
+                          hintText: 'select_item_field'.trParams({'value': 'sub_category'.tr}),
                           prefixIcon: const Icon(Icons.category_outlined, color: Color(0xFF3f87b9), size: 22,),
                           suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                           filled: true,
@@ -280,7 +280,7 @@ class AddEditAssetPage extends StatelessWidget {
                           ),
                         ),
                         validator: (value) => (value == null || value.isEmpty)
-                            ? 'please_fill_in_@'.trParams({'value': 'sub_category'})
+                            ? 'please_in_field'.trParams({'value': 'sub_category'.tr})
                             : null,
                         controller: ctr.fieldSubCategory.value,
                       ),
@@ -288,9 +288,10 @@ class AddEditAssetPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
+                        readOnly: true,
                         decoration: InputDecoration(
                           labelText: 'tag_asset'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'tag_asset'}),
+                          // hintText: 'write_the_@_here'.trParams({'value': 'tag_asset'}),
                           prefixIcon: const Icon(Icons.tag, color: Color(0xFF3f87b9), size: 22,),
                           filled: true,
                           border: OutlineInputBorder(
@@ -304,7 +305,7 @@ class AddEditAssetPage extends StatelessWidget {
                           ),
                         ),
                         validator: (value) => (value == null || value.isEmpty)
-                            ? 'please_fill_in_@'.trParams({'value': 'tag_asset'})
+                            ? 'please_in_field'.trParams({'value': 'tag_asset'.tr})
                             : null,
                         controller: ctr.fieldTagAsset.value,
                       ),
@@ -316,7 +317,7 @@ class AddEditAssetPage extends StatelessWidget {
                         onTap: () => ctr.selectItem(context, 'supplier'),
                         decoration: InputDecoration(
                           labelText: 'supplier'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'supplier'}),
+                          hintText: 'select_item_field'.trParams({'value': 'supplier'.tr}),
                           prefixIcon: const Icon(Icons.storefront_outlined, color: Color(0xFF3f87b9), size: 22,),
                           suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                           filled: true,
@@ -339,7 +340,7 @@ class AddEditAssetPage extends StatelessWidget {
                         onTap: () => ctr.selectItem(context, 'brand'),
                         decoration: InputDecoration(
                           labelText: 'brand'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'brand'}),
+                          hintText: 'select_item_field'.trParams({'value': 'brand'.tr}),
                           prefixIcon: const Icon(Icons.label_outline_rounded, color: Color(0xFF3f87b9), size: 22,),
                           suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                           filled: true,
@@ -361,7 +362,7 @@ class AddEditAssetPage extends StatelessWidget {
                       child: TextFormField(
                         decoration: InputDecoration(
                           labelText: 'serial'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'serial'}),
+                          hintText: 'write_in_field'.trParams({'value': 'serial'.tr}),
                           prefixIcon: const Icon(Icons.qr_code_2_outlined, color: Color(0xFF3f87b9), size: 22,),
                           filled: true,
                           border: OutlineInputBorder(
@@ -384,7 +385,7 @@ class AddEditAssetPage extends StatelessWidget {
                         onTap: () => ctr.selectDate(context),
                         decoration: InputDecoration(
                           labelText: 'purchase_date'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'purchase_date'}),
+                          hintText: 'select_item_field'.trParams({'value': 'purchase_date'.tr}),
                           prefixIcon: const Icon(Icons.calendar_month_outlined, color: Color(0xFF3f87b9), size: 22,),
                           suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                           filled: true,
@@ -400,7 +401,7 @@ class AddEditAssetPage extends StatelessWidget {
                         ),
                         controller: ctr.fieldPurchaseDate.value,
                         validator: (value) => (value == null || value.isEmpty)
-                            ? 'please_fill_in_@'.trParams({'value': 'purchase_date'})
+                            ? 'please_in_field'.trParams({'value': 'purchase_date'.tr})
                             : null,
                       ),
                     ),
@@ -409,7 +410,7 @@ class AddEditAssetPage extends StatelessWidget {
                       child: TextFormField(
                         decoration: InputDecoration(
                           labelText: 'warranty'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'warranty'}),
+                          hintText: 'write_in_field'.trParams({'value': 'warranty'.tr}),
                           prefixIcon: const Icon(Icons.date_range_outlined, color: Color(0xFF3f87b9), size: 22,),
                           suffixIcon: GestureDetector(
                             onTap: () => ctr.selectItem(context, 'warranty'),
@@ -438,7 +439,7 @@ class AddEditAssetPage extends StatelessWidget {
                         keyboardType: TextInputType.number,
                         controller: ctr.fieldWarranty.value,
                         validator: (value) => (value == null || value.isEmpty)
-                            ? 'please_fill_in_@'.trParams({'value': 'warranty'})
+                            ? 'please_in_field'.trParams({'value': 'warranty'.tr})
                             : null,
                       ),
                     ),
@@ -447,7 +448,7 @@ class AddEditAssetPage extends StatelessWidget {
                       child: TextFormField(
                         decoration: InputDecoration(
                           labelText: 'cost'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'cost'}),
+                          hintText: 'write_in_field'.trParams({'value': 'cost'.tr}),
                           prefixIcon: const Icon(Icons.account_balance_wallet_outlined, color: Color(0xFF3f87b9), size: 22,),
                           filled: true,
                           border: OutlineInputBorder(
@@ -462,6 +463,9 @@ class AddEditAssetPage extends StatelessWidget {
                         ),
                         keyboardType: TextInputType.number,
                         controller: ctr.fieldCost.value,
+                        validator: (value) => (value == null || value.isEmpty)
+                            ? 'please_in_field'.trParams({'value': 'cost'.tr})
+                            : null,
                       ),
                     ),
                     Padding(
@@ -469,7 +473,7 @@ class AddEditAssetPage extends StatelessWidget {
                       child: TextFormField(
                         decoration: InputDecoration(
                           labelText: 'description'.tr,
-                          hintText: 'write_the_@_here'.trParams({'value': 'description'}),
+                          hintText: 'write_in_field'.trParams({'value': 'description'.tr}),
                           prefixIcon: const Icon(Icons.chat_outlined, color: Color(0xFF3f87b9), size: 22,),
                           filled: true,
                           border: OutlineInputBorder(
@@ -507,7 +511,7 @@ class AddEditAssetPage extends StatelessWidget {
                               child: Icon(Icons.upload_rounded, color: Color(0xFF3f87b9), size: 30,),
                             ),
                             Expanded(
-                              child: Text(ctr.imageName.value != '' ? ctr.imageName.value : 'upload image jpeg, jpg, png (max 4 MB)',
+                              child: Text(ctr.imageName.value != '' ? ctr.imageName.value : 'upload_image_asset'.tr,
                                 style: TextStyle(color: ctr.imageName.value != ''
                                     ? Colors. black
                                   :  Colors.grey

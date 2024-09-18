@@ -1,5 +1,6 @@
 import 'package:asset_management_module/model/asset_log.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 Widget logs(BuildContext context, List<AssetLog> logs) {
   return logs.isNotEmpty ? ListView.builder(
@@ -29,7 +30,6 @@ Widget logs(BuildContext context, List<AssetLog> logs) {
                     child: Container(
                         margin: const EdgeInsets.only(top: 10, right: 10),
                         padding: const EdgeInsets.all(8),
-                        // width: double.infinity,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(2),
@@ -52,11 +52,11 @@ Widget logs(BuildContext context, List<AssetLog> logs) {
     }
   ) : Padding(
     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/4),
-    child: const Column(
+    child: Column(
       children: [
-        Icon(Icons.folder_off_outlined, color: Color(0xFF3f87b9), size: 80,),
-        Divider(height: 10,),
-        Text('No Data Available', style: TextStyle(fontWeight: FontWeight.bold),)
+        const Icon(Icons.folder_off_outlined, color: Color(0xFF3f87b9), size: 80,),
+        const Divider(height: 10,),
+        Text('no_data_available'.tr, style: const TextStyle(fontWeight: FontWeight.bold),)
       ],
     ),
   );
