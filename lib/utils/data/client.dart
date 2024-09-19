@@ -1,6 +1,5 @@
 import 'package:asset_management_module/utils/data/nav_key.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DioClient {
@@ -21,16 +20,11 @@ class DioClient {
   );
 
   Future post(
-      String uri, {
-        dynamic data,
-        Map<String, dynamic>? params,
-        // Options? options,
+    String uri, {
+      dynamic data,
+      Map<String, dynamic>? params,
+      // Options? options,
   }) async {
-    dio.interceptors.add(
-      LogInterceptor(
-          logPrint: (o) => debugPrint(o.toString())
-      )
-    );
     try{
       final response = await dio.post(
         uri,
@@ -46,15 +40,10 @@ class DioClient {
   }
 
   Future get(
-      String uri, {
-        Map<String, dynamic>? params,
-        CancelToken? cancelToken,
+    String uri, {
+      Map<String, dynamic>? params,
+      CancelToken? cancelToken,
   }) async {
-    dio.interceptors.add(
-      LogInterceptor(
-          logPrint: (o) => debugPrint(o.toString())
-      )
-    );
     try{
       final response = await dio.get(
         uri,
@@ -69,15 +58,10 @@ class DioClient {
   }
 
   Future put(
-      String uri, {
-        dynamic data,
-        // Options? options,
-      }) async {
-    dio.interceptors.add(
-        LogInterceptor(
-            logPrint: (o) => debugPrint(o.toString())
-        )
-    );
+    String uri, {
+      dynamic data,
+      // Options? options,
+    }) async {
     try{
       final response = await dio.put(
         uri,
@@ -91,15 +75,10 @@ class DioClient {
   }
 
   Future delete(
-      String uri, {
-        dynamic data,
-        // Options? options,
-      }) async {
-    dio.interceptors.add(
-        LogInterceptor(
-            logPrint: (o) => debugPrint(o.toString())
-        )
-    );
+    String uri, {
+      dynamic data,
+      // Options? options,
+    }) async {
     try{
       final response = await dio.delete(
         uri,

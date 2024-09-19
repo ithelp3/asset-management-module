@@ -14,7 +14,7 @@ Widget account(BuildContext context, HomeController ctr) {
           : const Color(0xFF272d34),
       automaticallyImplyLeading: false,
     ),
-    body: Column(
+    body: ListView(
       children: [
         if(!ctr.progressProfile.value) Column(
           children: [
@@ -36,7 +36,9 @@ Widget account(BuildContext context, HomeController ctr) {
         if(!ctr.progressProfile.value) Container(
           margin: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.light
+                  ? Colors.white
+                  : const Color(0xFF272d34),
               borderRadius: BorderRadius.circular(8)
           ),
           child: Column(

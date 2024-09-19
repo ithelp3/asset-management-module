@@ -16,9 +16,12 @@ class AddEditDepreciationPage extends StatelessWidget {
           title: Text(ctr.type.value == 'add' ? 'add_depreciation'.tr : 'edit_depreciation'.tr),
           leading: IconButton(
             onPressed: () => Get.back(),
-            icon: const Icon(Icons.arrow_back_ios, color: Colors.black,),
+            icon: Icon(Icons.arrow_back_ios,
+              color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).brightness == Brightness.light
+              ? Colors.white
+              : const Color(0xFF272d34),
         ),
         body: Column(
           children: [
@@ -205,8 +208,10 @@ class AddEditDepreciationPage extends StatelessWidget {
               margin: const EdgeInsets.only(top: 20),
               padding: const EdgeInsets.only(bottom: 40, top: 10, left: 10, right: 10),
               width: double.infinity,
-              decoration: const BoxDecoration(
-                  color: Colors.white
+              decoration: BoxDecoration(
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? Colors.white
+                      : const Color(0xFF272d34)
               ),
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(

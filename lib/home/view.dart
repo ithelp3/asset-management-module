@@ -25,7 +25,9 @@ class HomePage extends StatelessWidget {
             account(context, ctr),
           ][ctr.navbarBottomIdx.value],
         bottomNavigationBar: Container(
-          color: Colors.white,
+          color: Theme.of(context).brightness == Brightness.light
+              ? Colors.white
+              : const Color(0xFF272d34),
           height: 70,
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -41,13 +43,13 @@ class HomePage extends StatelessWidget {
                       Icon(Icons.dashboard_customize_outlined,
                         color: ctr.navbarBottomIdx.value == 0
                             ? const Color(0xFF3f87b9)
-                            : Colors.black45,),
+                            : Theme.of(context).brightness == Brightness.light ? Colors.black45 : Colors.white,),
                       Text('dashboard'.tr,
                         style: TextStyle(
                           fontSize: 12,
                           color: ctr.navbarBottomIdx.value == 0
                               ? const Color(0xFF3f87b9)
-                              : Colors.black45
+                              : Theme.of(context).brightness == Brightness.light ? Colors.black45 : Colors.white
                         ),)
                     ],
                   ),
@@ -63,13 +65,13 @@ class HomePage extends StatelessWidget {
                       Icon(Icons.assignment_outlined,
                         color: ctr.navbarBottomIdx.value == 1
                             ? const Color(0xFF3f87b9)
-                            : Colors.black45,),
+                            : Theme.of(context).brightness == Brightness.light ? Colors.black45 : Colors.white,),
                       Text('asset'.tr,
                         style: TextStyle(
                           fontSize: 12,
                           color: ctr.navbarBottomIdx.value == 1
                               ? const Color(0xFF3f87b9)
-                              : Colors.black45
+                              : Theme.of(context).brightness == Brightness.light ? Colors.black45 : Colors.white
                         ),)
                     ],
                   ),
@@ -107,13 +109,13 @@ class HomePage extends StatelessWidget {
                       Icon(Icons.calculate_outlined,
                         color: ctr.navbarBottomIdx.value == 3
                             ? const Color(0xFF3f87b9)
-                            : Colors.black45,),
+                            : Theme.of(context).brightness == Brightness.light ? Colors.black45 : Colors.white,),
                       Text('depreciation'.tr,
                         style: TextStyle(
                           fontSize: 12,
                           color: ctr.navbarBottomIdx.value == 3
                               ? const Color(0xFF3f87b9)
-                              : Colors.black45
+                              : Theme.of(context).brightness == Brightness.light ? Colors.black45 : Colors.white
                         ),)
                     ],
                   ),
@@ -129,13 +131,13 @@ class HomePage extends StatelessWidget {
                       Icon(Icons.person,
                         color: ctr.navbarBottomIdx.value == 4
                             ? const Color(0xFF3f87b9)
-                            : Colors.black45,),
+                            : Theme.of(context).brightness == Brightness.light ? Colors.black45 : Colors.white,),
                       Text('account'.tr,
                         style: TextStyle(
                           fontSize: 12,
                           color: ctr.navbarBottomIdx.value == 4
                               ? const Color(0xFF3f87b9)
-                              : Colors.black45
+                              : Theme.of(context).brightness == Brightness.light ? Colors.black45 : Colors.white
                         ),)
                     ],
                   ),

@@ -1,4 +1,5 @@
 Map<String, String> enUs = {
+  'unauthorized': 'Login to view all the features',
   'company': 'Company',
   'office': 'Office',
   'report': 'Report',
@@ -91,4 +92,19 @@ Map<String, String> enUs = {
   'successful_': 'Successful @value',
   'assign_date': 'Assign Date',
   'serial': 'Serial',
+  'delete_depreciation': 'Delete Depreciation',
+  'delete_asset': 'Delete Asset',
+  'dialog_delete_asset': 'Are you going to delete the @value Asset data?',
+  'dialog_delete_depreciation': 'Are you going to delete the @value Depreciation data?',
+  'quantity': 'Quantity',
+  'available': 'Available',
+  'start_date': 'Start Date',
+  'end_date': 'End Date',
+  'staff': 'Staff',
+  'straight_line_method': 'Straight Line Method',
+  'decreasing_balance_method': 'Decreasing balance Method',
+  'date': 'Date',
+  'cancel': 'Cancel',
+  'add_file': 'Add File',
+  'yes_delete': 'Yes, delete'
 };

@@ -20,14 +20,19 @@ Widget depreciation(BuildContext context, HomeController ctr) {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border(bottom: BorderSide(color: Colors.grey.shade300))
+                border: Border(bottom: BorderSide(color: Theme.of(context).brightness == Brightness.light ? Colors.grey.shade300 : const Color(0xFF272d34)))
             ),
             child: TextFormField(
               decoration: InputDecoration(
                 hintText: 'what_are_you_looking_for'.tr,
                 prefixIcon: Icon(Icons.search, color: Colors.grey.shade700, size: 22,),
-                fillColor: const Color(0xFFE1EAF0),
+                fillColor: Theme.of(context).brightness == Brightness.light
+                    ? const Color(0xFFE1EAF0)
+                    : const Color(0xFF272d34),
+                suffixIcon: ctr.fieldSearchDep.value.value.text != '' ? GestureDetector(
+                  onTap: () => ctr.clearSearchDep(),
+                  child: Icon(Icons.highlight_remove_outlined, color: Colors.grey.shade700, size: 22,),
+                ) : null,
                 filled: true,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -63,21 +68,21 @@ Widget depreciation(BuildContext context, HomeController ctr) {
             Depreciation item = ctr.depreciationSearch[index];
             return itemDepreciation(context, ctr, item);
           }
-        ) : ctr.progressDep.value ? ListView.builder(
-            itemBuilder: (context, index) => skeletonDepreciationItem(),
-            itemCount: 8
-        ) : Container(
-          alignment: Alignment.center,
-          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/4),
-          child: Column(
-            children: [
-              const Icon(Icons.folder_off_outlined, size: 80, color: Color(0xFF3f87b9),),
-              const Divider(height: 10,),
-              Text('no_data_available'.tr,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF3f87b9)),)
-            ]
-          ),
-        ),
+    ) : ctr.progressDep.value ? ListView.builder(
+        itemBuilder: (context, index) => skeletonDepreciationItem(),
+        itemCount: 8
+    ) : Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/4),
+      child: Column(
+        children: [
+          const Icon(Icons.folder_off_outlined, size: 80, color: Color(0xFF3f87b9),),
+          const Divider(height: 10,),
+          Text('no_data_available'.tr,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF3f87b9)),)
+        ]
+      ),
+    ),
     floatingActionButton: Visibility(
         visible: !(MediaQuery.of(context).viewInsets.bottom != 0),
         child: FloatingActionButton(
@@ -86,7 +91,7 @@ Widget depreciation(BuildContext context, HomeController ctr) {
               borderRadius: BorderRadius.circular(40)
           ),
           backgroundColor: const Color(0xFF3f87b9),
-          child: const Icon(Icons.add, size: 30,),
+          child: const Icon(Icons.add, size: 34, color: Colors.white,),
         )
     ),
   );

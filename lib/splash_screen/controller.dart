@@ -6,6 +6,9 @@ import 'package:asset_management_module/home/view.dart';
 import 'package:asset_management_module/unauthorize/view.dart';
 import 'package:asset_management_module/utils/data/client.dart';
 import 'package:asset_management_module/utils/data/nav_key.dart';
+import 'package:asset_management_module/utils/themes/dart.dart';
+import 'package:asset_management_module/utils/themes/light.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SplashScreenController extends GetxController {
@@ -22,14 +25,30 @@ class SplashScreenController extends GetxController {
     );
 
     Timer(const Duration(milliseconds: 100), () {
-      if(response?['success'] ?? false) {
+      if(response?['success'] ?? false ) {
         NavKey.user = UserAuth.fromJson(response['data']);
         NavKey.pwa = Pwa.fromJson(response['pwa']);
-        Get.off(const HomePage());
+
+        if(NavKey.pwa!.language!.toLowerCase() == 'en') {
+          Get.updateLocale(const Locale('en', 'US'));
+        } else {
+          Get.updateLocale(const Locale('id', 'ID'));
+        }
+
+        if(NavKey.pwa!.theme!.toLowerCase() == 'light') {
+          Get.changeTheme(lightTheme);
+        } else {
+          Get.changeTheme(darkTheme);
+        }
+
+        Get.off(const HomePage(),
+          routeName: '/home'
+        );
+
       } else {
         Get.off(const UnauthorizePage(),
           arguments: {
-            'data': 'Unauthorized..'
+            'data': 'unauthorized'.tr
           },
           routeName: '/unauthorized'
         );

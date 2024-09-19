@@ -126,6 +126,12 @@ class HomeController extends GetxController {
     update();
   }
 
+  void clearSearchAsset() {
+    fieldSearchAsset.value = TextEditingController();
+    assetSearch.value = [];
+    update();
+  }
+
   void assetAddEdit(String label, Asset? asset) async {
     final result = await Get.to(const AddEditAssetPage(),
       routeName: '/assets/${label == 'add' ? 'add' : 'edit'}',
@@ -143,7 +149,7 @@ class HomeController extends GetxController {
     final result = await Get.dialog(dialogInfoDelete(context,
       height: 160 ,
       title: 'delete_asset'.tr,
-      info: 'Are you going to delete the {name} Asset data?'.trParams({'value': asset.assetName!})
+      info: 'dialog_delete_depreciation'.trParams({'value': asset.assetName!})
     ));
     
     if(result == null || !result) return;
@@ -193,6 +199,12 @@ class HomeController extends GetxController {
     update();
   }
 
+  void clearSearchDep() {
+    fieldSearchDep.value = TextEditingController();
+    depreciationSearch.value = [];
+    update();
+  }
+
   void addEditDep(String label, Depreciation? dep) async {
     final result = await Get.to(const AddEditDepreciationPage(),
       routeName: '/depreciations/${label == 'add' ? 'add' : 'edit'}',
@@ -210,7 +222,7 @@ class HomeController extends GetxController {
     final result = await Get.dialog(dialogInfoDelete(context,
         height: 160 ,
         title: 'delete_depreciation'.tr,
-        info: 'Are you going to delete the {name} Asset data?'.trParams({'value': dep.name!})
+        info: 'dialog_delete_depreciation'.trParams({'value': dep.name!})
     ));
 
     if(result == null || !result) return;

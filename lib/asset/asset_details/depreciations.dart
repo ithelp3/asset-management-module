@@ -16,7 +16,9 @@ Widget depreciations(BuildContext context, List<AssetDepreciation> depreciations
         decoration: BoxDecoration(
           color: isTime
             ? const Color(0xFF3f87b9)
-            : Colors.white,
+            : Theme.of(context).brightness == Brightness.light
+              ? Colors.white
+              : const Color(0xFF272d34),
           borderRadius: BorderRadius.circular(4),
           border: Border.all(color: isTime ? Colors.white : const Color(0xFF3f87b9))
         ),
@@ -29,9 +31,24 @@ Widget depreciations(BuildContext context, List<AssetDepreciation> depreciations
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('${'period'.tr}#${item.period} ${DateFormat('MM-yyyy').format(DateTime.now())} ${item.periodMonth}',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: isTime ? Colors.white : Colors.black),),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      color: isTime
+                          ? Colors.white
+                          : Theme.of(context).brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.white
+                    ),),
                   Text(double.tryParse(item.bookValue ?? '0.0')!.toIdr(),
-                    style: TextStyle(fontWeight: FontWeight.bold, color: isTime ? Colors.white : Colors.black),),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: isTime
+                          ? Colors.white
+                          : Theme.of(context).brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.white
+                    ),),
                 ],
               ),
             ),
@@ -62,13 +79,23 @@ Widget depreciations(BuildContext context, List<AssetDepreciation> depreciations
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-                        child: Text(i['label'].toString(), style: TextStyle(color: isTime ? Colors.white : Colors.black),),
+                        child: Text(i['label'].toString(), style: TextStyle(color: isTime
+                            ? Colors.white
+                            : Theme.of(context).brightness == Brightness.light
+                              ? Colors.black
+                              : Colors.white
+                        ),),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
                         child: Text(i['value'].toString(),
                           textAlign: TextAlign.right,
-                          style: TextStyle(color: isTime ? Colors.white : Colors.black),
+                          style: TextStyle(color: isTime
+                              ? Colors.white
+                              : Theme.of(context).brightness == Brightness.light
+                                ? Colors.black
+                                : Colors.white
+                          ),
                         ),
                       )
                     ]

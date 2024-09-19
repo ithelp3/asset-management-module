@@ -1,3 +1,4 @@
+import 'package:asset_management_module/asset/asset_details/dialog_asset_add_file/view.dart';
 import 'package:asset_management_module/model/asset.dart';
 import 'package:asset_management_module/model/asset_component.dart';
 import 'package:asset_management_module/model/asset_depreciation.dart';
@@ -43,5 +44,16 @@ class AssetDetailsController extends GetxController with GetTickerProviderStateM
       maintenances.value = List.from(res['data']['maintenances'].map((json) => AssetMaintenance.fromJson(json)));
     });
     progress.value = false;
+  }
+
+  void addFile() async {
+    final result = await Get.dialog(const DialogAssetAddFilePage(),
+      arguments: {
+        'data': asset.value
+      },
+      name: '/asset-details/file/add'
+    );
+    if(result == null) return;
+    onInit();
   }
 }

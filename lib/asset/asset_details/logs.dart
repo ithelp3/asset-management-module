@@ -31,7 +31,9 @@ Widget logs(BuildContext context, List<AssetLog> logs) {
                         margin: const EdgeInsets.only(top: 10, right: 10),
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Theme.of(context).brightness == Brightness.light
+                                ? Colors.white
+                                : const Color(0xFF272d34),
                             borderRadius: BorderRadius.circular(2),
                             border: Border.all(color: const Color(0xFF3f87b9))
                         ),

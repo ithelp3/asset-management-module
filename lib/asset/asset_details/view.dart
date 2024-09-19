@@ -23,10 +23,13 @@ class AssetDetailsPage extends StatelessWidget {
       builder: (ctr) => Obx(() => Scaffold(
         appBar: AppBar(
           title: Text('detail_asset'.tr,),
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).brightness == Brightness.light
+              ? Colors.white
+              : const Color(0xFF272d34),
           leading: GestureDetector(
             onTap: () => Get.back(),
-            child: const Icon(Icons.arrow_back_ios, color: Colors.black,)),
+            child: Icon(Icons.arrow_back_ios,
+              color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,)),
           centerTitle: true,
           bottom: PreferredSize(
               preferredSize: const Size(double.infinity, 210),
@@ -34,7 +37,11 @@ class AssetDetailsPage extends StatelessWidget {
                 children: [
                   !ctr.progress.value ? Column(
                     children: [
-                      if(ctr.details.value.qr != '') Image.memory(const Base64Decoder().convert(ctr.details.value.qr!)),
+                      if(ctr.details.value.qr != '') Image.memory(const Base64Decoder().convert(ctr.details.value.qr!),
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? const Color(0xFF272d34)
+                            : Colors.white,
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: Text('${ctr.details.value.name} (${ctr.details.value.assetTag ?? 'N/A'})',

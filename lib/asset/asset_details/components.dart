@@ -1,7 +1,5 @@
 import 'package:asset_management_module/model/asset_component.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 Widget components(BuildContext context, List<AssetComponent> components) {
@@ -13,7 +11,9 @@ Widget components(BuildContext context, List<AssetComponent> components) {
         margin: const EdgeInsets.only(top: 14, left: 14, right: 14),
         padding: const EdgeInsets.only(top: 20),
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : const Color(0xFF272d34),
             borderRadius: BorderRadius.circular(4),
             border: Border.all(color: const Color(0xFF3f87b9))
         ),
@@ -57,7 +57,7 @@ Widget components(BuildContext context, List<AssetComponent> components) {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-                        child: Text(i['label'].toString(), style: const TextStyle(fontWeight: FontWeight.bold),),
+                        child: Text(i['label'].toString(),),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),

@@ -11,7 +11,9 @@ Widget histories(BuildContext context, List<AssetHistory> histories){
           margin: const EdgeInsets.only(top: 14, left: 14, right: 14),
           padding: const EdgeInsets.only(top: 12),
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.light
+                  ? Colors.white
+                  : const Color(0xFF272d34),
               borderRadius: BorderRadius.circular(4),
               border: Border.all(color: const Color(0xFF3f87b9))
           ),
@@ -55,7 +57,7 @@ Widget histories(BuildContext context, List<AssetHistory> histories){
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-                          child: Text(i['label'].toString(), style: const TextStyle(fontWeight: FontWeight.bold),),
+                          child: Text(i['label'].toString(),),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),

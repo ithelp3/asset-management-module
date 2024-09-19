@@ -2,7 +2,7 @@ import 'package:asset_management_module/asset/asset_details/controller.dart';
 import 'package:asset_management_module/component_widget/skeleton_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:intl/intl.dart';
 
 Widget details(BuildContext context, AssetDetailsController ctr) {
   return !ctr.progress.value ? ListView(
@@ -11,7 +11,9 @@ Widget details(BuildContext context, AssetDetailsController ctr) {
         margin: const EdgeInsets.all(14),
         padding: const EdgeInsets.only(top: 20),
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : const Color(0xFF272d34),
             borderRadius: BorderRadius.circular(4),
             border: Border.all(color: const Color(0xFF3f87b9))
         ),
@@ -55,14 +57,14 @@ Widget details(BuildContext context, AssetDetailsController ctr) {
                   {'label': 'brand'.tr, 'value': ctr.details.value.brand},
                   {'label': 'location'.tr, 'value': ctr.details.value.locations},
                   {'label': 'supplier'.tr, 'value': ctr.details.value.supplier},
-                  {'label': 'update_at'.tr, 'value': ctr.details.value.updatedAt},
-                  {'label': 'create_at'.tr, 'value': ctr.details.value.createdAt},
+                  {'label': 'update_at'.tr, 'value': DateFormat('dd-MM-yyyy').format(DateFormat('dd-MM-yyyy').parse(ctr.details.value.updatedAt!))},
+                  {'label': 'create_at'.tr, 'value': DateFormat('dd-MM-yyyy').format(DateFormat('dd-MM-yyyy').parse(ctr.details.value.createdAt!))},
                   {'label': 'description'.tr, 'value': ctr.details.value.description},
                 ].map((i) => TableRow(
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-                        child: Text(i['label'].toString(), style: const TextStyle(fontWeight: FontWeight.bold),),
+                        child: Text(i['label'].toString(),),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),

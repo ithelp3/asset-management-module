@@ -26,6 +26,11 @@ class Component {
   int? saasCompanyId;
   int? warrantyType;
   int? buildingId;
+  String? groupName;
+  String? categoryName;
+  String? subCategoryName;
+  String? statusName;
+  String? pictureUrl;
 
   Component({
     this.id,
@@ -55,6 +60,11 @@ class Component {
     this.saasCompanyId,
     this.warrantyType,
     this.buildingId,
+    this.groupName,
+    this.categoryName,
+    this.subCategoryName,
+    this.statusName,
+    this.pictureUrl,
   });
 
   factory Component.fromJson(Map<String, dynamic> json) => Component(
@@ -85,6 +95,11 @@ class Component {
     saasCompanyId: json["saas_company_id"],
     warrantyType: json["warranty_type"],
     buildingId: json["building_id"],
+    groupName: json["group_name"],
+    categoryName: json["categoryname"],
+    subCategoryName: json["sub_category_name"],
+    statusName: json["status_name"],
+    pictureUrl: json["picture_url"],
   );
 
 }
