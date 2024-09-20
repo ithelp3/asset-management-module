@@ -6,7 +6,7 @@ import 'package:asset_management_module/staff/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pie_chart/pie_chart.dart';
-// import 'dart:js' as js;
+import 'dart:js' as js;
 
 @override
 Widget dashboard(BuildContext context, HomeController ctr) {
@@ -18,7 +18,7 @@ Widget dashboard(BuildContext context, HomeController ctr) {
           pinned: true,
           leading: GestureDetector(
             onTap: () {
-              // js.context.callMethod('backToMainApp');
+              js.context.callMethod('backToMainApp');
             },
             child: const Icon(Icons.arrow_back_ios, color: Colors.white,)),
           expandedHeight: 250,

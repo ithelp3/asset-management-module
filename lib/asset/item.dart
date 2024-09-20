@@ -57,7 +57,7 @@ Widget itemAsset(BuildContext context, HomeController ctr, Asset item) {
                             color: const Color(0xFF3f87b9),
                             borderRadius: BorderRadius.circular(4)
                         ),
-                        child: Text(item.statusName ?? 'N/A',
+                        child: Text((item.statusName ?? '') != '' ? item.statusName! : 'N/A',
                           style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),))
                   ],
                 )),

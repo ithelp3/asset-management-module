@@ -2,7 +2,6 @@ import 'package:asset_management_module/component_widget/skeleton_account.dart';
 import 'package:asset_management_module/home/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 
 Widget account(BuildContext context, HomeController ctr) {
   return Scaffold(

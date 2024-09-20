@@ -50,8 +50,10 @@ class HomeController extends GetxController {
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
+    if((user.logo ?? '') == '') errorBanner.value = true;
     progressDashboard.value = true;
     getDashboard();
+
   }
 
   void selectNavbarBottomIdx(int idx) {

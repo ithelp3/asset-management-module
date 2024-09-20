@@ -87,40 +87,46 @@ class AddEditAssetController extends GetxController {
     if(type.value == 'edit') {
       asset.value = Get.arguments['data'];
       fieldName.value.value = TextEditingValue(text: asset.value.assetName ?? '');
-      status.value = statuses.firstWhere((i) => i.id.toString() == asset.value.status);
-      fieldStatus.value.value = TextEditingValue(text: status.value.name!);
+      if((asset.value.statusName ?? '') != '') {
+        status.value = statuses.firstWhere((i) => i.id.toString() == asset.value.status);
+        fieldStatus.value.value = TextEditingValue(text: status.value.name!);
+      }
       user.value = users.firstWhere((i) => i.fullName == asset.value.assign!);
       fieldPersonOnCharger.value.value = TextEditingValue(text: user.value.fullName!);
       office.value = offices.firstWhere((i) => i.id == asset.value.officeId);
       fieldOffice.value.value = TextEditingValue(text: office.value.name!);
       group.value = groups.firstWhere((i) => i.id == asset.value.groupId);
       fieldGroup.value.value = TextEditingValue(text: group.value.name!);
-      supplier.value = suppliers.firstWhere((i) => i.id == asset.value.supplierId);
-      fieldSupplier.value.value = TextEditingValue(text: supplier.value.name!);
-      brand.value = brands.firstWhere((i) => i.id == asset.value.brandId);
-      fieldBrand.value.value = TextEditingValue(text: brand.value.name!);
+      if((asset.value.supplier ?? '') != '') {
+        supplier.value = suppliers.firstWhere((i) => i.id == asset.value.supplierId);
+        fieldSupplier.value.value = TextEditingValue(text: supplier.value.name!);
+      }
+      if((asset.value.brand ?? '') != '') {
+        brand.value = brands.firstWhere((i) => i.id == asset.value.brandId);
+        fieldBrand.value.value = TextEditingValue(text: brand.value.name!);
+      }
       Future.wait({
          DioClient().get('/location/building-by-office/${asset.value.officeId}').then((res) {
            buildings.value = List.from(res['data'].map((i) => Building.fromJson(i)));
            building.value = buildings.firstWhere((i) => i.id == asset.value.buildingId);
            fieldBuilding.value.value = TextEditingValue(text: building.value.name!);
          }),
-        DioClient().get('/location/floor-by-building/${asset.value.buildingId}').then((res) {
+        if((asset.value.buildingName ?? '' ) != '') DioClient().get('/location/floor-by-building/${asset.value.buildingId}').then((res) {
            floors.value = List.from(res['data'].map((i) => Floor.fromJson(i)));
            floor.value = floors.firstWhere((i) => i.id == asset.value.floorId);
            fieldFloor.value.value = TextEditingValue(text: floor.value.name!);
          }),
-        DioClient().get('/location/room-by-floor/${asset.value.floorId}').then((res) {
+        if((asset.value.floorName ?? '') != '') DioClient().get('/location/room-by-floor/${asset.value.floorId}').then((res) {
            rooms.value = List.from(res['data'].map((i) => Room.fromJson(i)));
            room.value = rooms.firstWhere((i) => i.id == asset.value.roomId);
            fieldRoom.value.value = TextEditingValue(text: room.value.name!);
          }),
-        DioClient().get('/category/by-group/${asset.value.groupId}').then((res) {
+        if((asset.value.groupName ?? '') != '') DioClient().get('/category/by-group/${asset.value.groupId}').then((res) {
            categories.value = List.from(res['data'].map((i) => Category.fromJson(i)));
            category.value = categories.firstWhere((i) => i.id == asset.value.categoryId);
            fieldCategory.value.value = TextEditingValue(text: category.value.name!);
          }),
-        DioClient().get('/category/sub-category-by-category/${asset.value.categoryId}').then((res) {
+        if((asset.value.categoryName ?? '') != '') DioClient().get('/category/sub-category-by-category/${asset.value.categoryId}').then((res) {
            subCategories.value = List.from(res['data'].map((i) => Category.fromJson(i)));
            subCategory.value = subCategories.firstWhere((i) => i.id == asset.value.subcategoryId);
            fieldSubCategory.value.value = TextEditingValue(text: subCategory.value.name!);
@@ -134,7 +140,7 @@ class AddEditAssetController extends GetxController {
       fieldDescription.value.value = TextEditingValue(text: asset.value.description ?? '');
       warrantyType.value = asset.value.warrantyType != 0 ? asset.value.warrantyType! : 0;
       fieldWarranty.value.value = TextEditingValue(text: asset.value.warranty ?? '0');
-      imageName.value = asset.value.picture ?? 'N/A';
+      if((asset.value.picture ?? '') != '') imageName.value = asset.value.picture!;
     }
   }
 
