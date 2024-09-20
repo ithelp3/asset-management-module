@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
       locale: const Locale('id', 'ID'),
       // initialRoute: '/home',
       getPages: [
-        // GetPage(name: '/', page: () => const LandingPage()),
-        GetPage(name: '/', page: () => const SplashScreenPage()),
+        GetPage(name: '/', page: () => const LandingPage()),
+        // GetPage(name: '/', page: () => const SplashScreenPage()),
         GetPage(name: '/home', page: () => const HomePage()),
       ],
       routingCallback: (value) {
