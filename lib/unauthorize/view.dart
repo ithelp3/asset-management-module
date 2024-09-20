@@ -4,8 +4,8 @@ import 'dart:js' as js;
 
 import 'controller.dart';
 
-class UnauthorizePage extends StatelessWidget {
-  const UnauthorizePage({super.key});
+class UnauthorizedPage extends StatelessWidget {
+  const UnauthorizedPage({super.key});
 
   @override
   Widget build(BuildContext context) {

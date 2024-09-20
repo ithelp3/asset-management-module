@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:asset_management_module/component_widget/dialog_item_select.dart';
 import 'package:asset_management_module/component_widget/loading.dart';
 import 'package:asset_management_module/model/asset.dart';

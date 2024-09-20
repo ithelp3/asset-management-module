@@ -46,7 +46,7 @@ class SplashScreenController extends GetxController {
         );
 
       } else {
-        Get.off(const UnauthorizePage(),
+        Get.off(const UnauthorizedPage(),
           arguments: {
             'data': 'unauthorized'.tr
           },
