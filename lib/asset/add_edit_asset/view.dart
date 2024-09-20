@@ -291,10 +291,9 @@ class AddEditAssetPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
-                        readOnly: true,
                         decoration: InputDecoration(
                           labelText: 'tag_asset'.tr,
-                          // hintText: 'write_the_@_here'.trParams({'value': 'tag_asset'}),
+                          hintText: 'write_in_field'.trParams({'value': 'tag_asset'.tr}),
                           prefixIcon: const Icon(Icons.tag, color: Color(0xFF3f87b9), size: 22,),
                           filled: true,
                           border: OutlineInputBorder(
