@@ -3,6 +3,8 @@ import 'package:asset_management_module/asset/assets.dart';
 import 'package:asset_management_module/dashboard/dashboard.dart';
 import 'package:asset_management_module/depreciation/depreciation.dart';
 import 'package:asset_management_module/home/controller.dart';
+import 'package:asset_management_module/purchase_order/view.dart';
+import 'package:asset_management_module/reminder/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,7 +22,7 @@ class HomePage extends StatelessWidget {
           body: <Widget>[
             dashboard(context, ctr),
             assets(context, ctr),
-            const Text('reminder'),
+            const ReminderPage(),
             depreciation(context, ctr),
             account(context, ctr),
           ][ctr.navbarBottomIdx.value],
@@ -36,7 +38,7 @@ class HomePage extends StatelessWidget {
               GestureDetector(
                 onTap: () => ctr.selectNavbarBottomIdx(0),
                 child: SizedBox(
-                  width: width/4,
+                  width: width/5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -58,11 +60,11 @@ class HomePage extends StatelessWidget {
               GestureDetector(
                 onTap: () => ctr.selectNavbarBottomIdx(1),
                 child: SizedBox(
-                  width: width/4,
+                  width: width/5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.assignment_outlined,
+                      Icon(Icons.feed_outlined,
                         color: ctr.navbarBottomIdx.value == 1
                             ? const Color(0xFF3f87b9)
                             : Theme.of(context).brightness == Brightness.light ? Colors.black45 : Colors.white,),
@@ -77,32 +79,33 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              // GestureDetector(
-              //   onTap: () => ctr.selectNavbarBottomIdx(2),
-              //   child: SizedBox(
-              //     width: width/5,
-              //     child: Column(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       children: [
-              //         Icon(Icons.notifications_active_outlined,
-              //           color: ctr.navbarBottomIdx.value == 2
-              //               ? const Color(0xFF3f87b9)
-              //               : Colors.black45,),
-              //         Text('reminder'.tr,
-              //           style: TextStyle(
-              //             fontSize: 12,
-              //             color: ctr.navbarBottomIdx.value == 2
-              //                 ? const Color(0xFF3f87b9)
-              //                 : Colors.black45
-              //           ),)
-              //       ],
-              //     ),
-              //   ),
-              // ),
+              GestureDetector(
+                onTap: () => ctr.selectNavbarBottomIdx(2),
+                child: SizedBox(
+                  width: width/5,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.notifications,
+                        color: ctr.navbarBottomIdx.value == 2
+                            ? const Color(0xFF3f87b9)
+                            : Theme.of(context).brightness == Brightness.light ? Colors.black45 : Colors.white,),
+                      Text('reminder'.tr,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: ctr.navbarBottomIdx.value == 2
+                              ? const Color(0xFF3f87b9)
+                              : Colors.black45
+                        ),)
+                    ],
+                  ),
+                ),
+              ),
               GestureDetector(
                 onTap: () => ctr.selectNavbarBottomIdx(3),
                 child: SizedBox(
-                  width: width/4,
+                  width: width/5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

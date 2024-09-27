@@ -106,5 +106,13 @@ Map<String, String> enUs = {
   'date': 'Date',
   'cancel': 'Cancel',
   'add_file': 'Add File',
-  'yes_delete': 'Yes, delete'
+  'yes_delete': 'Yes, delete',
+  'title': 'Title',
+  'needs': 'Needs',
+  'date_needed': 'Date Needed',
+  'purchase_order': 'Purchase Order',
+  'lending': 'Lending',
+  'monitoring': 'Monitoring',
+  'menu': 'Menu',
+  'all': 'All'
 };

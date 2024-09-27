@@ -33,6 +33,8 @@ class HomeController extends GetxController {
   RxBool progressDashboard = false.obs;
   RxBool errorBanner = false.obs;
 
+  RxString capsule = 'Semua'.obs;
+
   RxList<Asset> assets = <Asset>[].obs;
   RxList<Asset> assetSearch = <Asset>[].obs;
   Rx<TextEditingController> fieldSearchAsset = TextEditingController().obs;
@@ -53,7 +55,10 @@ class HomeController extends GetxController {
     if((user.logo ?? '') == '') errorBanner.value = true;
     progressDashboard.value = true;
     getDashboard();
+  }
 
+  void selectedCapsule(String key) {
+    capsule.value = key;
   }
 
   void selectNavbarBottomIdx(int idx) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:js' as js;
+// import 'dart:js' as js;
 
 import 'controller.dart';
 
@@ -16,7 +16,7 @@ class UnauthorizedPage extends StatelessWidget {
           backgroundColor: Colors.transparent,
           leading: GestureDetector(
               onTap: () {
-                js.context.callMethod('backToMainApp');
+                // js.context.callMethod('backToMainApp');
               },
               child: const Icon(Icons.arrow_back_ios, color: Colors.black,)),
         ),
