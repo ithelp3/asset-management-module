@@ -124,5 +124,6 @@ Map<String, String> idId = {
   'review': 'Ditinjau',
   'approve': 'Disetujui',
   'lending_asset': 'Peminjaman Asset',
-
+  'lending_date': 'Tanggal Peminjaman',
+  'return_date': 'Tanggal Pengembalian',
 };

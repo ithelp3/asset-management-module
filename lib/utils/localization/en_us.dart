@@ -114,5 +114,17 @@ Map<String, String> enUs = {
   'lending': 'Lending',
   'monitoring': 'Monitoring',
   'menu': 'Menu',
-  'all': 'All'
+  'all': 'All',
+  'asset_management': 'Asset Management',
+  'name_reminder': 'Name Reminder',
+  'repeat': 'Repeat',
+  'every_day': 'Every day',
+  'weekly': 'Weekly',
+  'monthly': 'Monthly',
+  'yearly': 'Yearly',
+  'review': 'review',
+  'approve': 'Approve',
+  'lending_asset': 'Landing Asset',
+  'lending_date': 'Landing Date',
+  'return_date': 'Return Date',
 };

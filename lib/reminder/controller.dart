@@ -16,14 +16,14 @@ class ReminderController extends GetxController with GetTickerProviderStateMixin
   DateTime? dateStart;
   DateTime? dateEnd;
   TimeOfDay time = const TimeOfDay(hour: 9, minute: 0);
-  AnimationController? animationController;
+  AnimationController?  animationController;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     animationController = AnimationController(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(milliseconds: 800),
       vsync: this
     );
   }
@@ -58,9 +58,9 @@ class ReminderController extends GetxController with GetTickerProviderStateMixin
   void selectDate() {
     showCalender.value = !showCalender.value;
     if(showCalender.value) {
-      animationController!.reverse();
-    } else {
       animationController!.forward();
+    } else {
+      animationController!.reverse();
     }
   }
 

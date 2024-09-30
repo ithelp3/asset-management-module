@@ -52,12 +52,12 @@ class ReminderPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 14, left: 14, right: 14, bottom: 8),
+              padding: const EdgeInsets.only(top: 14, left: 20, right: 14, bottom: 8),
               child: Column(
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.date_range_outlined),
+                      const Icon(Icons.date_range_outlined, color: Color(0xFF3f87b9), size: 26,),
                       const Expanded(child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Text('Setiap hari',),
@@ -173,7 +173,7 @@ class ReminderPage extends StatelessWidget {
                   SizeTransition(
                     sizeFactor: CurvedAnimation(
                       parent: ctr.animationController!,
-                      curve: Curves.decelerate
+                      curve: Curves.decelerate,
                     ),
                     child: TableCalendar(
                       locale: 'id_ID',
@@ -188,6 +188,21 @@ class ReminderPage extends StatelessWidget {
                       rangeEndDay: ctr.dateEnd,
                       onRangeSelected: ctr.switchEveryDay.value ? ctr.selectedRangeDate : null,
                       rangeSelectionMode: RangeSelectionMode.toggledOn,
+                      calendarStyle: const CalendarStyle(
+                        // rangeHighlightColor: Colors.red,
+                        selectedDecoration: BoxDecoration(
+                          color: Color(0xFF3f87b9),
+                          shape: BoxShape.circle,
+                        ),
+                        rangeStartDecoration: BoxDecoration(
+                          color: Color(0xFF3f87b9),
+                          shape: BoxShape.circle,
+                        ),
+                        rangeEndDecoration: BoxDecoration(
+                          color: Color(0xFF3f87b9),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
                     ),
                   )
                 ],

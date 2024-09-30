@@ -33,10 +33,13 @@ class LendingPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                         child: TextFormField(
+                          readOnly: true,
+                          onTap: () => ctr.selectItem(context, 'asset'),
                           decoration: InputDecoration(
-                            labelText: 'title'.tr,
-                            hintText: 'write_in_field'.trParams({'value': 'title'.tr}),
+                            labelText: 'asset'.tr,
+                            hintText: 'select_item_field'.trParams({'value': 'asset'.tr}),
                             prefixIcon: const Icon(Icons.web_asset_outlined, color: Color(0xFF3f87b9), size: 22,),
+                            suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9), size: 30,),
                             filled: true,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -49,9 +52,9 @@ class LendingPage extends StatelessWidget {
                             ),
                           ),
                           validator: (value) => (value == null || value.isEmpty)
-                              ? 'please_in_field'.trParams({'value': 'title'.tr})
+                              ? 'please_in_field'.trParams({'value': 'asset'.tr})
                               : null,
-                          controller: ctr.fieldTitle.value,
+                          controller: ctr.fieldAsset.value,
                         ),
                       ),
                       Padding(
