@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import 'controller.dart';
 
@@ -83,60 +85,176 @@ class LendingPage extends StatelessWidget {
                           controller: ctr.fieldNeeds.value,
                         ),
                       ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                      //   child: TextFormField(
+                      //     readOnly: true,
+                      //     onTap: () => ctr.selectDate(context, 'first'),
+                      //     decoration: InputDecoration(
+                      //       labelText: 'lending_date'.tr,
+                      //       hintText: 'select_item_field'.trParams({'value': 'lending_date'.tr}),
+                      //       prefixIcon: const Icon(Icons.date_range_outlined, color: Color(0xFF3f87b9), size: 22,),
+                      //       suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9), size: 30,),
+                      //       filled: true,
+                      //       border: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(10),
+                      //       ),
+                      //       enabledBorder: OutlineInputBorder(
+                      //         borderSide: const BorderSide(
+                      //             color: Color(0xFF3f87b9)
+                      //         ),
+                      //         borderRadius: BorderRadius.circular(10),
+                      //       ),
+                      //     ),
+                      //     validator: (value) => (value == null || value.isEmpty)
+                      //         ? 'please_in_field'.trParams({'value': 'lending_date'.tr})
+                      //         : null,
+                      //     controller: ctr.fieldFirstDate.value,
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                      //   child: TextFormField(
+                      //     readOnly: true,
+                      //     onTap: () => ctr.selectDate(context, 'last'),
+                      //     decoration: InputDecoration(
+                      //       labelText: 'return_date'.tr,
+                      //       hintText: 'select_in_field'.trParams({'value': 'return_date'.tr}),
+                      //       prefixIcon: const Icon(Icons.date_range_outlined, color: Color(0xFF3f87b9), size: 22,),
+                      //       suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9), size: 30,),
+                      //       filled: true,
+                      //       border: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(10),
+                      //       ),
+                      //       enabledBorder: OutlineInputBorder(
+                      //         borderSide: const BorderSide(
+                      //             color: Color(0xFF3f87b9)
+                      //         ),
+                      //         borderRadius: BorderRadius.circular(10),
+                      //       ),
+                      //     ),
+                      //     validator: (value) => (value == null || value.isEmpty)
+                      //         ? 'please_in_field'.trParams({'value': 'return_date'.tr})
+                      //         : null,
+                      //     controller: ctr.fieldLastDate.value,
+                      //   ),
+                      // ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                        child: TextFormField(
-                          readOnly: true,
-                          onTap: () => ctr.selectDate(context, 'first'),
-                          decoration: InputDecoration(
-                            labelText: 'lending_date'.tr,
-                            hintText: 'select_item_field'.trParams({'value': 'lending_date'.tr}),
-                            prefixIcon: const Icon(Icons.date_range_outlined, color: Color(0xFF3f87b9), size: 22,),
-                            suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9), size: 30,),
-                            filled: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Color(0xFF3f87b9)
+                        padding: const EdgeInsets.only(top: 14, left: 20, right: 14, bottom: 10),
+                        child: Column(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(top: 8, bottom: 18),
+                              child: Row(
+                                children: [
+                                   Icon(Icons.date_range_outlined, color: Color(0xFF3f87b9), size: 26,),
+                                   Expanded(child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 10),
+                                    child: Text('Keterangan Tanggal', style: TextStyle(fontSize: 16),),
+                                  )),
+                                ],
                               ),
-                              borderRadius: BorderRadius.circular(10),
                             ),
-                          ),
-                          validator: (value) => (value == null || value.isEmpty)
-                              ? 'please_in_field'.trParams({'value': 'lending_date'.tr})
-                              : null,
-                          controller: ctr.fieldFirstDate.value,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                        child: TextFormField(
-                          readOnly: true,
-                          onTap: () => ctr.selectDate(context, 'last'),
-                          decoration: InputDecoration(
-                            labelText: 'return_date'.tr,
-                            hintText: 'select_in_field'.trParams({'value': 'return_date'.tr}),
-                            prefixIcon: const Icon(Icons.date_range_outlined, color: Color(0xFF3f87b9), size: 22,),
-                            suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9), size: 30,),
-                            filled: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () => ctr.showSelectCalender('start'),
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 14),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(18),
+                                              boxShadow: [BoxShadow(
+                                                color: Colors.blue.withOpacity(0.1),
+                                                blurRadius: 2,
+                                                spreadRadius: 2,
+                                                offset: const Offset(1, 2),
+                                              )]
+                                          ),
+                                          child: Text('Tanggal Pinjam',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                      const Divider(height: 12,),
+                                      Text(DateFormat('EE, dd MMMM', 'id_ID').format(ctr.dateStart ?? DateTime.now(),),
+                                        style: const TextStyle(color: Colors.grey),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                const Icon(Icons.arrow_forward),
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () => ctr.showSelectCalender('end'),
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 14),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(18),
+                                              boxShadow: [BoxShadow(
+                                                color: Colors.blue.withOpacity(0.1),
+                                                blurRadius: 2,
+                                                spreadRadius: 2,
+                                                offset: const Offset(1, 2),
+                                              )]
+                                          ),
+                                          child: Text('Tanggal Kembali',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                      const Divider(height: 12,),
+                                      Text(DateFormat('EE, dd MMMM', 'id_ID').format(ctr.dateEnd ?? DateTime.now(),),
+                                        style: const TextStyle(color: Colors.grey),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Color(0xFF3f87b9)
+                            SizeTransition(
+                              sizeFactor: CurvedAnimation(
+                                parent: ctr.animationControllerDate!,
+                                curve: Curves.decelerate,
                               ),
-                              borderRadius: BorderRadius.circular(10),
+                              child: TableCalendar(
+                                locale: 'id_ID',
+                                focusedDay: ctr.dateFocus,
+                                firstDay: DateTime(2005),
+                                lastDay: DateTime(2100),
+                                availableGestures: AvailableGestures.all,
+                                headerStyle: const HeaderStyle(formatButtonVisible: false, titleCentered: true),
+                                selectedDayPredicate: (day) => isSameDay(day, ctr.dateFocus),
+                                onDaySelected: ctr.selectedDate,
+                                rangeStartDay: ctr.dateStart,
+                                rangeEndDay: ctr.dateEnd,
+                                // onRangeSelected: ctr.selectedRangeDate,
+                                rangeSelectionMode: RangeSelectionMode.toggledOn,
+                                calendarStyle: const CalendarStyle(
+                                  selectedDecoration: BoxDecoration(
+                                    color: Color(0xFF3f87b9),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  rangeStartDecoration: BoxDecoration(
+                                    color: Color(0xFF3f87b9),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  rangeEndDecoration: BoxDecoration(
+                                    color: Color(0xFF3f87b9),
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                          validator: (value) => (value == null || value.isEmpty)
-                              ? 'please_in_field'.trParams({'value': 'return_date'.tr})
-                              : null,
-                          controller: ctr.fieldLastDate.value,
+                          ],
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),

@@ -1,6 +1,7 @@
 import 'package:asset_management_module/asset/asset_details/controller.dart';
 import 'package:asset_management_module/component_widget/skeleton_asset.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -44,8 +45,9 @@ Widget details(BuildContext context, AssetDetailsController ctr) {
                 ),
                 columnWidths: const {
                   0: FlexColumnWidth(1),
-                  2: FlexColumnWidth(),
+                  1: FlexColumnWidth(),
                 },
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 children: [
                   {'label': 'group'.tr, 'value': ctr.details.value.groupName},
                   {'label': 'category'.tr, 'value': ctr.details.value.categoryName},
@@ -59,7 +61,7 @@ Widget details(BuildContext context, AssetDetailsController ctr) {
                   {'label': 'supplier'.tr, 'value': ctr.details.value.supplier},
                   {'label': 'update_at'.tr, 'value': DateFormat('dd-MM-yyyy').format(DateFormat('dd-MM-yyyy').parse(ctr.details.value.updatedAt!))},
                   {'label': 'create_at'.tr, 'value': DateFormat('dd-MM-yyyy').format(DateFormat('dd-MM-yyyy').parse(ctr.details.value.createdAt!))},
-                  {'label': 'description'.tr, 'value': ctr.details.value.description},
+                  {'label': 'description'.tr, 'value': ctr.details.value.description!.replaceAll('<br />', '')},
                 ].map((i) => TableRow(
                     children: [
                       Padding(
@@ -70,7 +72,7 @@ Widget details(BuildContext context, AssetDetailsController ctr) {
                         padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
                         child: Text((i['value'] ?? '') != '' ? i['value'].toString() : 'N/A',
                           textAlign: TextAlign.right,
-                        ),
+                        )
                       )
                     ]
                 )).toList(),

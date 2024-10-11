@@ -3,11 +3,16 @@ import 'package:asset_management_module/component_widget/skeleton_dashboard.dart
 import 'package:asset_management_module/home/controller.dart';
 import 'package:asset_management_module/lending/view.dart';
 import 'package:asset_management_module/maintenance/view.dart';
+import 'package:asset_management_module/model/purchase_order_submission.dart';
+import 'package:asset_management_module/monitoring/view.dart';
 import 'package:asset_management_module/purchase_order/view.dart';
 import 'package:asset_management_module/qa/view.dart';
 import 'package:asset_management_module/staff/view.dart';
+import 'package:asset_management_module/submission/view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart';
 // import 'dart:js' as js;
 
@@ -111,9 +116,24 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                           routeName: '/staff/list',
                         );
                       }
-                      if(label == 'Q/A') {
-                        Get.to(const QaPage(),
-                            routeName: '/qa'
+                      // if(label == 'Q/A') {
+                      //   Get.to(const QaPage(),
+                      //       routeName: '/qa'
+                      //   );
+                      // }
+                      if(label == 'supplier'.tr || label == 'brand'.tr || label == 'location'.tr) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              backgroundColor: Colors.lightBlue,
+                              content: Row(
+                                children: [
+                                  Icon(Icons.info_outline, color: Colors.white, size: 20,),
+                                  VerticalDivider(width: 10,),
+                                  Text('Coming soon..')
+                                ],
+                              ),
+                              behavior: SnackBarBehavior.floating,
+                            )
                         );
                       }
                     },
@@ -238,7 +258,9 @@ Widget dashboard(BuildContext context, HomeController ctr) {
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: ['all'.tr, 'purchase_order'.tr, 'reminder'.tr, 'submission'.tr, 'maintenance'.tr,].map((i) {
+                  children: ['all'.tr, 'purchase_order'.tr, 'lending'.tr, 'maintenance'.tr,
+                    // 'submission'.tr,
+                  ].map((i) {
                     return GestureDetector(
                       onTap: () => ctr.selectedCapsule(i),
                       child: Container(
@@ -263,17 +285,32 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10, left: 14, right: 14, bottom: 20),
-              child: Column(
-                children: [
-                  {'label': 'lending_asset'.tr, 'date': '10 Sep 2024', 'desc': 'Peminjaman Kulkas dari Gedung A ke Gedung C.', 'status': 'review'.tr},
-                  {'label': 'purchase_order'.tr, 'date': '10 Sep 2024', 'desc': 'Pengajuan PC Baru untuk Customer Service Online.', 'status': 'review'.tr},
-                  {'label': 'lending_asset'.tr, 'date': '10 Sep 2024', 'desc': 'Peminjaman Kulkas dari Gedung A ke Gedung C.', 'status': 'approve'.tr},
-                  {'label': 'lending_asset'.tr, 'date': '10 Sep 2024', 'desc': 'Peminjaman Kulkas dari Gedung A ke Gedung C.', 'status': 'review'.tr},
-                  {'label': 'purchase_order'.tr, 'date': '10 Sep 2024', 'desc': 'Pengajuan PC Baru untuk Customer Service Online.', 'status': 'approve'.tr},
-                  {'label': 'purchase_order'.tr, 'date': '10 Sep 2024', 'desc': 'Pengajuan PC Baru untuk Customer Service Online.', 'status': 'review'.tr},
-                ].map((i) {
+            if(ctr.capsule.value == 'all'.tr) Padding(
+              padding: const EdgeInsets.only(top: 10, left: 14, right: 14, bottom: 10),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: ctr.allMonitoring.length,
+                itemBuilder: (ctx, idx) {
+                  PurchaseOrderSubmission i = ctr.allMonitoring[idx];
+                  MaterialColor colorStatus = Colors.brown;
+                  if(i.status == 'On Process') colorStatus = Colors.blue;
+                  if(i.status == 'Approved' || i.status == 'Complete') colorStatus = Colors.green;
+                  if(i.status == 'Rejected') colorStatus = Colors.red;
+
+                  String label = 'purchase_order'.tr;
+                  IconData icon = Icons.data_exploration;
+                  MaterialColor colorIcon = Colors.yellow;
+                  if(i.subject! == 'maintenance') {
+                    label = 'maintenance'.tr;
+                    icon = Icons.construction_outlined;
+                    colorIcon = Colors.indigo;
+                  }
+                  if(i.subject! == 'peminjaman') {
+                    label = 'lending'.tr;
+                    icon = Icons.real_estate_agent_rounded;
+                    colorIcon = Colors.cyan;
+                  }
                   return Container(
                     margin: const EdgeInsets.only(top: 8),
                     padding: const EdgeInsets.all(10),
@@ -293,48 +330,323 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                       children: [
                         Row(
                           children: [
-                            Icon(i['label'] == 'lending_asset'.tr ? Icons.move_up_outlined : Icons.data_exploration,
-                              color: i['label'] == 'lending_asset'.tr ?  const Color(0xFF3f87b9) : Colors.yellow.shade700,
-                              size: 36,
+                            Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40),
+                                  // color: Colors.yellow.shade100
+                                  color: colorIcon.shade100
+                              ),
+                              // child: Icon(Icons.data_exploration,
+                                // color: Colors.yellow.shade700,
+                              child: Icon(icon,
+                                color: colorIcon.shade700,
+                                size: 24,
+                              ),
                             ),
                             Expanded(child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(i['label'].toString(),
+                                  // Text('purchase_order'.tr,
+                                  Text(label,
                                     style: const TextStyle(fontWeight: FontWeight.bold),
                                   ),
-                                  const Text('10 Sep 2024', style: TextStyle(fontSize: 12, color: Colors.grey),),
+                                  // Text(DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!)),
+                                  Text( label == 'purchase_order'.tr
+                                      ? DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!))
+                                      : DateFormat('dd MMMM yyyy').format(DateTime.now()),
+                                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                  ),
                                 ],
                               ),
                             ),),
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                               decoration: BoxDecoration(
-                                  color: i['status'] == 'review'.tr ? Colors.blue.shade50 : Colors.green.shade50,
+                                  color: colorStatus.shade50,
                                   borderRadius: BorderRadius.circular(4)
                               ),
-                              child: Text(i['status'].toString(),
+                              child: Text(i.status?.tr ?? '',
                                 style: TextStyle(
                                     fontSize: 12,
-                                    // fontWeight: FontWeight.bold,
-                                    color: i['status'] == 'review'.tr ? Colors.blue.shade700 : Colors.green.shade700),),
+                                    color: colorStatus.shade700),),
                             ),
                           ],
                         ),
                         Divider(color: Colors.blue.shade100,),
                         Padding(
                           padding: const EdgeInsets.only(left: 2),
-                          child: Text(i['desc'].toString(),
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(fontSize: 12),
+                          child: HtmlWidget(i.submissionDetail ?? '',
+                            textStyle: const TextStyle(fontSize: 12),
                           ),
                         )
                       ],
                     ),
                   );
-                }).toList(),
+                }
+              ),
+            ),
+            if(ctr.itemPO.isNotEmpty && ctr.capsule.value == 'purchase_order'.tr) Padding(
+              padding: const EdgeInsets.only(top: 10, left: 14, right: 14, bottom: 10),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: ctr.itemPO.length <= 10 ? ctr.itemPO.length : 10,
+                itemBuilder: (ctx, idx) {
+                  PurchaseOrderSubmission i = ctr.itemPO[idx];
+                  MaterialColor colorStatus = Colors.brown;
+                  if(i.status == 'On Process') colorStatus = Colors.blue;
+                  if(i.status == 'Approved' || i.status == 'Complete') colorStatus = Colors.green;
+                  if(i.status == 'Rejected') colorStatus = Colors.red;
+                  return Container(
+                    margin: const EdgeInsets.only(top: 8),
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.blue.shade100),
+                        boxShadow: [BoxShadow(
+                          color: Colors.blue.withOpacity(0.1),
+                          blurRadius: 2,
+                          spreadRadius: 2,
+                          offset: const Offset(1, 2),
+                        )]
+                    ),
+                    child: InkWell(
+                      onTap: () => Get.to(const SubmissionPage(),
+                        arguments: {
+                          'data': i
+                        },
+                        routeName: 'purchase-order/details'
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40),
+                                    color: Colors.yellow.shade100
+                                ),
+                                child: Icon(Icons.data_exploration,
+                                  color: Colors.yellow.shade700,
+                                  size: 24,
+                                ),
+                              ),
+                              Expanded(child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('purchase_order'.tr,
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!)),
+                                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                              ),),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                decoration: BoxDecoration(
+                                    color: colorStatus.shade50,
+                                    borderRadius: BorderRadius.circular(4)
+                                ),
+                                child: Text(i.status?.tr ?? '',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: colorStatus.shade700),),
+                              ),
+                            ],
+                          ),
+                          Divider(color: Colors.blue.shade100,),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 2),
+                            child: HtmlWidget(i.submissionDetail ?? '',
+                              textStyle: const TextStyle(fontSize: 12),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              ),
+            ),
+            if(ctr.capsule.value == 'lending'.tr) Padding(
+              padding: const EdgeInsets.only(top: 10, left: 14, right: 14, bottom: 10),
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: ctr.lendings.length,
+                  itemBuilder: (ctx, idx) {
+                    final i = ctr.lendings[idx];
+                    MaterialColor colorStatus = Colors.brown;
+                    // if(i.status == 'On Process') colorStatus = Colors.blue;
+                    // if(i.status == 'Approved' || i.status == 'Complete') colorStatus = Colors.green;
+                    // if(i.status == 'Rejected') colorStatus = Colors.red;
+                    return Container(
+                      margin: const EdgeInsets.only(top: 8),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.blue.shade100),
+                          boxShadow: [BoxShadow(
+                            color: Colors.blue.withOpacity(0.1),
+                            blurRadius: 2,
+                            spreadRadius: 2,
+                            offset: const Offset(1, 2),
+                          )]
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40),
+                                    color: Colors.cyan.shade100
+                                ),
+                                child: const Icon(Icons.real_estate_agent_rounded,
+                                  color: Colors.cyan,
+                                  size: 24,
+                                ),
+                              ),
+                              Expanded(child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('lending'.tr,
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(DateFormat('dd MMMM yyyy').format(DateTime.now()), style: const TextStyle(fontSize: 12, color: Colors.grey),),
+                                  ],
+                                ),
+                              ),),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                decoration: BoxDecoration(
+                                    color: colorStatus.shade50,
+                                    borderRadius: BorderRadius.circular(4)
+                                ),
+                                child: Text('On Process'.tr,
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: colorStatus.shade700),),
+                              ),
+                            ],
+                          ),
+                          Divider(color: Colors.blue.shade100,),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 2),
+                            child: HtmlWidget('$i alat kantor',
+                              textStyle: const TextStyle(fontSize: 12),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  }
+              ),
+            ),
+            if(ctr.capsule.value == 'maintenance'.tr) Padding(
+              padding: const EdgeInsets.only(top: 10, left: 14, right: 14, bottom: 10),
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: ctr.maintenances.length,
+                  itemBuilder: (ctx, idx) {
+                    final i = ctr.maintenances[idx];
+                    MaterialColor colorStatus = Colors.brown;
+                    // if(i.status == 'On Process') colorStatus = Colors.blue;
+                    // if(i.status == 'Approved' || i.status == 'Complete') colorStatus = Colors.green;
+                    // if(i.status == 'Rejected') colorStatus = Colors.red;
+                    return Container(
+                      margin: const EdgeInsets.only(top: 8),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.blue.shade100),
+                          boxShadow: [BoxShadow(
+                            color: Colors.blue.withOpacity(0.1),
+                            blurRadius: 2,
+                            spreadRadius: 2,
+                            offset: const Offset(1, 2),
+                          )]
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40),
+                                  color: Colors.indigo.shade100
+                                ),
+                                child: const Icon(Icons.construction_outlined,
+                                  color: Colors.indigo,
+                                  size: 24,
+                                ),
+                              ),
+                              Expanded(child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('maintenance'.tr,
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(DateFormat('dd MMMM yyyy').format(DateTime.now()), style: const TextStyle(fontSize: 12, color: Colors.grey),),
+                                  ],
+                                ),
+                              ),),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                decoration: BoxDecoration(
+                                    color: colorStatus.shade50,
+                                    borderRadius: BorderRadius.circular(4)
+                                ),
+                                child: Text('On Process'.tr,
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: colorStatus.shade700),),
+                              ),
+                            ],
+                          ),
+                          Divider(color: Colors.blue.shade100,),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 2),
+                            child: HtmlWidget('$i alat kantor',
+                              textStyle: const TextStyle(fontSize: 12),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  }
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
+              child: TextButton(
+                onPressed: () {
+                  Get.to(const MonitoringPage(),
+                    routeName: '/monitoring'
+                  );
+                },
+                child: Text('see_all_monitoring_lists'.tr)
               ),
             )
             // Column(

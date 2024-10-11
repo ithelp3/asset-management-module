@@ -1,4 +1,3 @@
-import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,37 +17,37 @@ class LandingPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: ctr.languages.map((lg) {
-                        String id = lg['id'];
-                        String label = lg['label'];
-                        return GestureDetector(
-                          onTap: () => ctr.changeLanguage(id),
-                          child: Card(
-                            shadowColor: ctr.language.value == id ? Colors.blueAccent : Colors.grey,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                side: BorderSide(
-                                    color: ctr.language.value == id ? Colors.blueAccent : Colors.grey.shade200
-                                )
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Column(
-                                children: [
-                                  CountryFlag.fromLanguageCode(id,
-                                    borderRadius: 40,
-                                    width: 100,
-                                    height: 80,
-                                  ),
-                                  const Divider(height: 10),
-                                  Text(label),
-                                ],
-                              ),
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: ctr.languages.map((lg) {
+                      String id = lg['id'];
+                      String label = lg['label'];
+                      return GestureDetector(
+                        onTap: () => ctr.changeLanguage(id),
+                        child: Card(
+                          shadowColor: ctr.language.value == id ? Colors.blueAccent : Colors.grey,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              side: BorderSide(
+                                  color: ctr.language.value == id ? Colors.blueAccent : Colors.grey.shade200
+                              )
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              children: [
+                                // CountryFlag.fromLanguageCode(id,
+                                //   borderRadius: 40,
+                                //   width: 100,
+                                //   height: 80,
+                                // ),
+                                const Divider(height: 10),
+                                Text(label),
+                              ],
                             ),
                           ),
-                        );
-                      },).toList()
+                        ),
+                      );
+                    },).toList()
                   ),
                   const Divider(height: 20,),
                   Padding(

@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
           body: <Widget>[
             dashboard(context, ctr),
             assets(context, ctr),
-            const ReminderPage(),
+            reminder(context, ctr),
             depreciation(context, ctr),
             account(context, ctr),
           ][ctr.navbarBottomIdx.value],

@@ -22,7 +22,12 @@ class SplashScreenController extends GetxController {
       params: {
         'data' : NavKey.data
       }
-    );
+    ).catchError((err) => Get.off(const UnauthorizedPage(),
+        arguments: {
+          'data': 'unauthorized'.tr
+        },
+        routeName: '/unauthorized'
+    ));
 
     Timer(const Duration(milliseconds: 100), () {
       if(response?['success'] ?? false ) {

@@ -8,7 +8,7 @@ Widget logs(BuildContext context, List<AssetLog> logs) {
     itemBuilder: (ctx, idx) {
       AssetLog log = logs[idx];
       return IntrinsicHeight(
-        child:  Stack(
+        child: Stack(
           children: [
             Container(
               margin: const EdgeInsets.only(left: 14),
@@ -41,7 +41,7 @@ Widget logs(BuildContext context, List<AssetLog> logs) {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(log.createdAt ?? 'N/A', style: const TextStyle(fontWeight: FontWeight.bold),),
-                            Text('${log.description} - ${log.fullName}', style: const TextStyle(fontSize: 12),)
+                            Text('${log.description ?? log.translatedActivity} - ${log.fullName}', style: const TextStyle(fontSize: 12),)
                           ],
                         ),
                       ),

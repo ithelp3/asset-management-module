@@ -3,10 +3,10 @@ import 'package:asset_management_module/model/asset.dart';
 import 'package:asset_management_module/utils/data/client.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
-class LendingController extends GetxController {
+class LendingController extends GetxController with GetTickerProviderStateMixin{
   Rx<GlobalKey<FormState>> formKey = GlobalKey<FormState>().obs;
+  AnimationController? animationControllerDate;
   Rx<TextEditingController> fieldAsset = TextEditingController().obs;
   Rx<TextEditingController> fieldNeeds = TextEditingController().obs;
   Rx<TextEditingController> fieldFirstDate = TextEditingController().obs;
@@ -15,11 +15,21 @@ class LendingController extends GetxController {
   Rx<Asset> asset = Asset().obs;
   DateTime? selectedFirstDate;
   DateTime? selectedLastDate;
+  RxBool showCalender = false.obs;
+  DateTime dateFocus = DateTime.now();
+  DateTime? dateSelected;
+  DateTime? dateStart = DateTime.now();
+  DateTime? dateEnd;
+  RxString keyDate = ''.obs;
 
   @override
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
+    animationControllerDate = AnimationController(
+        duration: const Duration(milliseconds: 600),
+        vsync: this
+    );
     await DioClient().get('/asset/list')
         .then((res) => assets.value = List.from((res['data'].map((json) => Asset.fromJson(json)))));
   }
@@ -51,26 +61,23 @@ class LendingController extends GetxController {
     }
   }
 
-  void selectDate(context, String key) async {
-    DateTime firstDate = DateTime(2005);
-    if(key == 'last') firstDate = selectedFirstDate!;
-    final date = await showDatePicker(
-        context: context,
-        firstDate: firstDate,
-        initialDate: DateTime.now(),
-        lastDate: DateTime(2100)
-    );
+  void selectedDate(DateTime selectedDate, DateTime focusedDay) {
+    dateFocus = focusedDay;
+    dateSelected = selectedDate;
+    if(keyDate.value == 'start') dateStart = selectedDate;
+    if(keyDate.value == 'end') dateEnd = selectedDate;
+    update();
+  }
 
-    if(date == null) return;
-    String selectDate = DateFormat('yyyy-MM-dd').format(date);
-    if(key == 'first'){
-      fieldFirstDate.value.value = TextEditingValue(text: selectDate);
-      selectedFirstDate = date;
+  void showSelectCalender(String key) {
+    if(showCalender.value && (keyDate.value == key)) {
+      animationControllerDate!.reverse();
+      showCalender.value = false;
     } else {
-      selectedLastDate = date;
-      fieldLastDate.value.value = TextEditingValue(text: selectDate);
+      animationControllerDate!.forward();
+      showCalender.value = true;
     }
-
+    keyDate.value = key;
   }
 
   void save() {}

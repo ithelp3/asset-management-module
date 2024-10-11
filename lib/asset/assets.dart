@@ -24,6 +24,7 @@ Widget assets(BuildContext context, HomeController ctr) {
                 border: Border(bottom: BorderSide(color: Theme.of(context).brightness == Brightness.light ? Colors.grey.shade300 : const Color(0xFF272d34)))
             ),
             child: TextFormField(
+              enableInteractiveSelection: false,
               decoration: InputDecoration(
                 hintText: 'what_are_you_looking_for'.tr,
                 prefixIcon: Icon(Icons.search, color: Colors.grey.shade700, size: 22,),

@@ -53,7 +53,7 @@ class Profile {
     country: json["country"],
     address: json["address"],
     phone: json["phone"],
-    role: Department.fromJson(json["role"]),
+    role: json["role"] != null ? Department.fromJson(json["role"]) : Department(),
     officeId: json["office_id"],
     departmentId: json["department_id"],
     position: json["position"],
