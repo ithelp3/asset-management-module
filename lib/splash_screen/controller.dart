@@ -46,6 +46,10 @@ class SplashScreenController extends GetxController {
           Get.changeTheme(darkTheme);
         }
 
+        // if(NavKey.pwa!.language !=  NavKey.user!.language) {
+        //   DioClient().
+        // }
+
         Get.off(const HomePage(),
           routeName: '/home'
         );

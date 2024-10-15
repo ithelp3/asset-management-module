@@ -8,6 +8,7 @@ import 'package:asset_management_module/monitoring/view.dart';
 import 'package:asset_management_module/purchase_order/view.dart';
 import 'package:asset_management_module/qa/view.dart';
 import 'package:asset_management_module/staff/view.dart';
+import 'package:asset_management_module/submission/submission_details/view.dart';
 import 'package:asset_management_module/submission/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -81,10 +82,11 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                   {'label': 'maintenance'.tr, 'icon': Icons.construction_outlined},
                   // {'label': 'reminder'.tr, 'icon': Icons.notifications_active_outlined},
                   {'label': 'component'.tr, 'icon': Icons.interests_outlined},
+                  {'label': 'submission'.tr, 'icon': Icons.data_exploration},
                   {'label': 'staff'.tr, 'icon': Icons.supervisor_account_sharp},
                   {'label': 'supplier'.tr, 'icon': Icons.trolley},
                   {'label': 'brand'.tr, 'icon': Icons.discount},
-                  {'label': 'location'.tr, 'icon': Icons.location_on},
+                  // {'label': 'location'.tr, 'icon': Icons.location_on},
                   // {'label': 'Q/A'.tr, 'icon': Icons.chat_outlined},
                 ].map((i) {
                   IconData icon = i['icon'] as IconData;
@@ -111,11 +113,16 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                           routeName: '/maintenance/list',
                         );
                       }
-                      if(i['label'] == 'staff'.tr) {
-                        Get.to(const StaffPage(),
-                          routeName: '/staff/list',
+                      if(i['label'] == 'submission'.tr) {
+                        Get.to(const SubmissionPage(),
+                          routeName: '/submission/add',
                         );
                       }
+                      // if(i['label'] == 'staff'.tr) {
+                      //   Get.to(const StaffPage(),
+                      //     routeName: '/staff/list',
+                      //   );
+                      // }
                       // if(label == 'Q/A') {
                       //   Get.to(const QaPage(),
                       //       routeName: '/qa'
@@ -311,78 +318,90 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                     icon = Icons.real_estate_agent_rounded;
                     colorIcon = Colors.cyan;
                   }
-                  return Container(
-                    margin: const EdgeInsets.only(top: 8),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.blue.shade100),
-                        boxShadow: [BoxShadow(
-                          color: Colors.blue.withOpacity(0.1),
-                          blurRadius: 2,
-                          spreadRadius: 2,
-                          offset: const Offset(1, 2),
-                        )]
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(40),
-                                  // color: Colors.yellow.shade100
-                                  color: colorIcon.shade100
+                  return InkWell(
+                    onTap: () {
+                      if(label == 'purchase_order'.tr) {
+                        Get.to(const SubmissionDetailsPage(),
+                          arguments: {
+                            'data': i
+                          },
+                          routeName: 'submission/details'
+                      );
+                      }
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 8),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.blue.shade100),
+                          boxShadow: [BoxShadow(
+                            color: Colors.blue.withOpacity(0.1),
+                            blurRadius: 2,
+                            spreadRadius: 2,
+                            offset: const Offset(1, 2),
+                          )]
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40),
+                                    // color: Colors.yellow.shade100
+                                    color: colorIcon.shade100
+                                ),
+                                // child: Icon(Icons.data_exploration,
+                                  // color: Colors.yellow.shade700,
+                                child: Icon(icon,
+                                  color: colorIcon.shade700,
+                                  size: 24,
+                                ),
                               ),
-                              // child: Icon(Icons.data_exploration,
-                                // color: Colors.yellow.shade700,
-                              child: Icon(icon,
-                                color: colorIcon.shade700,
-                                size: 24,
+                              Expanded(child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // Text('purchase_order'.tr,
+                                    Text(label,
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                    // Text(DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!)),
+                                    Text( label == 'purchase_order'.tr
+                                        ? DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!))
+                                        : DateFormat('dd MMMM yyyy').format(DateTime.now()),
+                                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                              ),),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                decoration: BoxDecoration(
+                                    color: colorStatus.shade50,
+                                    borderRadius: BorderRadius.circular(4)
+                                ),
+                                child: Text(i.status?.tr ?? '',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: colorStatus.shade700),),
                               ),
-                            ),
-                            Expanded(child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Text('purchase_order'.tr,
-                                  Text(label,
-                                    style: const TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  // Text(DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!)),
-                                  Text( label == 'purchase_order'.tr
-                                      ? DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!))
-                                      : DateFormat('dd MMMM yyyy').format(DateTime.now()),
-                                    style: const TextStyle(fontSize: 12, color: Colors.grey),
-                                  ),
-                                ],
-                              ),
-                            ),),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                              decoration: BoxDecoration(
-                                  color: colorStatus.shade50,
-                                  borderRadius: BorderRadius.circular(4)
-                              ),
-                              child: Text(i.status?.tr ?? '',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: colorStatus.shade700),),
-                            ),
-                          ],
-                        ),
-                        Divider(color: Colors.blue.shade100,),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 2),
-                          child: HtmlWidget(i.submissionDetail ?? '',
-                            textStyle: const TextStyle(fontSize: 12),
+                            ],
                           ),
-                        )
-                      ],
+                          Divider(color: Colors.blue.shade100,),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 2),
+                            child: HtmlWidget(i.submissionDetail ?? '',
+                              textStyle: const TextStyle(fontSize: 12),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   );
                 }
@@ -415,11 +434,11 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                         )]
                     ),
                     child: InkWell(
-                      onTap: () => Get.to(const SubmissionPage(),
+                      onTap: () => Get.to(const SubmissionDetailsPage(),
                         arguments: {
                           'data': i
                         },
-                        routeName: 'purchase-order/details'
+                        routeName: 'submission/details'
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

@@ -41,12 +41,14 @@ class DioClient {
 
   Future get(
     String uri, {
+      Map<String, dynamic>? data,
       Map<String, dynamic>? params,
       CancelToken? cancelToken,
   }) async {
     try{
       final response = await dio.get(
         uri,
+        data: data,
         queryParameters: params,
         options: options,
         cancelToken: cancelToken,

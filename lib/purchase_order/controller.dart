@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class PurchaseOrderController extends GetxController {
+class PurchaseOrderController extends GetxController with GetTickerProviderStateMixin {
+  late TabController tabController;
   Rx<GlobalKey<FormState>> formKey = GlobalKey<FormState>().obs;
   Rx<TextEditingController> fieldTitle = TextEditingController().obs;
   Rx<TextEditingController> fieldNeeds = TextEditingController().obs;
@@ -14,6 +15,7 @@ class PurchaseOrderController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    tabController = TabController(length: 2, vsync: this);
   }
 
   void selectDate(context) async {

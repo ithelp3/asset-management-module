@@ -151,5 +151,9 @@ Map<String, String> enUs = {
   'reject_submission': 'Reject submissions',
   'approve_submission': 'Approve submissions',
   'reason': 'Reason',
-  'send': 'Send'
+  'send': 'Send',
+  'choose_approved_supplier': 'Choose approved supplier',
+  'choose_supplier': 'Choose Supplier',
+  'info_choose_supplier': 'Please select 1 supplier to forward to purchase order. ',
+  'submission_details': 'Submission Details'
 };

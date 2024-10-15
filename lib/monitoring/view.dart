@@ -1,4 +1,5 @@
 import 'package:asset_management_module/model/purchase_order_submission.dart';
+import 'package:asset_management_module/submission/choose_approved_supplier/view.dart';
 import 'package:asset_management_module/submission/set_suppliers/view.dart';
 import 'package:asset_management_module/submission/view.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +80,6 @@ class MonitoringPage extends StatelessWidget {
                           child: Text(i.status?.tr ?? '',
                             style: TextStyle(
                                 fontSize: 12,
-                                // fontWeight: FontWeight.bold,
                                 color: colorStatus.shade700),),
                         ),
                       ],
@@ -142,7 +142,7 @@ class MonitoringPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          if(i.step != 3) Row(
+                          if(i.step == 2) Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
@@ -172,7 +172,7 @@ class MonitoringPage extends StatelessWidget {
                                 ),
                               ),
                             ],
-                          ) else SizedBox(
+                          ) else if(i.step == 3) SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
                                 onPressed: () => Get.to(const SetSuppliersPage(),
@@ -190,6 +190,22 @@ class MonitoringPage extends StatelessWidget {
                                     padding: EdgeInsets.zero
                                 ),
                                 child: Text('find_supplier'.tr, style: const TextStyle(color: Colors.white),)
+                            ),
+                          ) else if(i.step == 4) SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                                onPressed: () => Get.to(const ChooseApprovedSupplierPage(),
+                                  arguments: {'data' : i},
+                                  routeName: '/submission/choose-approved-supplier',
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF3f87b9),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    padding: EdgeInsets.zero
+                                ),
+                                child: Text('choose_approved_supplier'.tr, style: const TextStyle(color: Colors.white),)
                             ),
                           )
                         ],

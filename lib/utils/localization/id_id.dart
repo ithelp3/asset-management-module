@@ -110,7 +110,7 @@ Map<String, String> idId = {
   'title': 'Judul',
   'needs': 'Kebutuhan',
   'date_needed': 'Tanggal Dibutuhkan',
-  'purchase_order': 'Pesanan pembelian',
+  'purchase_order': 'Pengajuan pembelian',
   'lending': 'Peminjaman',
   'monitoring': 'Monitoring',
   'menu': 'Menu',
@@ -152,5 +152,9 @@ Map<String, String> idId = {
   'approve_submission': 'Menyetujui Pengajuan',
   'reason': 'Alasan',
   'send': 'Kirim',
-  'comment': 'Komentar'
+  'comment': 'Komentar',
+  'choose_approved_supplier': 'Pilih pemasok disetujui',
+  'choose_supplier': 'Pilih Pemasok',
+  'info_choose_supplier': 'Silahkan  pilih 1 supplier untuk diteruskan ke purchase order ',
+  'submission_details': 'Detail Pengajuan'
 };

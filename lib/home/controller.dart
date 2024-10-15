@@ -101,40 +101,40 @@ class HomeController extends GetxController {
           itemPO.value = List.from(res['data'].map((json) => PurchaseOrderSubmission.fromJson(json)));
           allMonitoring.value = List.from(res['data'].map((json) => PurchaseOrderSubmission.fromJson(json)));
         });
-    allMonitoring.addAll([
-      PurchaseOrderSubmission(
-          subject: 'peminjaman',
-          submissionDetail: 'Peminjaman alat 1',
-          status: 'On Process'
-      ),
-      PurchaseOrderSubmission(
-          subject: 'peminjaman',
-          submissionDetail: 'Peminjaman alat 2',
-          status: 'On Process'
-      ),
-      PurchaseOrderSubmission(
-          subject: 'peminjaman',
-          submissionDetail: 'Peminjaman alat 3',
-          status: 'On Process'
-      ),
-    ]);
-    allMonitoring.addAll([
-      PurchaseOrderSubmission(
-        subject: 'maintenance',
-        submissionDetail: 'Maintenance alat 1',
-        status: 'On Process'
-      ),
-      PurchaseOrderSubmission(
-        subject: 'maintenance',
-        submissionDetail: 'Maintenance alat 2',
-          status: 'On Process'
-      ),
-      PurchaseOrderSubmission(
-        subject: 'maintenance',
-        submissionDetail: 'Maintenance alat 3',
-          status: 'On Process'
-      ),
-    ]);
+    // allMonitoring.addAll([
+    //   PurchaseOrderSubmission(
+    //       subject: 'peminjaman',
+    //       submissionDetail: 'Peminjaman alat 1',
+    //       status: 'On Process'
+    //   ),
+    //   PurchaseOrderSubmission(
+    //       subject: 'peminjaman',
+    //       submissionDetail: 'Peminjaman alat 2',
+    //       status: 'On Process'
+    //   ),
+    //   PurchaseOrderSubmission(
+    //       subject: 'peminjaman',
+    //       submissionDetail: 'Peminjaman alat 3',
+    //       status: 'On Process'
+    //   ),
+    // ]);
+    // allMonitoring.addAll([
+    //   PurchaseOrderSubmission(
+    //     subject: 'maintenance',
+    //     submissionDetail: 'Maintenance alat 1',
+    //     status: 'On Process'
+    //   ),
+    //   PurchaseOrderSubmission(
+    //     subject: 'maintenance',
+    //     submissionDetail: 'Maintenance alat 2',
+    //       status: 'On Process'
+    //   ),
+    //   PurchaseOrderSubmission(
+    //     subject: 'maintenance',
+    //     submissionDetail: 'Maintenance alat 3',
+    //       status: 'On Process'
+    //   ),
+    // ]);
     progressDashboard.value = false;
     update();
   }
