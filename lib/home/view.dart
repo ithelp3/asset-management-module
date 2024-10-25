@@ -3,7 +3,6 @@ import 'package:asset_management_module/asset/assets.dart';
 import 'package:asset_management_module/dashboard/dashboard.dart';
 import 'package:asset_management_module/depreciation/depreciation.dart';
 import 'package:asset_management_module/home/controller.dart';
-import 'package:asset_management_module/purchase_order/view.dart';
 import 'package:asset_management_module/reminder/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

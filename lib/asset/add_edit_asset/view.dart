@@ -354,7 +354,7 @@ class AddEditAssetPage extends StatelessWidget {
                         decoration: InputDecoration(
                           labelText: 'brand'.tr,
                           hintText: 'select_item_field'.trParams({'value': 'brand'.tr}),
-                          prefixIcon: const Icon(Icons.label_outline_rounded, color: Color(0xFF3f87b9), size: 22,),
+                          prefixIcon: const Icon(Icons.discount_outlined, color: Color(0xFF3f87b9), size: 22,),
                           suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                           filled: true,
                           border: OutlineInputBorder(
@@ -558,7 +558,7 @@ class AddEditAssetPage extends StatelessWidget {
                       foregroundColor: Colors.white
                   ),
                   onPressed: () {
-                    if(ctr.formKey.value.currentState!.validate())ctr.save(context);
+                    if(ctr.formKey.value.currentState!.validate()) ctr.save(context);
                   },
                   child: Text('save'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
               ),

@@ -1,3 +1,5 @@
+import 'package:asset_management_module/component_widget/skeleton_submission.dart';
+import 'package:asset_management_module/utils/data/nav_key.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
@@ -14,9 +16,9 @@ class SubmissionDetailsPage extends StatelessWidget {
       init: SubmissionDetailsController(),
       builder: (ctr) {
         MaterialColor colorStatus = Colors.brown;
-        if(ctr.dataPo.value.status == 'On Process') colorStatus = Colors.blue;
-        if(ctr.dataPo.value.status == 'Approve' || ctr.dataPo.value.status == 'Complete') colorStatus = Colors.green;
-        if(ctr.dataPo.value.status == 'Rejected') colorStatus = Colors.red;
+        if(ctr.submission.value.status == 'On Process') colorStatus = Colors.blue;
+        if(ctr.submission.value.status == 'Approved' || ctr.submission.value.status == 'Complete') colorStatus = Colors.green;
+        if(ctr.submission.value.status == 'Rejected') colorStatus = Colors.red;
         return Obx(() => Scaffold(
           appBar: AppBar(
             title: Text('submission_details'.tr),
@@ -27,7 +29,7 @@ class SubmissionDetailsPage extends StatelessWidget {
                 color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,),
             ),
           ),
-          body: ScrollConfiguration(
+          body: !ctr.progress.value ? ScrollConfiguration(
             behavior: const ScrollBehavior(),
             child: ListView(
               children: [
@@ -71,7 +73,7 @@ class SubmissionDetailsPage extends StatelessWidget {
                                               color: Colors.white,
                                               borderRadius: BorderRadius.circular(20)
                                           ),
-                                          child: Icon(ctr.dataPo.value.step == 2
+                                          child: Icon(ctr.submission.value.step == 2
                                               ? Icons.radio_button_checked
                                               : Icons.check_circle,
                                               color: Colors.blue
@@ -79,7 +81,7 @@ class SubmissionDetailsPage extends StatelessWidget {
                                       ),
                                       Text('submission_step_2'.tr,
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 10, fontWeight: ctr.dataPo.value.step == 2 ? FontWeight.bold : FontWeight.normal),)
+                                        style: TextStyle(fontSize: 10, fontWeight: ctr.submission.value.step == 2 ? FontWeight.bold : FontWeight.normal),)
                                     ],
                                   ),
                                 ),
@@ -93,16 +95,16 @@ class SubmissionDetailsPage extends StatelessWidget {
                                               color: Colors.white,
                                               borderRadius: BorderRadius.circular(20)
                                           ),
-                                          child: Icon(ctr.dataPo.value.step == 3
+                                          child: Icon(ctr.submission.value.step == 3
                                               ? Icons.radio_button_checked
-                                              : ctr.dataPo.value.step! < 3
-                                              ? Icons.radio_button_off
-                                              : Icons.check_circle,
+                                              : ctr.submission.value.step! < 3
+                                                ? Icons.radio_button_off
+                                                : Icons.check_circle,
                                             color: Colors.blue,)
                                       ),
                                       Text('submission_step_3'.tr,
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 10, fontWeight: ctr.dataPo.value.step == 3 ? FontWeight.bold : FontWeight.normal),)
+                                        style: TextStyle(fontSize: 10, fontWeight: ctr.submission.value.step == 3 ? FontWeight.bold : FontWeight.normal),)
                                     ],
                                   ),
                                 ),
@@ -116,16 +118,16 @@ class SubmissionDetailsPage extends StatelessWidget {
                                               color: Colors.white,
                                               borderRadius: BorderRadius.circular(20)
                                           ),
-                                          child: Icon(ctr.dataPo.value.step == 4 || ctr.dataPo.value.step == 5
+                                          child: Icon(ctr.submission.value.step == 4 || ctr.submission.value.step == 5
                                               ? Icons.radio_button_checked
-                                              : ctr.dataPo.value.step! < 5
+                                              : ctr.submission.value.step! < 5
                                               ? Icons.radio_button_off
                                               : Icons.check_circle,
                                             color: Colors.blue,)
                                       ),
                                       Text('submission_step_4&5'.tr,
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 10, fontWeight: ctr.dataPo.value.step == 4 || ctr.dataPo.value.step == 5 ? FontWeight.bold : FontWeight.normal),)
+                                        style: TextStyle(fontSize: 10, fontWeight: ctr.submission.value.step == 4 || ctr.submission.value.step == 5 ? FontWeight.bold : FontWeight.normal),)
                                     ],
                                   ),
                                 ),
@@ -139,9 +141,9 @@ class SubmissionDetailsPage extends StatelessWidget {
                                               color: Colors.white,
                                               borderRadius: BorderRadius.circular(20)
                                           ),
-                                          child: Icon(ctr.dataPo.value.step == 6
+                                          child: Icon(ctr.submission.value.step == 6
                                               ? Icons.radio_button_checked
-                                              : ctr.dataPo.value.step! < 6
+                                              : ctr.submission.value.step! < 6
                                               ? Icons.radio_button_off
                                               : Icons.check_circle,
                                             color: Colors.blue,
@@ -149,7 +151,7 @@ class SubmissionDetailsPage extends StatelessWidget {
                                       ),
                                       Text('submission_step_6'.tr,
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 10, fontWeight: ctr.dataPo.value.step == 6 ? FontWeight.bold : FontWeight.normal),)
+                                        style: TextStyle(fontSize: 10, fontWeight: ctr.submission.value.step == 6 ? FontWeight.bold : FontWeight.normal),)
                                     ],
                                   ),
                                 ),
@@ -164,9 +166,9 @@ class SubmissionDetailsPage extends StatelessWidget {
                                               color: Colors.white,
                                               borderRadius: BorderRadius.circular(20)
                                           ),
-                                          child: Icon(ctr.dataPo.value.step == 0
-                                              ? Icons.check_circle
-                                              : ctr.dataPo.value.step! < 5
+                                          child: Icon(ctr.submission.value.step == 7
+                                              ? Icons.radio_button_checked
+                                              : ctr.submission.value.step! != 0
                                               ? Icons.radio_button_off
                                               : Icons.check_circle,
                                             color: Colors.blue,
@@ -174,7 +176,7 @@ class SubmissionDetailsPage extends StatelessWidget {
                                       ),
                                       Text('submission_step_0'.tr,
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 10, fontWeight: ctr.dataPo.value.step == 0 ? FontWeight.bold : FontWeight.normal),)
+                                        style: TextStyle(fontSize: 10, fontWeight: ctr.submission.value.step == 0 ? FontWeight.bold : FontWeight.normal),)
                                     ],
                                   ),
                                 ),
@@ -196,7 +198,7 @@ class SubmissionDetailsPage extends StatelessWidget {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(child: Text(ctr.dataPo.value.submissionId!,
+                            Expanded(child: Text(ctr.submission.value.submissionId!,
                               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)),
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
@@ -204,7 +206,7 @@ class SubmissionDetailsPage extends StatelessWidget {
                                   color: colorStatus.shade50,
                                   borderRadius: BorderRadius.circular(4)
                               ),
-                              child: Text(ctr.dataPo.value.status?.tr ?? '',
+                              child: Text(ctr.submission.value.status?.tr ?? '',
                                 style: TextStyle(
                                     fontSize: 13,
                                     color: colorStatus.shade700),),
@@ -219,9 +221,9 @@ class SubmissionDetailsPage extends StatelessWidget {
                             2: FlexColumnWidth(2),
                           },
                           children: [
-                            {'label': 'added_from'.tr, 'value': ctr.dataPo.value.username!},
-                            {'label': 'priority'.tr, 'value': ctr.dataPo.value.priority},
-                            {'label': 'date_used'.tr, 'value': DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(ctr.dataPo.value.dateUsed!))},
+                            {'label': 'added_from'.tr, 'value': ctr.submission.value.username!},
+                            {'label': 'priority'.tr, 'value': ctr.submission.value.priority},
+                            {'label': 'date_used'.tr, 'value': DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(ctr.submission.value.dateUsed!))},
                           ].map((i) => TableRow(
                               children: [
                                 Text(i['label'].toString(), style : const TextStyle(fontSize: 12,)),
@@ -237,10 +239,10 @@ class SubmissionDetailsPage extends StatelessWidget {
                         Text('description'.tr, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
                         const Divider(height: 4,),
                         HtmlWidget(ctr.expand.value
-                            ? ctr.dataPo.value.submissionDetail!
-                            : ctr.dataPo.value.submissionDetail!.substring(0, 120),
+                            ? ctr.submission.value.submissionDetail!
+                            : ctr.submission.value.submissionDetail!.substring(0, 120),
                           textStyle: const TextStyle(fontSize: 12,),),
-                        if(ctr.dataPo.value.submissionDetail!.length > 120) GestureDetector(
+                        if(ctr.submission.value.submissionDetail!.length > 120) GestureDetector(
                           onTap: () => ctr.selectExpand(),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -265,7 +267,41 @@ class SubmissionDetailsPage extends StatelessWidget {
                   ),
                 ),
                 Card(
-                  margin: const EdgeInsets.only(left: 8, right: 8, top: 8),
+                  margin: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 10),
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      children: [
+                        Text('purchase'.tr,
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        Table(
+                          columnWidths: const {
+                            0: FlexColumnWidth(1),
+                            // 1: FlexColumnWidth(0.1),
+                            1: FlexColumnWidth(),
+                          },
+                          children: [
+                            {'label': 'added_from'.tr, 'value': ctr.submission.value.username!},
+                            {'label': 'priority'.tr, 'value': ctr.submission.value.priority},
+                            {'label': 'date_used'.tr, 'value': DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(ctr.submission.value.dateUsed!))},
+                          ].map((i) => TableRow(
+                              children: [
+                                Text(i['label'].toString(), style : const TextStyle(fontSize: 12,)),
+                                // const Text(':'),
+                                Text((i['value'] ?? '') != '' ? i['value'].toString() : 'N/A',
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              ]
+                          )).toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Card(
+                  margin: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 10),
                   child: Column(
                     children: [
                       Align(
@@ -311,7 +347,7 @@ class SubmissionDetailsPage extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(log.createdAt ?? 'N/A', style: const TextStyle(fontWeight: FontWeight.bold),),
-                                        Text('${log.translatedActivity} - ${log.fullName}', style: const TextStyle(fontSize: 12),)
+                                        Text(log.translatedActivity!, style: const TextStyle(fontSize: 12),)
                                       ],
                                     ),
                                   ),
@@ -327,7 +363,129 @@ class SubmissionDetailsPage extends StatelessWidget {
                 )
               ],
             ),
+          ) : skeletonDetailSubmission(),
+          bottomNavigationBar: (ctr.submission.value.addedFromId != NavKey.user!.userId)
+            ? (ctr.submission.value.step == 2 || ctr.submission.value.step == 5)
+              ? Container(
+                padding: const EdgeInsets.only(bottom: 20, top: 18),
+                width: double.infinity,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Colors.white
+                    : const Color(0xFF272d34),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 12, right: 5),
+                        child: ElevatedButton(
+                            onPressed: () => ctr.reject(),
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  side: const BorderSide(color: Color(0xFF3f87b9)),
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 20)
+                            ),
+                            child: Text('Rejected'.tr, style: const TextStyle(color: Color(0xFF3f87b9), fontWeight: FontWeight.bold),)
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 12, left: 5),
+                        child: ElevatedButton(
+                            onPressed: () => ctr.approve(),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF3f87b9),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: const EdgeInsets.symmetric(vertical: 20)
+                            ),
+                            child: Text('yes,approved'.tr, style: const TextStyle(color: Colors.white),)
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+              : (ctr.submission.value.step == 3)
+                ? Container(
+            padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
+            width: double.infinity,
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : const Color(0xFF272d34),
+            child: ElevatedButton(
+              onPressed: () => ctr.findSupplier(),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF3f87b9),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+              ),
+              child: Text('find_supplier'.tr, style: const TextStyle(color: Colors.white),)
           ),
+        )
+                : (ctr.submission.value.step == 4)
+                  ? Container(
+            padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
+            width: double.infinity,
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : const Color(0xFF272d34),
+            child: ElevatedButton(
+                onPressed: () => ctr.chooseApprovedSupplier(),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF3f87b9),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                ),
+                child: Text('choose_approved_supplier'.tr, style: const TextStyle(color: Colors.white),)
+            ),
+          )
+                  : (ctr.submission.value.step == 6)
+                    ? Container(
+            padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
+            width: double.infinity,
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : const Color(0xFF272d34),
+            child: ElevatedButton(
+                onPressed: () => ctr.createPurchaseOrder(),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF3f87b9),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                ),
+                child: Text('create_purchase_order'.tr, style: const TextStyle(color: Colors.white),)
+            ),
+          )
+                    : (ctr.submission.value.step == 7) ? Container(
+            padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
+            width: double.infinity,
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : const Color(0xFF272d34),
+            child: ElevatedButton(
+                onPressed: () => ctr.uploadInvoice(),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF3f87b9),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                ),
+                child: Text('upload_invoice'.tr, style: const TextStyle(color: Colors.white),)
+            ),
+          ) : null
+            : null
         ));
       }
     );

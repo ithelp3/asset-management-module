@@ -1,5 +1,6 @@
 class UserAuth {
   int? id;
+  int? userId;
   String? company;
   String? address;
   String? email;
@@ -21,6 +22,7 @@ class UserAuth {
 
   UserAuth({
     this.id,
+    this.userId,
     this.company,
     this.address,
     this.email,
@@ -43,6 +45,7 @@ class UserAuth {
 
   factory UserAuth.fromJson(Map<String, dynamic> json) => UserAuth(
     id: json["id"],
+    userId: json["user_id"],
     company: json["company"],
     address: json["address"],
     email: json["email"],

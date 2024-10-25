@@ -1,5 +1,6 @@
 import 'package:asset_management_module/utils/data/nav_key.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DioClient {
@@ -7,7 +8,10 @@ class DioClient {
     BaseOptions(
       baseUrl: '${dotenv.env['BASE_SOCKET_URL']}/api'
     )
-  );
+  )
+    ..interceptors.add(LogInterceptor(
+    logPrint: (o) => debugPrint(o.toString()),
+  ),);
 
   Options options = Options(
     contentType: 'application/json',

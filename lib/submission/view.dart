@@ -1,8 +1,5 @@
-import 'package:asset_management_module/model/sumission_log.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import 'controller.dart';
 
@@ -32,8 +29,8 @@ class SubmissionPage extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                   child: TextFormField(
                     decoration: InputDecoration(
-                      labelText: 'title'.tr,
-                      hintText: 'write_in_field'.trParams({'value': 'title'.tr}),
+                      labelText: 'subject'.tr,
+                      hintText: 'write_in_field'.trParams({'value': 'subject'.tr}),
                       prefixIcon: const Icon(Icons.web_asset_outlined, color: Color(0xFF3f87b9), size: 22,),
                       filled: true,
                       border: OutlineInputBorder(
@@ -47,9 +44,9 @@ class SubmissionPage extends StatelessWidget {
                       ),
                     ),
                     validator: (value) => (value == null || value.isEmpty)
-                        ? 'please_in_field'.trParams({'value': 'title'.tr})
+                        ? 'please_in_field'.trParams({'value': 'subject'.tr})
                         : null,
-                    controller: ctr.fieldTitle.value,
+                    controller: ctr.fieldSubject.value,
                   ),
                 ),
                 Padding(
@@ -83,6 +80,7 @@ class SubmissionPage extends StatelessWidget {
                   child: TextFormField(
                     readOnly: true,
                     onTap: () => ctr.selectDate(context),
+                    enableInteractiveSelection: false,
                     decoration: InputDecoration(
                       labelText: 'date_needed'.tr,
                       hintText: 'select_item_field'.trParams({'value': 'date_needed'.tr}),
@@ -108,10 +106,14 @@ class SubmissionPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                   child: TextFormField(
+                    readOnly: true,
+                    onTap: () => ctr.selectPriority(context),
+                    enableInteractiveSelection: false,
                     decoration: InputDecoration(
                       labelText: 'priority'.tr,
                       hintText: 'write_in_field'.trParams({'value': 'priority'.tr}),
                       prefixIcon: const Icon(Icons.priority_high_outlined, color: Color(0xFF3f87b9), size: 22,),
+                      suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9), size: 30,),
                       filled: true,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -150,7 +152,7 @@ class SubmissionPage extends StatelessWidget {
                       foregroundColor: Colors.white
                   ),
                   onPressed: () {
-                    // if(ctr.formKey.value.currentState!.validate()) ctr.save(context);
+                    if(ctr.formKey.value.currentState!.validate()) ctr.save(context);
                   },
                   child: Text('save'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
               ),

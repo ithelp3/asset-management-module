@@ -192,24 +192,24 @@ class SetSuppliersPage extends StatelessWidget {
                         right: 40
                     ),
                     child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                            children: [
-                              TextSpan(
-                                  text: 'saat ini Anda belum memilik data supplier yang akan diajukan. '.tr,
-                                  style: const TextStyle(color: Colors.grey, fontStyle: FontStyle.italic, fontSize: 13, height: 1.2)
-                              ),
-                              TextSpan(
-                                  text: 'klik disini',
-                                  style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline, fontStyle: FontStyle.italic, fontSize: 13, height: 1.2),
-                                  recognizer: TapGestureRecognizer()..onTap = () => ctr.addSupplier()
-                              ),
-                              TextSpan(
-                                  text: ' atau tanda + dibawah untuk membuat data supplier'.tr,
-                                  style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic, fontSize: 13, height: 1.2)
-                              ),
-                            ]
-                        )
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                              text: 'saat ini Anda belum memilik data supplier yang akan diajukan. '.tr,
+                              style: const TextStyle(color: Colors.grey, fontStyle: FontStyle.italic, fontSize: 13, height: 1.2)
+                          ),
+                          TextSpan(
+                              text: 'klik disini',
+                              style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline, fontStyle: FontStyle.italic, fontSize: 13, height: 1.2),
+                              recognizer: TapGestureRecognizer()..onTap = () => ctr.addSupplier()
+                          ),
+                          TextSpan(
+                              text: ' atau tanda + dibawah untuk membuat data supplier'.tr,
+                              style: const TextStyle(color: Colors.grey, fontStyle: FontStyle.italic, fontSize: 13, height: 1.2)
+                          ),
+                        ]
+                      )
                     ),
                   ),
                 )
@@ -233,9 +233,7 @@ class SetSuppliersPage extends StatelessWidget {
                   backgroundColor: const Color(0xFF3f87b9),
                   foregroundColor: Colors.white
               ),
-              onPressed: () {
-                // if(ctr.formKey.value.currentState!.validate()) ctr.save(context);
-              },
+              onPressed: () => ctr.save(context),
               child: Text('save'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
           ),
         ),

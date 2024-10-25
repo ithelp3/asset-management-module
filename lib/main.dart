@@ -7,7 +7,6 @@ import 'package:asset_management_module/utils/themes/dart.dart';
 import 'package:asset_management_module/utils/themes/light.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:url_strategy/url_strategy.dart';

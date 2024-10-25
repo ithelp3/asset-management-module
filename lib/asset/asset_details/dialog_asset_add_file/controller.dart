@@ -30,7 +30,7 @@ class DialogAssetAddFileController extends GetxController {
       'name': fieldFileName.value.value.text,
       'file': MultipartFile.fromBytes(bytes,
           filename: file!.name,
-          contentType: DioMediaType('file', '')
+          contentType: DioMediaType('file', file!.name.split('.').last)
       )
     });
 

@@ -59,11 +59,12 @@ class DialogSupplierAddController extends GetxController {
     update();
   }
 
-  void added() {
+  void added() async {
     Get.back(
       result: SupplierSelected(
         supplier: selectedSupplier.value,
         file: file,
+        fileBytes: await file!.readAsBytes(),
         note: fieldNote.value.value.text,
       )
     );
@@ -74,10 +75,12 @@ class SupplierSelected {
   Supplier? supplier;
   String? note;
   XFile? file;
+  List<int>? fileBytes;
 
   SupplierSelected({
     this.supplier,
     this.note,
     this.file,
+    this.fileBytes,
   });
 }

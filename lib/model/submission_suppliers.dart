@@ -1,5 +1,47 @@
 class SubmissionSuppliers {
   int? id;
+  int? submissionId;
+  int? addedFrom;
+  String? notes;
+  int? isApproved;
+  int? purchaseId;
+  int? updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  int? saasCompanyId;
+  List<SupplierRelations>? suppliers;
+
+  SubmissionSuppliers({
+    this.id,
+    this.submissionId,
+    this.addedFrom,
+    this.notes,
+    this.isApproved,
+    this.purchaseId,
+    this.updatedBy,
+    this.createdAt,
+    this.updatedAt,
+    this.saasCompanyId,
+    this.suppliers,
+  });
+
+  factory SubmissionSuppliers.fromJson(Map<String, dynamic> json) => SubmissionSuppliers(
+    id: json["id"],
+    submissionId: json["submission_id"],
+    addedFrom: json["addedfrom"],
+    notes: json["notes"],
+    isApproved: json["is_approved"],
+    purchaseId: json["purchase_id"],
+    updatedBy: json["updated_by"],
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
+    saasCompanyId: json["saas_company_id"],
+    suppliers: List<SupplierRelations>.from(json["suppliers"].map((x) => SupplierRelations.fromJson(x))),
+  );
+}
+
+class SupplierRelations {
+  int? id;
   int? relId;
   String? relType;
   String? supplierId;
@@ -12,7 +54,7 @@ class SubmissionSuppliers {
   int? saasCompanyId;
   String? fileUrl;
 
-  SubmissionSuppliers({
+  SupplierRelations({
     this.id,
     this.relId,
     this.relType,
@@ -27,7 +69,7 @@ class SubmissionSuppliers {
     this.fileUrl,
   });
 
-  factory SubmissionSuppliers.fromJson(Map<String, dynamic> json) => SubmissionSuppliers(
+  factory SupplierRelations.fromJson(Map<String, dynamic> json) => SupplierRelations(
     id: json["id"],
     relId: json["rel_id"],
     relType: json["rel_type"],

@@ -1,20 +1,11 @@
-import 'package:asset_management_module/component/view.dart';
-import 'package:asset_management_module/component_widget/skeleton_dashboard.dart';
 import 'package:asset_management_module/home/controller.dart';
-import 'package:asset_management_module/lending/view.dart';
-import 'package:asset_management_module/maintenance/view.dart';
 import 'package:asset_management_module/model/purchase_order_submission.dart';
 import 'package:asset_management_module/monitoring/view.dart';
-import 'package:asset_management_module/purchase_order/view.dart';
-import 'package:asset_management_module/qa/view.dart';
-import 'package:asset_management_module/staff/view.dart';
 import 'package:asset_management_module/submission/submission_details/view.dart';
-import 'package:asset_management_module/submission/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:pie_chart/pie_chart.dart';
 // import 'dart:js' as js;
 
 @override
@@ -92,58 +83,7 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                   IconData icon = i['icon'] as IconData;
                   String label = i['label'].toString();
                   return GestureDetector(
-                    onTap: () {
-                      if(label == 'purchase_order'.tr) {
-                        Get.to(const PurchaseOrderPage(),
-                            routeName: '/purchase_order'
-                        );
-                      }
-                      if(label == 'lending'.tr) {
-                        Get.to(const LendingPage(),
-                            routeName: '/Lending/add'
-                        );
-                      }
-                      if(i['label'] == 'component'.tr) {
-                        Get.to(const ComponentPage(),
-                          routeName: '/component/list',
-                        );
-                      }
-                      if(i['label'] == 'maintenance'.tr) {
-                        Get.to(const MaintenancePage(),
-                          routeName: '/maintenance/list',
-                        );
-                      }
-                      if(i['label'] == 'submission'.tr) {
-                        Get.to(const SubmissionPage(),
-                          routeName: '/submission/add',
-                        );
-                      }
-                      // if(i['label'] == 'staff'.tr) {
-                      //   Get.to(const StaffPage(),
-                      //     routeName: '/staff/list',
-                      //   );
-                      // }
-                      // if(label == 'Q/A') {
-                      //   Get.to(const QaPage(),
-                      //       routeName: '/qa'
-                      //   );
-                      // }
-                      if(label == 'supplier'.tr || label == 'brand'.tr || label == 'location'.tr) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              backgroundColor: Colors.lightBlue,
-                              content: Row(
-                                children: [
-                                  Icon(Icons.info_outline, color: Colors.white, size: 20,),
-                                  VerticalDivider(width: 10,),
-                                  Text('Coming soon..')
-                                ],
-                              ),
-                              behavior: SnackBarBehavior.floating,
-                            )
-                        );
-                      }
-                    },
+                    onTap: () => ctr.selectItemIcon(context, label),
                     child: Container(
                       padding: const EdgeInsets.all(6),
                       child: Column(
@@ -319,16 +259,7 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                     colorIcon = Colors.cyan;
                   }
                   return InkWell(
-                    onTap: () {
-                      if(label == 'purchase_order'.tr) {
-                        Get.to(const SubmissionDetailsPage(),
-                          arguments: {
-                            'data': i
-                          },
-                          routeName: 'submission/details'
-                      );
-                      }
-                    },
+                    onTap: () => ctr.selectItemMonitoring(label, i),
                     child: Container(
                       margin: const EdgeInsets.only(top: 8),
                       padding: const EdgeInsets.all(10),
@@ -351,12 +282,9 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                               Container(
                                 padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(40),
-                                    // color: Colors.yellow.shade100
-                                    color: colorIcon.shade100
+                                  borderRadius: BorderRadius.circular(40),
+                                  color: colorIcon.shade100
                                 ),
-                                // child: Icon(Icons.data_exploration,
-                                  // color: Colors.yellow.shade700,
                                 child: Icon(icon,
                                   color: colorIcon.shade700,
                                   size: 24,

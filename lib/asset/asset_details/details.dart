@@ -1,7 +1,6 @@
 import 'package:asset_management_module/asset/asset_details/controller.dart';
 import 'package:asset_management_module/component_widget/skeleton_asset.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 

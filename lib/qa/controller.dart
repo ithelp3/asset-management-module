@@ -30,8 +30,6 @@ class QaController extends GetxController {
     update();
 
     gemini.streamGenerateContent(message.text).listen((res) {
-      print('~~ ${message.text}');
-      print('~~ $res');
       messages.insert(0, ChatMessage(
           text: res.content!.parts!.first.text!,
           user: user2!,

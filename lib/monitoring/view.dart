@@ -1,7 +1,6 @@
 import 'package:asset_management_module/model/purchase_order_submission.dart';
-import 'package:asset_management_module/submission/choose_approved_supplier/view.dart';
-import 'package:asset_management_module/submission/set_suppliers/view.dart';
-import 'package:asset_management_module/submission/view.dart';
+import 'package:asset_management_module/submission/submission_details/view.dart';
+import 'package:asset_management_module/utils/data/nav_key.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
@@ -34,7 +33,7 @@ class MonitoringPage extends StatelessWidget {
               PurchaseOrderSubmission i = ctr.items[idx];
               MaterialColor colorStatus = Colors.brown;
               if(i.status == 'On Process') colorStatus = Colors.blue;
-              if(i.status == 'Approve' || i.status == 'Complete') colorStatus = Colors.green;
+              if(i.status == 'Approved' || i.status == 'Complete') colorStatus = Colors.green;
               if(i.status == 'Rejected') colorStatus = Colors.red;
               return Container(
                 margin: EdgeInsets.only(top: 8, left: 12, right: 12, bottom: idx+1 == ctr.items.length ? 20 : 0),
@@ -94,22 +93,23 @@ class MonitoringPage extends StatelessWidget {
                             textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),),
                           const Divider(height: 10,),
                           Table(
-                            columnWidths: const {
-                              0: FlexColumnWidth(1),
-                              1: FlexColumnWidth(0.1),
-                              2: FlexColumnWidth(2),
+                            columnWidths: {
+                              0: FlexColumnWidth((i.purchaseStatus == null) ? 1 : 1.2),
+                              1: const FlexColumnWidth(0.1),
+                              2: const FlexColumnWidth(2),
                             },
                             children: [
                               {'label': 'added_from'.tr, 'value': i.username},
                               {'label': 'priority'.tr, 'value': i.priority},
                               {'label': 'date_used'.tr, 'value': DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!))},
+                              if(i.purchaseStatus != null) {'label': 'purchase_order'.tr, 'value': i.purchaseStatus! == 1 ? 'un_paid'.tr : 'paid'.tr},
                             ].map((i) => TableRow(
                                 children: [
-                                  Text(i['label'].toString(), style : const TextStyle(fontSize: 12,)),
-                                  const Text(':'),
+                                  Text(i['label'].toString(), style : const TextStyle(fontSize: 12, height: 1.2)),
+                                  const Text(':', style: TextStyle(height: 1.2),),
                                   Text((i['value'] ?? '') != '' ? i['value'].toString() : 'N/A',
                                     textAlign: TextAlign.left,
-                                    style: const TextStyle(fontSize: 12),
+                                    style: const TextStyle(fontSize: 12, height: 1.2),
                                   ),
                                 ]
                             )).toList(),
@@ -122,7 +122,7 @@ class MonitoringPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(4)
                             ),
                             child: InkWell(
-                              onTap: () => Get.to(const SubmissionPage(),
+                              onTap: () => Get.to(const SubmissionDetailsPage(),
                                   arguments: {
                                     'data': i
                                   },
@@ -142,12 +142,12 @@ class MonitoringPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          if(i.step == 2) Row(
+                          if(i.addedFromId != NavKey.user!.userId) if(i.step == 2 || i.step == 5) Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
                                 child: ElevatedButton(
-                                    onPressed: () => ctr.reject(),
+                                    onPressed: () => ctr.reject(i),
                                     style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
                                           side: const BorderSide(color: Color(0xFF3f87b9)),
@@ -160,7 +160,7 @@ class MonitoringPage extends StatelessWidget {
                               const VerticalDivider(width: 10,),
                               Expanded(
                                 child: ElevatedButton(
-                                    onPressed: () => ctr.approve(),
+                                    onPressed: () => ctr.approve(i),
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: const Color(0xFF3f87b9),
                                         shape: RoundedRectangleBorder(
@@ -175,13 +175,7 @@ class MonitoringPage extends StatelessWidget {
                           ) else if(i.step == 3) SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                                onPressed: () => Get.to(const SetSuppliersPage(),
-                                  routeName: '/submission/find-supplier',
-                                  transition: Transition.rightToLeft,
-                                  arguments: {
-                                    'data': i
-                                  }
-                                ),
+                                onPressed: () => ctr.findSupplier(i),
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF3f87b9),
                                     shape: RoundedRectangleBorder(
@@ -194,10 +188,7 @@ class MonitoringPage extends StatelessWidget {
                           ) else if(i.step == 4) SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                                onPressed: () => Get.to(const ChooseApprovedSupplierPage(),
-                                  arguments: {'data' : i},
-                                  routeName: '/submission/choose-approved-supplier',
-                                ),
+                                onPressed: () => ctr.chooseApprovedSupplier(i),
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF3f87b9),
                                     shape: RoundedRectangleBorder(
@@ -206,6 +197,32 @@ class MonitoringPage extends StatelessWidget {
                                     padding: EdgeInsets.zero
                                 ),
                                 child: Text('choose_approved_supplier'.tr, style: const TextStyle(color: Colors.white),)
+                            ),
+                          ) else if(i.step == 6) SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                                onPressed: () => ctr.createPurchaseOrder(i),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF3f87b9),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    padding: EdgeInsets.zero
+                                ),
+                                child: Text('create_purchase_order'.tr, style: const TextStyle(color: Colors.white),)
+                            ),
+                          ) else if(i.step == 7) SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                                onPressed: () => ctr.uploadInvoice(i),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF3f87b9),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    padding: EdgeInsets.zero
+                                ),
+                                child: Text('upload_invoice'.tr, style: const TextStyle(color: Colors.white),)
                             ),
                           )
                         ],

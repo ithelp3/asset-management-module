@@ -1,18 +1,21 @@
-import 'dart:convert';
-
 import 'package:asset_management_module/Model/user_auth.dart';
 import 'package:asset_management_module/asset/add_edit_asset/view.dart';
 import 'package:asset_management_module/asset/assign_unassign/view.dart';
+import 'package:asset_management_module/component/view.dart';
 import 'package:asset_management_module/component_widget/loading.dart';
 import 'package:asset_management_module/depreciation/add_edit_depreciation/view.dart';
+import 'package:asset_management_module/lending/view.dart';
+import 'package:asset_management_module/maintenance/view.dart';
 import 'package:asset_management_module/model/asset.dart';
 import 'package:asset_management_module/model/depreciation.dart';
-import 'package:asset_management_module/model/pie_cart.dart';
 import 'package:asset_management_module/model/profile.dart';
 import 'package:asset_management_module/model/purchase_order_submission.dart';
 import 'package:asset_management_module/model/recent_component.dart';
 import 'package:asset_management_module/model/recent_status.dart';
 import 'package:asset_management_module/model/submission.dart';
+import 'package:asset_management_module/purchase_order/view.dart';
+import 'package:asset_management_module/submission/submission_details/view.dart';
+import 'package:asset_management_module/submission/view.dart';
 import 'package:asset_management_module/utils/data/client.dart';
 import 'package:asset_management_module/utils/data/nav_key.dart';
 import 'package:asset_management_module/component_widget/dialog_info_delete.dart';
@@ -96,7 +99,7 @@ class HomeController extends GetxController {
     //   totalEmployee.value = res['data']['employee'];
       // submission.value = List.from(res['data']['submission'].map((json) => Submission.fromJson(json)));
     // });
-    await DioClient().get('/purchaseorder/submissionlist')
+    await DioClient().get('/submission/list')
         .then((res) {
           itemPO.value = List.from(res['data'].map((json) => PurchaseOrderSubmission.fromJson(json)));
           allMonitoring.value = List.from(res['data'].map((json) => PurchaseOrderSubmission.fromJson(json)));
@@ -137,6 +140,77 @@ class HomeController extends GetxController {
     // ]);
     progressDashboard.value = false;
     update();
+  }
+
+  void selectItemIcon(context, String key) {
+    {
+      if(key == 'purchase_order'.tr) {
+        Get.to(const PurchaseOrderPage(),
+            routeName: '/purchase_order'
+        );
+      }
+      if(key == 'lending'.tr) {
+        Get.to(const LendingPage(),
+            routeName: '/Lending/add'
+        );
+      }
+      if(key == 'component'.tr) {
+        Get.to(const ComponentPage(),
+          routeName: '/component/list',
+        );
+      }
+      if(key == 'maintenance'.tr) {
+        Get.to(const MaintenancePage(),
+          routeName: '/maintenance/list',
+        );
+      }
+      if(key == 'submission'.tr) {
+        Get.to(const SubmissionPage(),
+          routeName: '/submission/add',
+        );
+      }
+      // if(i['label'] == 'staff'.tr) {
+      //   Get.to(const StaffPage(),
+      //     routeName: '/staff/list',
+      //   );
+      // }
+      // if(label == 'Q/A') {
+      //   Get.to(const QaPage(),
+      //       routeName: '/qa'
+      //   );
+      // }
+      if(key == 'supplier'.tr || key == 'brand'.tr || key == 'location'.tr) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Colors.lightBlue,
+              content: Row(
+                children: [
+                  Icon(Icons.info_outline, color: Colors.white, size: 20,),
+                  VerticalDivider(width: 10,),
+                  Text('Coming soon..')
+                ],
+              ),
+              behavior: SnackBarBehavior.floating,
+            )
+        );
+      }
+    }
+  }
+
+  void selectItemMonitoring(String key, dynamic data) async {
+    dynamic result;
+    if(key == 'purchase_order'.tr) {
+      PurchaseOrderSubmission submission = data;
+      result = await Get.to(const SubmissionDetailsPage(),
+          arguments: {
+            'data': submission
+          },
+          routeName: 'submission/details'
+      );
+    }
+    if(result == null) return;
+
+    getDashboard();
   }
 
   void getAssets() async {

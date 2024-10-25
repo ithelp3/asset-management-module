@@ -21,9 +21,7 @@ class DialogReasonPage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 14),
-                child: Text(ctr.type.value == 'approve'
-                    ? 'approve_submission'.tr
-                    : 'reject_submission'.tr,
+                child: Text(ctr.label.value,
                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
               ),
               Padding(
@@ -62,7 +60,7 @@ class DialogReasonPage extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      if(ctr.formKey.value.currentState!.validate()) ctr.send();
+                      if(ctr.formKey.value.currentState!.validate()) ctr.send(context);
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF3f87b9),
