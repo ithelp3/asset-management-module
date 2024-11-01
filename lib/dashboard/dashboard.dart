@@ -205,7 +205,9 @@ Widget dashboard(BuildContext context, HomeController ctr) {
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: ['all'.tr, 'purchase_order'.tr, 'lending'.tr, 'maintenance'.tr,
+                  children: [
+                    // 'all'.tr,
+                    'purchase_order'.tr, 'lending'.tr, 'maintenance'.tr,
                     // 'submission'.tr,
                   ].map((i) {
                     return GestureDetector(
@@ -232,110 +234,110 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                 ),
               ),
             ),
-            if(ctr.capsule.value == 'all'.tr) Padding(
-              padding: const EdgeInsets.only(top: 10, left: 14, right: 14, bottom: 10),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: ctr.allMonitoring.length,
-                itemBuilder: (ctx, idx) {
-                  PurchaseOrderSubmission i = ctr.allMonitoring[idx];
-                  MaterialColor colorStatus = Colors.brown;
-                  if(i.status == 'On Process') colorStatus = Colors.blue;
-                  if(i.status == 'Approved' || i.status == 'Complete') colorStatus = Colors.green;
-                  if(i.status == 'Rejected') colorStatus = Colors.red;
-
-                  String label = 'purchase_order'.tr;
-                  IconData icon = Icons.data_exploration;
-                  MaterialColor colorIcon = Colors.yellow;
-                  if(i.subject! == 'maintenance') {
-                    label = 'maintenance'.tr;
-                    icon = Icons.construction_outlined;
-                    colorIcon = Colors.indigo;
-                  }
-                  if(i.subject! == 'peminjaman') {
-                    label = 'lending'.tr;
-                    icon = Icons.real_estate_agent_rounded;
-                    colorIcon = Colors.cyan;
-                  }
-                  return InkWell(
-                    onTap: () => ctr.selectItemMonitoring(label, i),
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 8),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.blue.shade100),
-                          boxShadow: [BoxShadow(
-                            color: Colors.blue.withOpacity(0.1),
-                            blurRadius: 2,
-                            spreadRadius: 2,
-                            offset: const Offset(1, 2),
-                          )]
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(6),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(40),
-                                  color: colorIcon.shade100
-                                ),
-                                child: Icon(icon,
-                                  color: colorIcon.shade700,
-                                  size: 24,
-                                ),
-                              ),
-                              Expanded(child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    // Text('purchase_order'.tr,
-                                    Text(label,
-                                      style: const TextStyle(fontWeight: FontWeight.bold),
-                                    ),
-                                    // Text(DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!)),
-                                    Text( label == 'purchase_order'.tr
-                                        ? DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!))
-                                        : DateFormat('dd MMMM yyyy').format(DateTime.now()),
-                                      style: const TextStyle(fontSize: 12, color: Colors.grey),
-                                    ),
-                                  ],
-                                ),
-                              ),),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                decoration: BoxDecoration(
-                                    color: colorStatus.shade50,
-                                    borderRadius: BorderRadius.circular(4)
-                                ),
-                                child: Text(i.status?.tr ?? '',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: colorStatus.shade700),),
-                              ),
-                            ],
-                          ),
-                          Divider(color: Colors.blue.shade100,),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 2),
-                            child: HtmlWidget(i.submissionDetail ?? '',
-                              textStyle: const TextStyle(fontSize: 12),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                }
-              ),
-            ),
-            if(ctr.itemPO.isNotEmpty && ctr.capsule.value == 'purchase_order'.tr) Padding(
+            // if(ctr.capsule.value == 'all'.tr) Padding(
+            //   padding: const EdgeInsets.only(top: 10, left: 14, right: 14, bottom: 10),
+            //   child: ListView.builder(
+            //     shrinkWrap: true,
+            //     physics: const NeverScrollableScrollPhysics(),
+            //     itemCount: ctr.allMonitoring.length,
+            //     itemBuilder: (ctx, idx) {
+            //       PurchaseOrderSubmission i = ctr.allMonitoring[idx];
+            //       MaterialColor colorStatus = Colors.brown;
+            //       if(i.status == 'On Process') colorStatus = Colors.blue;
+            //       if(i.status == 'Approved' || i.status == 'Complete') colorStatus = Colors.green;
+            //       if(i.status == 'Rejected') colorStatus = Colors.red;
+            //
+            //       String label = 'purchase_order'.tr;
+            //       IconData icon = Icons.data_exploration;
+            //       MaterialColor colorIcon = Colors.yellow;
+            //       if(i.subject! == 'maintenance') {
+            //         label = 'maintenance'.tr;
+            //         icon = Icons.construction_outlined;
+            //         colorIcon = Colors.indigo;
+            //       }
+            //       if(i.subject! == 'peminjaman') {
+            //         label = 'lending'.tr;
+            //         icon = Icons.real_estate_agent_rounded;
+            //         colorIcon = Colors.cyan;
+            //       }
+            //       return InkWell(
+            //         onTap: () => ctr.selectItemMonitoring(label, i),
+            //         child: Container(
+            //           margin: const EdgeInsets.only(top: 8),
+            //           padding: const EdgeInsets.all(10),
+            //           decoration: BoxDecoration(
+            //               color: Colors.white,
+            //               borderRadius: BorderRadius.circular(10),
+            //               border: Border.all(color: Colors.blue.shade100),
+            //               boxShadow: [BoxShadow(
+            //                 color: Colors.blue.withOpacity(0.1),
+            //                 blurRadius: 2,
+            //                 spreadRadius: 2,
+            //                 offset: const Offset(1, 2),
+            //               )]
+            //           ),
+            //           child: Column(
+            //             crossAxisAlignment: CrossAxisAlignment.start,
+            //             children: [
+            //               Row(
+            //                 children: [
+            //                   Container(
+            //                     padding: const EdgeInsets.all(6),
+            //                     decoration: BoxDecoration(
+            //                       borderRadius: BorderRadius.circular(40),
+            //                       color: colorIcon.shade100
+            //                     ),
+            //                     child: Icon(icon,
+            //                       color: colorIcon.shade700,
+            //                       size: 24,
+            //                     ),
+            //                   ),
+            //                   Expanded(child: Padding(
+            //                     padding: const EdgeInsets.symmetric(horizontal: 10),
+            //                     child: Column(
+            //                       crossAxisAlignment: CrossAxisAlignment.start,
+            //                       children: [
+            //                         // Text('purchase_order'.tr,
+            //                         Text(label,
+            //                           style: const TextStyle(fontWeight: FontWeight.bold),
+            //                         ),
+            //                         // Text(DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!)),
+            //                         Text( label == 'purchase_order'.tr
+            //                             ? DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!))
+            //                             : DateFormat('dd MMMM yyyy').format(DateTime.now()),
+            //                           style: const TextStyle(fontSize: 12, color: Colors.grey),
+            //                         ),
+            //                       ],
+            //                     ),
+            //                   ),),
+            //                   Container(
+            //                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            //                     decoration: BoxDecoration(
+            //                         color: colorStatus.shade50,
+            //                         borderRadius: BorderRadius.circular(4)
+            //                     ),
+            //                     child: Text(i.status?.tr ?? '',
+            //                       style: TextStyle(
+            //                           fontSize: 12,
+            //                           color: colorStatus.shade700),),
+            //                   ),
+            //                 ],
+            //               ),
+            //               Divider(color: Colors.blue.shade100,),
+            //               Padding(
+            //                 padding: const EdgeInsets.only(left: 2),
+            //                 child: HtmlWidget(i.submissionDetail ?? '',
+            //                   textStyle: const TextStyle(fontSize: 12),
+            //                 ),
+            //               )
+            //             ],
+            //           ),
+            //         ),
+            //       );
+            //     }
+            //   ),
+            // ),
+            if(ctr.capsule.value == 'purchase_order'.tr) Padding(
               padding: const EdgeInsets.only(top: 10, left: 14, right: 14, bottom: 10),
               child: ListView.builder(
                 shrinkWrap: true,

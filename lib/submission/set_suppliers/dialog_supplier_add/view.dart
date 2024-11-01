@@ -16,7 +16,7 @@ class DialogSupplierAddPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: SizedBox(
-          height: 360,
+          height: 260,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -65,7 +65,7 @@ class DialogSupplierAddPage extends StatelessWidget {
                       ),
                       child: WebFileSelector(
                         onData: (files) async => ctr.selectedFile(files),
-                        accept: '.png, .jpg, .jpeg, .pdf, .doc, .docx, .xls, .xls,',
+                        accept: '.png, .jpg, .jpeg, .pdf, .doc, .docx, .xls, .xlsx,',
                         multiple: false,
                         child: Row(
                           children: [
@@ -90,69 +90,31 @@ class DialogSupplierAddPage extends StatelessWidget {
                         style: TextStyle(color: Colors.red.shade600, fontSize: 12),),
                     ),
                     // Padding(
-                    //   padding: const EdgeInsets.only(top: 12),
-                    //   child: WebFileSelector(
-                    //     onData: (files) async => ctr.selectedFile(files),
-                    //     accept: '.png, .jpg, .jpeg, .pdf, .doc, .docx, .xls, .xls,',
-                    //     multiple: false,
-                    //     child: TextFormField(
-                    //       readOnly: true,
-                    //       showCursor: false,
-                    //       enableInteractiveSelection: false,
-                    //       controller: ctr.fieldSupplier.value,
-                    //       validator: (value) => ((value == null || value.isEmpty) || ctr.showAlertFileSize.value)
-                    //           ? ctr.showAlertFileSize.value
-                    //             ? 'upload_file_find_supplier'.tr
-                    //             : 'please_in_field'.trParams({'value': 'upload_document'.tr})
-                    //           : null,
-                    //       // style: const TextStyle(fontSize: 14),
-                    //       decoration: InputDecoration(
-                    //         labelText: 'upload_document'.tr,
-                    //         // labelStyle: const TextStyle(fontSize: 14),
-                    //         hintText: 'write_in_field'.trParams({'value': 'upload_document'.tr}),
-                    //         // hintStyle: const TextStyle(fontSize: 14),
-                    //         filled: true,
-                    //         prefixIcon: const Icon(Icons.document_scanner, color: Color(0xFF3f87b9), size: 22,),
-                    //         suffixIcon: const Icon(Icons.upload, color: Color(0xFF3f87b9),),
-                    //         border: OutlineInputBorder(
-                    //           borderRadius: BorderRadius.circular(6),
+                    //   padding: const EdgeInsets.only(top: 12, left: 14, right: 14),
+                    //   child: TextFormField(
+                    //     minLines: 2,
+                    //     maxLines: 4,
+                    //     controller: ctr.fieldNote.value,
+                    //     style: const TextStyle(fontSize: 14),
+                    //     decoration: InputDecoration(
+                    //       labelText: 'note'.tr,
+                    //       labelStyle: const TextStyle(fontSize: 14),
+                    //       hintText: 'write_in_field'.trParams({'value': 'note'.tr}),
+                    //       hintStyle: const TextStyle(fontSize: 14),
+                    //       filled: true,
+                    //       prefixIcon: const Icon(Icons.speaker_notes_outlined, color: Color(0xFF3f87b9), size: 22,),
+                    //       border: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(6),
+                    //       ),
+                    //       enabledBorder: OutlineInputBorder(
+                    //         borderSide: const BorderSide(
+                    //             color: Color(0xFF3f87b9)
                     //         ),
-                    //         enabledBorder: OutlineInputBorder(
-                    //           borderSide: const BorderSide(
-                    //               color: Color(0xFF3f87b9)
-                    //           ),
-                    //           borderRadius: BorderRadius.circular(10),
-                    //         ),
+                    //         borderRadius: BorderRadius.circular(10),
                     //       ),
                     //     ),
                     //   ),
-                    // ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12, left: 14, right: 14),
-                      child: TextFormField(
-                        minLines: 2,
-                        maxLines: 4,
-                        controller: ctr.fieldNote.value,
-                        style: const TextStyle(fontSize: 14),
-                        decoration: InputDecoration(
-                          labelText: 'note'.tr,
-                          labelStyle: const TextStyle(fontSize: 14),
-                          hintText: 'write_in_field'.trParams({'value': 'note'.tr}),
-                          hintStyle: const TextStyle(fontSize: 14),
-                          filled: true,
-                          prefixIcon: const Icon(Icons.speaker_notes_outlined, color: Color(0xFF3f87b9), size: 22,),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Color(0xFF3f87b9)
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                    )
+                    // )
                   ],
                 )
               ),

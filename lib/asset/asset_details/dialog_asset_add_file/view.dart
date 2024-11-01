@@ -57,7 +57,7 @@ class DialogAssetAddFilePage extends StatelessWidget {
                   child: WebFileSelector(
                     onData: (files) async => ctr.selectedFile(files),
                     multiple: false,
-                    accept: '.pdf, .doc, .docx, .xls, .xls, .jpeg, .png, .jpg',
+                    accept: '.pdf, .doc, .docx, .xls, .xlsx, .jpeg, .png, .jpg',
                     child: Column(
                       children: [
                         const Icon(Icons.upload_rounded, color: Color(0xFF3f87b9), size: 40,),

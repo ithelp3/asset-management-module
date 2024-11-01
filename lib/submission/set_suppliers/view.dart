@@ -35,7 +35,7 @@ class SetSuppliersPage extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(child: Text(ctr.submission.value.subject!,
-                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
                       ),),
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
@@ -50,7 +50,7 @@ class SetSuppliersPage extends StatelessWidget {
                   const Divider(color: Colors.white,),
                   Table(
                     columnWidths: const {
-                      0: FlexColumnWidth(0.9),
+                      0: FlexColumnWidth(1.1),
                       1: FlexColumnWidth(0.1),
                       2: FlexColumnWidth(2),
                     },
@@ -60,11 +60,11 @@ class SetSuppliersPage extends StatelessWidget {
                       {'label': 'date_used'.tr, 'value': DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(ctr.submission.value.dateUsed!))},
                     ].map((i) => TableRow(
                         children: [
-                          Text(i['label'].toString(), style : const TextStyle(fontSize: 12, color: Colors.white)),
+                          Text(i['label'].toString(), style : const TextStyle(color: Colors.white)),
                           const Text(':', style: TextStyle(color: Colors.white),),
                           Text((i['value'] ?? '') != '' ? i['value'].toString() : 'N/A',
                             textAlign: TextAlign.left,
-                            style: const TextStyle(fontSize: 12, color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ]
                     )).toList(),
@@ -98,24 +98,15 @@ class SetSuppliersPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 10, top: 8),
+                                padding: const EdgeInsets.only(left: 10),
                                 child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(supplier.supplier?.name ?? 'N/A'),
-                                        const Divider(height: 6,),
-                                        Row(
-                                          children: [
-                                            Icon(Icons.file_copy_outlined, color: Colors.blue.shade200, size: 18,),
-                                            const VerticalDivider(width: 6,),
-                                            Text(supplier.file?.name ?? 'N/A')
-                                          ],
-                                        )
-                                      ],
-                                    )),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 8),
+                                        child: Text(supplier.supplier?.name ?? 'N/A'),
+                                      ),
+                                    ),
                                     PopupMenuButton(
                                       itemBuilder: (ctx) => [
                                         {'label': 'edit'.tr, 'icon': Icons.edit_note_outlined},
@@ -127,7 +118,7 @@ class SetSuppliersPage extends StatelessWidget {
                                         return PopupMenuItem(
                                             onTap: () {
                                               if(label == 'edit'.tr) ctr.editSupplier(supplier, idx);
-                                              if(label == 'delete'.tr) ctr.selectedSuppliers.removeAt(idx);
+                                              if(label == 'delete'.tr) ctr.deleteSupplier(supplier, idx);
                                               // if(label == 'assign'.tr || label == 'un_assign'.tr) ctr.assignUnassign(item);
                                             },
                                             height: 34,
@@ -149,7 +140,7 @@ class SetSuppliersPage extends StatelessWidget {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
                                 child: LayoutBuilder(
                                   builder: (BuildContext context, BoxConstraints constraints) {
                                     final boxWidth = constraints.constrainWidth();
@@ -173,14 +164,15 @@ class SetSuppliersPage extends StatelessWidget {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 10, right: 10, bottom: 8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                child: Row(
                                   children: [
-                                    Text('${'note'.tr} : ', style: const TextStyle(fontWeight: FontWeight.bold),),
-                                    Text(supplier.note!)
+                                    Icon(Icons.file_copy_outlined, color: Colors.blue.shade200, size: 18,),
+                                    const VerticalDivider(width: 6,),
+                                    Expanded(child: Text(supplier.fileName ?? 'N/A'))
                                   ],
                                 ),
-                              )
+                              ),
+                              // Text(supplier.fileBytes.toString() ??'')
                             ],
                           ),
                         );

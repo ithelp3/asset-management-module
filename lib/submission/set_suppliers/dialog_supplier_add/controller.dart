@@ -13,8 +13,8 @@ class DialogSupplierAddController extends GetxController {
   Rx<Supplier> selectedSupplier = Supplier().obs;
   XFile? file;
   RxString fileName = ''.obs;
+  RxInt id = 0.obs;
   RxBool showAlertFileSize = false.obs;
-
 
   @override
   void onInit() {
@@ -23,10 +23,11 @@ class DialogSupplierAddController extends GetxController {
     suppliers.value = Get.arguments['suppliers'];
     SupplierSelected? editSupplier = Get.arguments['selected'];
     if(editSupplier != null) {
+      id.value = editSupplier.id!;
       fieldSupplier.value.value = TextEditingValue(text: editSupplier.supplier!.name!);
       fieldNote.value.value = TextEditingValue(text: editSupplier.note ?? '');
-      fileName.value = editSupplier.file!.name;
-      file = editSupplier.file;
+      fileName.value = editSupplier.fileName!;
+      // file = editSupplier.file;
       selectedSupplier.value = editSupplier.supplier!;
     }
   }
@@ -62,8 +63,9 @@ class DialogSupplierAddController extends GetxController {
   void added() async {
     Get.back(
       result: SupplierSelected(
+        id: id.value,
         supplier: selectedSupplier.value,
-        file: file,
+        fileName: file!.name,
         fileBytes: await file!.readAsBytes(),
         note: fieldNote.value.value.text,
       )
@@ -72,15 +74,17 @@ class DialogSupplierAddController extends GetxController {
 }
 
 class SupplierSelected {
+  int? id;
   Supplier? supplier;
   String? note;
-  XFile? file;
+  String? fileName;
   List<int>? fileBytes;
 
   SupplierSelected({
+    this.id,
     this.supplier,
     this.note,
-    this.file,
+    this.fileName,
     this.fileBytes,
   });
 }

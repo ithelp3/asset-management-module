@@ -1,5 +1,6 @@
 import 'package:asset_management_module/component_widget/dialog_item_select.dart';
 import 'package:asset_management_module/component_widget/loading.dart';
+import 'package:asset_management_module/model/purchase_order_submission.dart';
 import 'package:asset_management_module/utils/data/client.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,19 +12,34 @@ class SubmissionController extends GetxController {
   Rx<TextEditingController> fieldNeeds = TextEditingController().obs;
   Rx<TextEditingController> fieldPoDate = TextEditingController().obs;
   Rx<TextEditingController> fieldPriority = TextEditingController().obs;
+  Rx<PurchaseOrderSubmission> submission = PurchaseOrderSubmission().obs;
   DateTime? selectedDate;
+  RxString selectedPriority = 'NORMAL'.tr.obs;
+  RxString type = ''.obs;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    type.value = Get.arguments['type'];
+    if(type.value == 'edit') {
+      submission.value = Get.arguments['data'];
+      fieldSubject.value.value = TextEditingValue(text: submission.value.subject!);
+      fieldNeeds.value.value = TextEditingValue(text: submission.value.submissionDetail!);
+      fieldPoDate.value.value = TextEditingValue(text: submission.value.dateUsed!);
+      fieldPriority.value.value = TextEditingValue(text: submission.value.priority!);
+      selectedPriority.value = submission.value.priority!;
+    }
   }
 
   void selectDate(context) async {
+    DateTime initial = type.value == 'add'
+        ? DateTime.now()
+        : DateFormat('yyyy-MM-dd').parse(submission.value.dateUsed!);
     final date = await showDatePicker(
         context: context,
         firstDate: DateTime(2005),
-        initialDate: DateTime.now(),
+        initialDate: initial,
         lastDate: DateTime(2100)
     );
 
@@ -47,18 +63,29 @@ class SubmissionController extends GetxController {
     if(result == null) return;
 
     fieldPriority.value.value = TextEditingValue(text: result['value']);
+    selectedPriority.value = result['value'];
   }
 
   void save(context) async {
+    dynamic response;
+    Map<String, dynamic> payload = {
+      'subject': fieldSubject.value.value.text,
+      'submission_detail': fieldNeeds.value.value.text,
+      'date_used': fieldPoDate.value.value.text,
+      'priority': fieldPriority.value.value.text == 'NORMAL' ? 0 : 1,
+    };
+
     LoadingFullscreen.startLoading();
-    final response = await DioClient().post('/submission/create',
-      data: {
-        'subject': fieldSubject.value.value.text,
-        'submission_detail': fieldNeeds.value.value.text,
-        'date_used': fieldPoDate.value.value.text,
-        'priority': fieldPriority.value.value.text == 'NORMAL' ? 0 : 1,
-      }
-    );
+    if(type.value == 'add') {
+      response = await DioClient().post('/submission/create',
+          data: payload
+      );
+    } else {
+      payload['id'] = submission.value.id;
+      response = await DioClient().post('/submission/update',
+          data: payload
+      );
+    }
 
     LoadingFullscreen.stopLoading();
     if(response['success'] ?? false) {
@@ -69,7 +96,7 @@ class SubmissionController extends GetxController {
             behavior: SnackBarBehavior.floating,
           )
       );
-      Get.back();
+      Get.back(result: type.value == 'edit');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

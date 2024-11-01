@@ -47,15 +47,18 @@ class DioClient {
     String uri, {
       Map<String, dynamic>? data,
       Map<String, dynamic>? params,
-      CancelToken? cancelToken,
+      bool typeBytes = false,
   }) async {
+    if(typeBytes) {
+      options.responseType = ResponseType.bytes;
+      // options.followRedirects = false;
+    }
     try{
       final response = await dio.get(
         uri,
         data: data,
         queryParameters: params,
         options: options,
-        cancelToken: cancelToken,
       );
       return response.data;
     } on DioException {
@@ -89,6 +92,19 @@ class DioClient {
       final response = await dio.delete(
         uri,
         data: data,
+        options: options,
+      );
+      return response.data;
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  Future download(String uri, String patch) async {
+    try{
+      final response = await dio.download(
+        uri,
+        patch,
         options: options,
       );
       return response.data;

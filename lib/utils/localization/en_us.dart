@@ -184,4 +184,13 @@ Map<String, String> enUs = {
   'please_add_a_suppliers': 'Please add a supplier',
   'created_purchase_order': 'Created purchase order',
   'please_fill_in_the_items_to_purchase': 'Please fill in the items to purchase',
+  'total': 'Total',
+  'purchase': 'Purchase',
+  'sub_total': 'Sub Total',
+  'upload_file': 'Upload File',
+  'choose_file': 'Choose file',
+  'upload': 'Upload',
+  'please_add_file': 'Please add file',
+  'resubmission': 'Re-Submission',
+  'subject': 'Subject'
 };

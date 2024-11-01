@@ -43,7 +43,8 @@ class HomeController extends GetxController {
   RxBool progressDashboard = false.obs;
   RxBool errorBanner = false.obs;
 
-  RxString capsule = 'Semua'.obs;
+  // RxString capsule = 'Semua'.obs;
+  RxString capsule = 'purchase_order'.tr.obs;
 
   RxList<Asset> assets = <Asset>[].obs;
   RxList<Asset> assetSearch = <Asset>[].obs;
@@ -101,8 +102,20 @@ class HomeController extends GetxController {
     // });
     await DioClient().get('/submission/list')
         .then((res) {
-          itemPO.value = List.from(res['data'].map((json) => PurchaseOrderSubmission.fromJson(json)));
-          allMonitoring.value = List.from(res['data'].map((json) => PurchaseOrderSubmission.fromJson(json)));
+          // itemPO.value = List.from(res['data'].map((json) => PurchaseOrderSubmission.fromJson(json)));
+          for(final findSupplier in res['find_supplier']) {
+            for(final po in res['submission']) {
+              PurchaseOrderSubmission submission = PurchaseOrderSubmission.fromJson(po);
+              if(findSupplier['supplier_id'] == submission.findSupplierId) itemPO.add(submission);
+            }
+          }
+          for(final approve in res['approval']) {
+            for(final po in res['submission']) {
+              PurchaseOrderSubmission submission = PurchaseOrderSubmission.fromJson(po);
+              if(approve['approval_id'] == submission.id) itemPO.add(submission);
+            }
+          }
+          // allMonitoring.value = List.from(res['data'].map((json) => PurchaseOrderSubmission.fromJson(json)));
         });
     // allMonitoring.addAll([
     //   PurchaseOrderSubmission(
@@ -142,58 +155,64 @@ class HomeController extends GetxController {
     update();
   }
 
-  void selectItemIcon(context, String key) {
-    {
-      if(key == 'purchase_order'.tr) {
-        Get.to(const PurchaseOrderPage(),
-            routeName: '/purchase_order'
-        );
-      }
-      if(key == 'lending'.tr) {
-        Get.to(const LendingPage(),
-            routeName: '/Lending/add'
-        );
-      }
-      if(key == 'component'.tr) {
-        Get.to(const ComponentPage(),
-          routeName: '/component/list',
-        );
-      }
-      if(key == 'maintenance'.tr) {
-        Get.to(const MaintenancePage(),
-          routeName: '/maintenance/list',
-        );
-      }
-      if(key == 'submission'.tr) {
-        Get.to(const SubmissionPage(),
-          routeName: '/submission/add',
-        );
-      }
-      // if(i['label'] == 'staff'.tr) {
-      //   Get.to(const StaffPage(),
-      //     routeName: '/staff/list',
-      //   );
-      // }
-      // if(label == 'Q/A') {
-      //   Get.to(const QaPage(),
-      //       routeName: '/qa'
-      //   );
-      // }
-      if(key == 'supplier'.tr || key == 'brand'.tr || key == 'location'.tr) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              backgroundColor: Colors.lightBlue,
-              content: Row(
-                children: [
-                  Icon(Icons.info_outline, color: Colors.white, size: 20,),
-                  VerticalDivider(width: 10,),
-                  Text('Coming soon..')
-                ],
-              ),
-              behavior: SnackBarBehavior.floating,
-            )
-        );
-      }
+  void selectItemIcon(context, String key) async {
+    dynamic result;
+    if(key == 'purchase_order'.tr) {
+      Get.to(const PurchaseOrderPage(),
+          routeName: '/purchase_order'
+      );
+    }
+    if(key == 'lending'.tr) {
+      Get.to(const LendingPage(),
+          routeName: '/Lending/add'
+      );
+    }
+    if(key == 'component'.tr) {
+      Get.to(const ComponentPage(),
+        routeName: '/component/list',
+      );
+    }
+    if(key == 'maintenance'.tr) {
+      Get.to(const MaintenancePage(),
+        routeName: '/maintenance/list',
+      );
+    }
+    if(key == 'submission'.tr) {
+      result = await Get.to(const SubmissionPage(),
+        routeName: '/submission/add',
+        arguments: {
+          'type': 'add'
+        }
+      );
+    }
+    // if(i['label'] == 'staff'.tr) {
+    //   Get.to(const StaffPage(),
+    //     routeName: '/staff/list',
+    //   );
+    // }
+    // if(label == 'Q/A') {
+    //   Get.to(const QaPage(),
+    //       routeName: '/qa'
+    //   );
+    // }
+    if(key == 'supplier'.tr || key == 'brand'.tr || key == 'location'.tr) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.lightBlue,
+            content: Row(
+              children: [
+                Icon(Icons.info_outline, color: Colors.white, size: 20,),
+                VerticalDivider(width: 10,),
+                Text('Coming soon..')
+              ],
+            ),
+            behavior: SnackBarBehavior.floating,
+          )
+      );
+
+      if(result == null) return;
+
+      getDashboard();
     }
   }
 

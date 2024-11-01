@@ -184,4 +184,13 @@ Map<String, String> idId = {
   'please_add_a_suppliers': 'Silahkan tambahkan pemasok',
   'created_purchase_order': 'Membuat pesanan pembelian',
   'please_fill_in_the_items_to_purchase': 'Silakan isi barang yang akan dibeli',
+  'total': 'Total',
+  'purchase': 'Pembelian',
+  'sub_total': 'Sub Total',
+  'upload_file': 'Unggah File',
+  'choose_file': 'Pilih file',
+  'upload': 'Unggah',
+  'please_add_file': 'Silahkan tambahkan file',
+  'resubmission': 'Pengajuan Kembali',
+  'subject': 'Subjek'
 };

@@ -11,6 +11,7 @@ class PurchaseOrderSubmission {
   String? submissionId;
   int? purchaseStatus;
   int? findSupplierId;
+  String? reason;
 
   PurchaseOrderSubmission({
     this.id,
@@ -25,6 +26,7 @@ class PurchaseOrderSubmission {
     this.submissionId,
     this.purchaseStatus,
     this.findSupplierId,
+    this.reason,
   });
 
   factory PurchaseOrderSubmission.fromJson(Map<String, dynamic> json) => PurchaseOrderSubmission(
@@ -40,6 +42,7 @@ class PurchaseOrderSubmission {
     submissionId: json["submission_id"],
     purchaseStatus: json["purchase_status"],
     findSupplierId: json['find_supplier_id'],
+    reason: json['reason'],
   );
 
 }
