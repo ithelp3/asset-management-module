@@ -7,6 +7,7 @@ class AssetRelations {
   String? brandName;
   String? brandDescription;
   int? subCategoryId;
+  String? subCategoryName;
   String? cost;
   String? description;
   String? picture;
@@ -21,6 +22,7 @@ class AssetRelations {
     this.name,
     this.relType,
     this.subCategoryId,
+    this.subCategoryName,
     this.brandId,
     this.brandName,
     this.brandDescription,
@@ -39,6 +41,7 @@ class AssetRelations {
     relType: json["rel_type"],
     name: json["name"],
     subCategoryId: json["subcategory_id"],
+    subCategoryName: json["subcategory_name"],
     brandId: json["brandid"],
     brandName: json["brand_name"],
     brandDescription: json["brand_description"],
@@ -50,15 +53,4 @@ class AssetRelations {
     qty: json["qty"],
     picture: json["picture"],
   );
-
-  // Map<String, dynamic> toJson() => {
-  //   "rel_id": relType,
-  //   "name": name,
-  //   "description": description,
-  //   "brandid": brandId,
-  //   "subcategory_id": subCategoryId,
-  //   "qty": qty,
-  //   "cost": cost,
-  //   "picture": picture,
-  // };
 }

@@ -1,4 +1,4 @@
-class PurchaseOrderSubmission {
+class Monitoring {
   int? id;
   int? addedFromId;
   String? username;
@@ -13,7 +13,7 @@ class PurchaseOrderSubmission {
   int? findSupplierId;
   String? reason;
 
-  PurchaseOrderSubmission({
+  Monitoring({
     this.id,
     this.addedFromId,
     this.username,
@@ -29,7 +29,7 @@ class PurchaseOrderSubmission {
     this.reason,
   });
 
-  factory PurchaseOrderSubmission.fromJson(Map<String, dynamic> json) => PurchaseOrderSubmission(
+  factory Monitoring.fromJson(Map<String, dynamic> json) => Monitoring(
     id: json["id"],
     addedFromId: json["added_from_id"],
     username: json["username"],

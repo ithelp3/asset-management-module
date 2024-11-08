@@ -11,9 +11,17 @@ Widget activityLog(BuildContext context, SubmissionDetailsController ctr) {
         Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: const EdgeInsets.only(left: 12, top: 10, bottom: 18),
-            child: Text('log_activity'.tr,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            padding: const EdgeInsets.only(left: 8, top: 10, bottom: 18),
+            child: Row(
+              children: [
+                const Icon(Icons.history_outlined, color: Color(0xFF3f87b9),),
+                const VerticalDivider(width: 8,),
+                Expanded(
+                  child: Text('log_activity'.tr,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

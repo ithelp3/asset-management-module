@@ -1,9 +1,9 @@
-import 'package:asset_management_module/submission/submission_details/controller.dart';
+import 'package:asset_management_module/purchase_order/purchase_details/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_file_selector/flutter_web_file_selector.dart';
 import 'package:get/get.dart';
 
-Widget bottomSheet(BuildContext context, SubmissionDetailsController ctr) {
+Widget bottomSheet(BuildContext context, PurchaseDetailsController ctr) {
   return Column(
     mainAxisSize: MainAxisSize.min,
     children: [

@@ -13,7 +13,7 @@ Widget rejected(BuildContext context, SubmissionDetailsController ctr) {
         children: [
           Text('reason'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
           const Divider(height: 6,),
-          Text(ctr.submissionDetails.value.reason ?? 'N/A', style: const TextStyle(fontSize: 12),),
+          Text(ctr.submission.value.reason ?? 'N/A', style: const TextStyle(fontSize: 12),),
         ],
       ),
     ),

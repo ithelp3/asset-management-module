@@ -35,7 +35,7 @@ Map<String, String> idId = {
   'detail_asset': 'Detail Aset',
   'type': 'Tipe',
   'status': 'Status',
-  'details': 'Details',
+  'details': 'Detail',
   'component': 'Komponen',
   'maintenance': 'Pemeliharaan',
   'history': 'Riwayat',
@@ -192,5 +192,7 @@ Map<String, String> idId = {
   'upload': 'Unggah',
   'please_add_file': 'Silahkan tambahkan file',
   'resubmission': 'Pengajuan Kembali',
-  'subject': 'Subjek'
+  'subject': 'Subjek',
+  'items': 'Barang',
+  'purchase_details': 'Detail Pembelian',
 };

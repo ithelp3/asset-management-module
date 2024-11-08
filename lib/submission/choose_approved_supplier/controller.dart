@@ -1,4 +1,4 @@
-import 'package:asset_management_module/model/purchase_order_submission.dart';
+import 'package:asset_management_module/model/submission.dart';
 import 'package:asset_management_module/model/submission_suppliers.dart';
 import 'package:asset_management_module/submission/dialog_reason/view.dart';
 import 'package:asset_management_module/utils/data/client.dart';
@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ChooseApprovedSupplierController extends GetxController {
-  Rx<PurchaseOrderSubmission> submission = PurchaseOrderSubmission().obs;
+  Rx<Submission> submission = Submission().obs;
   Rx<SubmissionSuppliers> supplierData = SubmissionSuppliers().obs;
   Rx<SupplierRelations> selectedSupplier = SupplierRelations().obs;
 

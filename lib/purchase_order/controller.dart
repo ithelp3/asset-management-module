@@ -2,7 +2,7 @@ import 'package:asset_management_module/component_widget/dialog_item_select.dart
 import 'package:asset_management_module/component_widget/loading.dart';
 import 'package:asset_management_module/model/brand.dart';
 import 'package:asset_management_module/model/category.dart';
-import 'package:asset_management_module/model/purchase_order_submission.dart';
+import 'package:asset_management_module/model/submission.dart';
 import 'package:asset_management_module/model/submission_suppliers.dart';
 import 'package:asset_management_module/model/supplier.dart';
 import 'package:asset_management_module/purchase_order/dialog_po_add_item/view.dart';
@@ -34,7 +34,7 @@ class PurchaseOrderController extends GetxController with GetTickerProviderState
   RxBool progress = false.obs;
   RxBool showSetTaxDisc = false.obs;
 
-  Rx<PurchaseOrderSubmission> submission = PurchaseOrderSubmission().obs;
+  Rx<Submission> submission = Submission().obs;
   Rx<SubmissionSuppliers> supplierData = SubmissionSuppliers().obs;
 
   @override
@@ -44,7 +44,7 @@ class PurchaseOrderController extends GetxController with GetTickerProviderState
     tabController = TabController(length: 2, vsync: this);
     progress.value = true;
     type.value = Get.arguments?['type'] ?? '';
-    submission.value = Get.arguments?['data'] ?? PurchaseOrderSubmission();
+    submission.value = Get.arguments?['data'] ?? Submission();
     await Future.wait({
       DioClient().get('/category/sub-categories').then((res) => subCategories.value = List.from(res['data'].map((json) => Category.fromJson(json)))),
       DioClient().get('/brand/list').then((res) => brands.value = List.from(res['data'].map((json) => Brand.fromJson(json)))),
@@ -52,7 +52,6 @@ class PurchaseOrderController extends GetxController with GetTickerProviderState
       if(type.value == 'submission') DioClient().get('/submission/suppliers/${submission.value.id}').then((res) => supplierData.value = SubmissionSuppliers.fromJson(res['data'])),
     });
     if(type.value == 'submission') {
-      // selectedDate = DateFormat('yyyy-MM-dd').format(DateFormat('dd-MM-yyyy').parse(submission.value.dateUsed!));
       selectedSupplier.value = suppliers.firstWhere((supplier) => supplier.id.toString() == supplierData.value.suppliers!.firstWhere((item) => item.isChecked == 1).supplierId);
       fieldSubject.value.value = TextEditingValue(text: submission.value.subject!);
       fieldPoDate.value.value = TextEditingValue(text: DateFormat('yyyy-MM-dd').format(DateFormat('dd-MM-yyyy').parse(submission.value.dateUsed!)));

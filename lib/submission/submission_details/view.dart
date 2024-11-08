@@ -1,8 +1,6 @@
 import 'package:asset_management_module/component_widget/skeleton_submission.dart';
 import 'package:asset_management_module/submission/submission_details/activity_logs.dart';
-import 'package:asset_management_module/submission/submission_details/bottom_sheet.dart';
 import 'package:asset_management_module/submission/submission_details/head_and_status.dart';
-import 'package:asset_management_module/submission/submission_details/purchase.dart';
 import 'package:asset_management_module/submission/submission_details/rejected.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,14 +30,13 @@ class SubmissionDetailsPage extends StatelessWidget {
             child: ListView(
               children: [
                 headAndStatus(context, ctr),
-                if(ctr.submissionDetails.value.status == 'Rejected') rejected(context, ctr),
-                if(ctr.items.isNotEmpty) purchase(context, ctr),
+                if(ctr.submission.value.status == 'Rejected') rejected(context, ctr),
                 activityLog(context, ctr),
               ],
             ),
           ) : skeletonDetailSubmission(),
-          bottomNavigationBar: ctr.progress.value ? null : (ctr.submissionDetails.value.status != 'Rejected')
-            ? (ctr.submissionDetails.value.step == 2 || ctr.submissionDetails.value.step == 5)
+          bottomNavigationBar: ctr.progress.value ? null : (ctr.submission.value.status != 'Rejected')
+            ? (ctr.submission.value.step == 2 || ctr.submission.value.step == 5)
               ? Container(
                 padding: const EdgeInsets.only(bottom: 20, top: 18),
                 width: double.infinity,
@@ -84,7 +81,7 @@ class SubmissionDetailsPage extends StatelessWidget {
                   ],
                 ),
               )
-              : (ctr.submissionDetails.value.step == 3 || ctr.submissionDetails.value.step == 4 || ctr.submissionDetails.value.step == 6)
+              : (ctr.submission.value.step == 3 || ctr.submission.value.step == 4 || ctr.submission.value.step == 6)
                 ? Container(
             padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
             width: double.infinity,
@@ -93,9 +90,9 @@ class SubmissionDetailsPage extends StatelessWidget {
                 : const Color(0xFF272d34),
             child: ElevatedButton(
               onPressed: () {
-                if(ctr.submissionDetails.value.step == 3) ctr.findSupplier('add');
-                if(ctr.submissionDetails.value.step == 4) ctr.chooseApprovedSupplier();
-                if(ctr.submissionDetails.value.step == 6) ctr.createPurchaseOrder();
+                if(ctr.submission.value.step == 3) ctr.findSupplier('add');
+                if(ctr.submission.value.step == 4) ctr.chooseApprovedSupplier();
+                if(ctr.submission.value.step == 6) ctr.createPurchaseOrder();
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF3f87b9),
@@ -104,35 +101,15 @@ class SubmissionDetailsPage extends StatelessWidget {
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 20),
               ),
-              child: Text(ctr.submissionDetails.value.step == 3
+              child: Text(ctr.submission.value.step == 3
                   ? 'find_supplier'.tr
-                  : ctr.submissionDetails.value.step == 4
+                  : ctr.submission.value.step == 4
                       ? 'choose_approved_supplier'.tr
                       : 'create_purchase_order'.tr,
                 style: const TextStyle(color: Colors.white),)
           ),
         )
-                : (ctr.submissionDetails.value.step == 7 && ctr.purchase.value.status == 1) ? Container(
-            padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
-            width: double.infinity,
-            color: Theme.of(context).brightness == Brightness.light
-                ? Colors.white
-                : const Color(0xFF272d34),
-            child: ElevatedButton(
-                onPressed: () => !ctr.showUploadInvoice.value
-                    ? ctr.showUploadInvoice.value = !ctr.showUploadInvoice.value
-                    : ctr.uploadInvoice(context),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF3f87b9),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                ),
-                child: Text(!ctr.showUploadInvoice.value ? 'upload_invoice'.tr : 'upload'.tr,
-                  style: const TextStyle(color: Colors.white),)
-            ),
-          ) : null
+                : null
             : Container(
             padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
             width: double.infinity,
@@ -141,8 +118,8 @@ class SubmissionDetailsPage extends StatelessWidget {
                 : const Color(0xFF272d34),
             child: ElevatedButton(
                 onPressed: () {
-                  if(ctr.submissionDetails.value.step == 2) ctr.resubmission();
-                  if(ctr.submissionDetails.value.step == 4 || ctr.submissionDetails.value.step == 5) ctr.findSupplier('edit');
+                  if(ctr.submission.value.step == 2) ctr.resubmission();
+                  if(ctr.submission.value.step == 4 || ctr.submission.value.step == 5) ctr.findSupplier('edit');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFF04747),
@@ -155,9 +132,6 @@ class SubmissionDetailsPage extends StatelessWidget {
                   style: const TextStyle(color: Colors.white),)
             ),
           ),
-          bottomSheet: ctr.showUploadInvoice.value
-              ? bottomSheet(context, ctr)
-              : null
         ));
       }
     );

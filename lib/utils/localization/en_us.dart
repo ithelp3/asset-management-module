@@ -192,5 +192,7 @@ Map<String, String> enUs = {
   'upload': 'Upload',
   'please_add_file': 'Please add file',
   'resubmission': 'Re-Submission',
-  'subject': 'Subject'
+  'subject': 'Subject',
+  'items': 'Items',
+  'purchase_details': 'Purchase Details'
 };

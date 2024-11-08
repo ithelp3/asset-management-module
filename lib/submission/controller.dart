@@ -1,6 +1,6 @@
 import 'package:asset_management_module/component_widget/dialog_item_select.dart';
 import 'package:asset_management_module/component_widget/loading.dart';
-import 'package:asset_management_module/model/purchase_order_submission.dart';
+import 'package:asset_management_module/model/submission.dart';
 import 'package:asset_management_module/utils/data/client.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +12,7 @@ class SubmissionController extends GetxController {
   Rx<TextEditingController> fieldNeeds = TextEditingController().obs;
   Rx<TextEditingController> fieldPoDate = TextEditingController().obs;
   Rx<TextEditingController> fieldPriority = TextEditingController().obs;
-  Rx<PurchaseOrderSubmission> submission = PurchaseOrderSubmission().obs;
+  Rx<Submission> submission = Submission().obs;
   DateTime? selectedDate;
   RxString selectedPriority = 'NORMAL'.tr.obs;
   RxString type = ''.obs;

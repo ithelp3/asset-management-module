@@ -1,5 +1,5 @@
 import 'package:asset_management_module/component_widget/loading.dart';
-import 'package:asset_management_module/model/purchase_order_submission.dart';
+import 'package:asset_management_module/model/submission.dart';
 import 'package:asset_management_module/model/submission_suppliers.dart';
 import 'package:asset_management_module/utils/data/client.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ class DialogReasonController extends GetxController {
   Rx<GlobalKey<FormState>> formKey = GlobalKey<FormState>().obs;
   Rx<TextEditingController> fieldReason = TextEditingController().obs;
   RxString type = ''.obs;
-  Rx<PurchaseOrderSubmission> submission = PurchaseOrderSubmission().obs;
+  Rx<Submission> submission = Submission().obs;
   RxString label = ''.obs;
   Rx<SupplierRelations> selectedSupplier = SupplierRelations().obs;
 

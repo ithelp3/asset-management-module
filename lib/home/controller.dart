@@ -9,10 +9,8 @@ import 'package:asset_management_module/maintenance/view.dart';
 import 'package:asset_management_module/model/asset.dart';
 import 'package:asset_management_module/model/depreciation.dart';
 import 'package:asset_management_module/model/profile.dart';
-import 'package:asset_management_module/model/purchase_order_submission.dart';
-import 'package:asset_management_module/model/recent_component.dart';
-import 'package:asset_management_module/model/recent_status.dart';
-import 'package:asset_management_module/model/submission.dart';
+import 'package:asset_management_module/model/monitoring.dart';
+import 'package:asset_management_module/purchase_order/purchase_details/view.dart';
 import 'package:asset_management_module/purchase_order/view.dart';
 import 'package:asset_management_module/submission/submission_details/view.dart';
 import 'package:asset_management_module/submission/view.dart';
@@ -25,26 +23,15 @@ import 'package:get/get.dart';
 class HomeController extends GetxController {
   RxInt navbarBottomIdx = 0.obs;
   UserAuth user = NavKey.user!;
-  // RxList<PieChart> pieChartAssetByCategory = <PieChart>[].obs;
-  // RxList<PieChart> pieChartAssetByStatus = <PieChart>[].obs;
-  // RxList<RecentAsset> recentAssets = <RecentAsset>[].obs;
-  // RxList<RecentComponent> recentComponents = <RecentComponent>[].obs;
-  // RxList<Submission> submission = <Submission>[].obs;
-  // RxInt totalAsset = 0.obs;
-  // RxInt totalComponent = 0.obs;
-  // RxInt totalMaintenance = 0.obs;
-  // RxInt totalEmployee = 0.obs;
   RxList allMonitoring = [].obs;
-  RxList<PurchaseOrderSubmission> itemPO = <PurchaseOrderSubmission>[].obs;
+  RxList<Monitoring> itemPurchases = <Monitoring>[].obs;
+  RxList<Monitoring> itemSubmission = <Monitoring>[].obs;
   RxList lendings = ['Pinjaman 1', 'Pinjaman 2', 'Pinjaman 3', 'Pinjaman 4', 'Pinjaman 5',].obs;
   RxList maintenances = ['Maintenance 1', 'Maintenance 2', 'Maintenance 3', 'Maintenance 4', 'Maintenance 5', ].obs;
-  // RxBool expandAC = true.obs;
-  // RxBool expandAS = true.obs;
   RxBool progressDashboard = false.obs;
   RxBool errorBanner = false.obs;
 
-  // RxString capsule = 'Semua'.obs;
-  RxString capsule = 'purchase_order'.tr.obs;
+  RxString capsule = 'submission'.tr.obs;
 
   RxList<Asset> assets = <Asset>[].obs;
   RxList<Asset> assetSearch = <Asset>[].obs;
@@ -89,33 +76,30 @@ class HomeController extends GetxController {
   }
 
   void getDashboard() async {
-    // await DioClient().get('/dashboard/data-total',).then((res) {
-    //   pieChartAssetByCategory.value = List.from(res['data']['asset_by_category'].map((json) => PieChart.fromJson(json)));
-    //   pieChartAssetByStatus.value = List.from(res['data']['asset_by_status'].map((json) => PieChart.fromJson(json)));
-    //   recentAssets.value = List.from(res['data']['recent_asset'].map((json) => RecentAsset.fromJson(json)));
-    //   recentComponents.value = List.from(res['data']['recent_component'].map((json) => RecentComponent.fromJson(json)));
-    //   totalAsset.value = res['data']['asset'];
-    //   totalComponent.value = res['data']['component'];
-    //   totalMaintenance.value = res['data']['maintenance'];
-    //   totalEmployee.value = res['data']['employee'];
-      // submission.value = List.from(res['data']['submission'].map((json) => Submission.fromJson(json)));
-    // });
-    await DioClient().get('/submission/list')
+    await DioClient().get('/monitoring/list')
         .then((res) {
-          // itemPO.value = List.from(res['data'].map((json) => PurchaseOrderSubmission.fromJson(json)));
           for(final findSupplier in res['find_supplier']) {
             for(final po in res['submission']) {
-              PurchaseOrderSubmission submission = PurchaseOrderSubmission.fromJson(po);
-              if(findSupplier['supplier_id'] == submission.findSupplierId) itemPO.add(submission);
+              Monitoring submission = Monitoring.fromJson(po);
+              if(findSupplier == submission.findSupplierId) itemSubmission.add(submission);
             }
           }
           for(final approve in res['approval']) {
             for(final po in res['submission']) {
-              PurchaseOrderSubmission submission = PurchaseOrderSubmission.fromJson(po);
-              if(approve['approval_id'] == submission.id) itemPO.add(submission);
+              Monitoring submission = Monitoring.fromJson(po);
+              if(approve == submission.id) itemSubmission.add(submission);
             }
           }
-          // allMonitoring.value = List.from(res['data'].map((json) => PurchaseOrderSubmission.fromJson(json)));
+          for(final purchase in res['purchases']) {
+            for(final po in res['submission']) {
+              Monitoring submissionPurchase = Monitoring.fromJson(po);
+              if(purchase['find_supplier_id'] == submissionPurchase.findSupplierId) {
+                submissionPurchase.status = purchase['status'] == 1 ? 'un_paid' : 'paid';
+                submissionPurchase.submissionId = purchase['purchase_id'];
+                itemPurchases.add(submissionPurchase);
+              }
+            }
+          }
         });
     // allMonitoring.addAll([
     //   PurchaseOrderSubmission(
@@ -218,13 +202,20 @@ class HomeController extends GetxController {
 
   void selectItemMonitoring(String key, dynamic data) async {
     dynamic result;
-    if(key == 'purchase_order'.tr) {
-      PurchaseOrderSubmission submission = data;
+    Monitoring item = data;
+    if(key == 'submission') {
       result = await Get.to(const SubmissionDetailsPage(),
           arguments: {
-            'data': submission
+            'data': item
           },
           routeName: 'submission/details'
+      );
+    } else if(key == 'purchase') {
+      result = await Get.to(const PurchaseDetailsPage(),
+          arguments: {
+            'data': item
+          },
+          routeName: '/purchase/details'
       );
     }
     if(result == null) return;
@@ -257,13 +248,6 @@ class HomeController extends GetxController {
     progressProfile.value = false;
     update();
   }
-
-  //Dashboard
-  // void expandPie(String key){
-  //   if(key == 'ac') expandAC.value = !expandAC.value;
-  //   if(key == 'as') expandAS.value = !expandAS.value;
-  //   update();
-  // }
 
   //Asset
   void onSearchAsset(String key) {

@@ -1,10 +1,5 @@
-import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'package:flutter_web_file_selector/flutter_web_file_selector.dart';
-import 'package:get/get_connect/http/src/_http/_io/_file_decoder_io.dart';
-import 'package:mime/mime.dart';
+import 'package:asset_management_module/model/submission.dart';
 import 'package:asset_management_module/component_widget/loading.dart';
-import 'package:asset_management_module/model/purchase_order_submission.dart';
 import 'package:asset_management_module/model/submission_suppliers.dart';
 import 'package:asset_management_module/model/supplier.dart';
 import 'package:asset_management_module/submission/set_suppliers/dialog_supplier_add/controller.dart';
@@ -13,11 +8,10 @@ import 'package:asset_management_module/utils/data/client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile, Response;
-import 'package:path_provider/path_provider.dart';
 
 class SetSuppliersController extends GetxController {
   Rx<TextEditingController> fieldNotes = TextEditingController().obs;
-  Rx<PurchaseOrderSubmission> submission = PurchaseOrderSubmission().obs;
+  Rx<Submission> submission = Submission().obs;
   RxList<SupplierSelected> selectedSuppliers = <SupplierSelected>[].obs;
   RxList<SupplierSelected> deletedSuppliers = <SupplierSelected>[].obs;
   RxList<Supplier> suppliers = <Supplier>[].obs;
@@ -30,7 +24,7 @@ class SetSuppliersController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     type.value = Get.arguments['type'];
-    submission.value = Get.arguments['submission'];
+    submission.value = Get.arguments['data'];
     await DioClient().get('/supplier/list').then((res) {
       suppliers.value = List.from(res['data'].map((json) => Supplier.fromJson(json)));
     });
@@ -38,52 +32,15 @@ class SetSuppliersController extends GetxController {
     if(type.value == 'edit') {
       supplierRelations.value = Get.arguments['suppliers'];
       for (final i in supplierRelations) {
-        // Directory tempDir = await getTemporaryDirectory();
-        // String tempPath = tempDir.path;
-        // File file = File("$tempPath/${i.originalFilename}");
-
-        // Response response = await DioClient().get(i.fileUrl!, typeBytes: true);
-        // final response = await DioClient().get(i.fileUrl!, typeBytes: true);
-
-        // final response = await http.get(Uri.http("http:${i.fileUrl!.replaceAll(' ', "%20")}"),);
-        // String fileName = response.headers['content-disposition'] ?? 'File';
-        // var raf = file.openSync(mode: FileMode.write);
-        // raf.writeFromSync(response.data);
-        // await raf.close();
-        // final mimeType = lookupMimeType(i.originalFilename.toString(), headerBytes: [0xFF, 0xD8]);
-        // final mimeType = response.headers['content-type'] ?? '';
-        // mimeType!.split("/");
-
-        // XFile xFile = XFile(fileName, mimeType: mimeType);
-        // XFile xFile = XFile.fromData(
-        //   response.bodyBytes,
-        //   // mimeType: mimeType,
-        //   name: i.originalFilename,
-        //   path: i.originalFilename,
-        // );
         Supplier supplierData = suppliers.firstWhere((supp) => supp.id.toString() == i.supplierId);
         selectedSuppliers.add(SupplierSelected(
             id: i.id,
             supplier: supplierData,
             fileName: i.originalFilename,
-            // fileBytes: fileToBytes(xFile.path)
         ));
       }
     }
   }
-
-  // Future getFileByUrl(String url, String fileName) async {
-  //   Directory tempDir = await getTemporaryDirectory();
-  //   String tempPath = tempDir.path;
-  //   File file = File("$tempPath/$fileName");
-  //
-  //   Response response = await DioClient().get(url);
-  //   file.openSync(mode: FileMode.write).writeByteSync(response.data);
-  //   final mimeType = lookupMimeType("$tempPath/$fileName", headerBytes: [0xFF, 0xD8]);
-  //   mimeType!.split("/");
-  //   XFile xFile = XFile("$tempPath/$fileName", mimeType: mimeType);
-  //   return xFile;
-  // }
 
   void addSupplier() async {
     final result = await Get.dialog(const DialogSupplierAddPage(),
