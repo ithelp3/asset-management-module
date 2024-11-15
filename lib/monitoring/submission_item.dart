@@ -132,7 +132,8 @@ Widget submissionItem(BuildContext context, MonitoringController ctr) {
                         ),
                       ),
                     ),
-                    if(i.addedFromId != NavKey.user!.userId) if(i.step == 2 || i.step == 5) Row(
+                    if(i.addedFromId != NavKey.user!.userId)
+                      if((i.step == 2 && NavKey.user!.approverLevel1!.contains(NavKey.user!.userId))|| (i.step == 5 && NavKey.user!.approverLevel3!.contains(NavKey.user!.userId))) Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
@@ -175,7 +176,7 @@ Widget submissionItem(BuildContext context, MonitoringController ctr) {
                           ),
                           child: Text('find_supplier'.tr, style: const TextStyle(color: Colors.white),)
                       ),
-                    ) else if(i.step == 4) SizedBox(
+                    ) else if(i.step == 4 && NavKey.user!.approverLevel2!.contains(NavKey.user!.userId)) SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                           onPressed: () => ctr.chooseApprovedSupplier(i),

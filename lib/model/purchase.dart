@@ -24,6 +24,7 @@ class Purchase {
   int? updatedBy;
   String? fileUrl;
   String? fileName;
+  String? purchaseCode;
   String? createdAt;
   String? updatedAt;
   int? saasCompanyId;
@@ -54,6 +55,7 @@ class Purchase {
     this.updatedBy,
     this.fileUrl,
     this.fileName,
+    this.purchaseCode,
     this.createdAt,
     this.updatedAt,
     this.saasCompanyId,
@@ -72,7 +74,7 @@ class Purchase {
     isConverted: json["is_converted"],
     date: json["date"],
     addedFrom: json["addedfrom"],
-    addedFromName: json["addedfrom_name"],
+    addedFromName: json["added_from_name"],
     reason: json["reason"],
     notes: json["notes"],
     total: json["total"],
@@ -85,6 +87,7 @@ class Purchase {
     updatedBy: json["updated_by"],
     fileUrl: json["file_url"],
     fileName: json["file_name"],
+    purchaseCode: json["purchase_code"],
     createdAt: json["created_at"],
     updatedAt: json["updated_at"],
     saasCompanyId: json["saas_company_id"],

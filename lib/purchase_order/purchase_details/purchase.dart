@@ -50,8 +50,15 @@ Widget purchase(BuildContext context, PurchaseDetailsController ctr) {
             double subTotal = item.qty! * double.parse(item.cost ?? '0.0');
             return Container(
               decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xFF3f87b9)),
-                  borderRadius: BorderRadius.circular(6)
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? Colors.white
+                      : const Color(0xFF272d34),
+                  borderRadius: BorderRadius.circular(6),
+                  boxShadow: [BoxShadow(
+                    color: Colors.blue.withOpacity(0.1),
+                    blurRadius: 2,
+                    spreadRadius: 2,
+                  )]
               ),
               margin: const EdgeInsets.only(top: 8),
               child: Column(
@@ -68,15 +75,13 @@ Widget purchase(BuildContext context, PurchaseDetailsController ctr) {
                       ],
                     ),
                   ),
+                  Divider(color: Colors.blue.shade50, height: 4,),
                   Table(
                     columnWidths: const {
-                      0: FlexColumnWidth(1),
-                      1: FlexColumnWidth(3),
+                      0: FlexColumnWidth(1.1),
+                      1: FlexColumnWidth(0.1),
+                      2: FlexColumnWidth(3),
                     },
-                    border: TableBorder(
-                      horizontalInside: BorderSide(color: Colors.blue.shade100,),
-                      bottom: BorderSide(color: Colors.blue.shade100)
-                    ),
                     children: [
                       {'label': 'brand'.tr, 'value': item.brandName ?? 'N/A'},
                       {'label': 'sub_category'.tr, 'value': item.subCategoryName ?? 'N/A'},
@@ -89,6 +94,9 @@ Widget purchase(BuildContext context, PurchaseDetailsController ctr) {
                                 textAlign: TextAlign.left,
                                 style : const TextStyle(fontSize: 12, height: 1.6)),
                           ),
+                          const Text(':',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 12, height: 1.6)),
                           Padding(
                             padding: const EdgeInsets.only(right: 8),
                             child: Text(i['value']!,
@@ -126,7 +134,7 @@ Widget purchase(BuildContext context, PurchaseDetailsController ctr) {
             );
           }),
           Padding(
-            padding: const EdgeInsets.only(right: 8, top: 8),
+            padding: const EdgeInsets.only(right: 8, top: 12),
             child: Table(
               columnWidths: const {
                 0: FlexColumnWidth(1),

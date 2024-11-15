@@ -65,14 +65,14 @@ Widget headAndStatus(BuildContext context, SubmissionDetailsController ctr) {
           ),
         ),
         if(ctr.expandHead.value) Padding(
-          padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+          padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('${'description'.tr} : ', style: const TextStyle(fontWeight: FontWeight.bold,),),
-              const Divider(height: 4,),
+              Text('${'description'.tr} : ', style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),),
+              const Divider(height: 2,),
               HtmlWidget(ctr.submission.value.submissionDetail!,
-                textStyle: const TextStyle(fontSize: 12,),),
+                textStyle: const TextStyle(fontSize: 12, fontStyle: FontStyle.italic),),
             ],
           ),
         ),

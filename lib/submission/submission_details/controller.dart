@@ -1,13 +1,14 @@
+import 'package:asset_management_module/depreciation/add_edit_depreciation/view.dart';
 import 'package:asset_management_module/model/monitoring.dart';
 import 'package:asset_management_module/model/submission.dart';
 import 'package:asset_management_module/model/submission_log.dart';
 import 'package:asset_management_module/model/submission_suppliers.dart';
-import 'package:asset_management_module/purchase_order/view.dart';
 import 'package:asset_management_module/submission/choose_approved_supplier/view.dart';
 import 'package:asset_management_module/submission/dialog_reason/view.dart';
 import 'package:asset_management_module/submission/set_suppliers/view.dart';
 import 'package:asset_management_module/submission/view.dart';
 import 'package:asset_management_module/utils/data/client.dart';
+import 'package:asset_management_module/utils/data/nav_key.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
 
@@ -43,7 +44,12 @@ class SubmissionDetailsController extends GetxController with GetTickerProviderS
   }
 
   void getData() async {
-    await DioClient().get('/submission/details/${monitoring.value.id}',)
+    await DioClient().post('/submission/details',
+      data: {
+        'id': monitoring.value.id,
+        'language': NavKey.pwa!.language
+      }
+    )
       .then((res) {
         submission.value = Submission.fromJson(res['data']);
          logs.value = List.from(res['logs'].map((json) => SubmissionLog.fromJson(json)));
@@ -119,7 +125,7 @@ class SubmissionDetailsController extends GetxController with GetTickerProviderS
   }
 
   void createPurchaseOrder() async {
-    final result = await Get.to(const PurchaseOrderPage(),
+    final result = await Get.to(const AddEditDepreciationPage(),
       transition: Transition.rightToLeft,
       arguments: {
         'type': 'submission',

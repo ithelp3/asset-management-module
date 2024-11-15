@@ -18,7 +18,7 @@ Widget subject(BuildContext context, PurchaseDetailsController ctr) {
                 child: Icon(Icons.attach_file_outlined, color: Color(0xFF3f87b9),)),
               const VerticalDivider(width: 8,),
               Expanded(
-                child: Text(ctr.submission.value.submissionId!,
+                child: Text(ctr.purchase.value.purchaseCode!,
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -47,10 +47,10 @@ Widget subject(BuildContext context, PurchaseDetailsController ctr) {
                   2: FlexColumnWidth(3),
                 },
                 children: [
-                  {'label': 'subject'.tr, 'value': ctr.submission.value.subject ?? 'N/A'},
+                  {'label': 'subject'.tr, 'value': ctr.purchase.value.subject ?? 'N/A'},
                   {'label': 'added_from'.tr, 'value': ctr.purchase.value.addedFromName ?? 'N/A'},
-                  {'label': 'priority'.tr, 'value': ctr.submission.value.priority ?? 'N/A'},
-                  {'label': 'date_used'.tr, 'value': DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(ctr.submission.value.dateUsed!))},
+                  // {'label': 'priority'.tr, 'value': ctr.submission.value.priority ?? 'N/A'},
+                  {'label': 'date_used'.tr, 'value': DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(ctr.purchase.value.date!))},
                 ].map((i) => TableRow(
                     children: [
                       Text(i['label'].toString(),

@@ -1,10 +1,10 @@
 import 'package:asset_management_module/component_widget/formates.dart';
-import 'package:asset_management_module/purchase_order/controller.dart';
+import 'package:asset_management_module/purchase_order/add_edit_purchase/controller.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-addItem(BuildContext context, PurchaseOrderController ctr) {
+addItem(BuildContext context, AddEditPurchaseController ctr) {
   return ctr.items.isNotEmpty
       ? ListView(
     children: [

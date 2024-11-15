@@ -5,6 +5,7 @@ import 'package:asset_management_module/submission/submission_details/rejected.d
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../utils/data/nav_key.dart';
 import 'controller.dart';
 
 class SubmissionDetailsPage extends StatelessWidget {
@@ -36,7 +37,8 @@ class SubmissionDetailsPage extends StatelessWidget {
             ),
           ) : skeletonDetailSubmission(),
           bottomNavigationBar: ctr.progress.value ? null : (ctr.submission.value.status != 'Rejected')
-            ? (ctr.submission.value.step == 2 || ctr.submission.value.step == 5)
+            ? ((ctr.submission.value.step == 2 && NavKey.user!.approverLevel1!.contains(NavKey.user!.userId))
+              || (ctr.submission.value.step == 5 && NavKey.user!.approverLevel3!.contains(NavKey.user!.userId)))
               ? Container(
                 padding: const EdgeInsets.only(bottom: 20, top: 18),
                 width: double.infinity,
@@ -81,7 +83,7 @@ class SubmissionDetailsPage extends StatelessWidget {
                   ],
                 ),
               )
-              : (ctr.submission.value.step == 3 || ctr.submission.value.step == 4 || ctr.submission.value.step == 6)
+              : (ctr.submission.value.step == 3 || (ctr.submission.value.step == 4 && NavKey.user!.approverLevel2!.contains(NavKey.user!.userId)) || ctr.submission.value.step == 6)
                 ? Container(
             padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
             width: double.infinity,

@@ -1,6 +1,5 @@
 import 'package:asset_management_module/component_widget/loading.dart';
 import 'package:asset_management_module/model/asset_relations.dart';
-import 'package:asset_management_module/model/monitoring.dart';
 import 'package:asset_management_module/model/purchase.dart';
 import 'package:asset_management_module/utils/data/client.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ import 'package:dio/dio.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PurchaseDetailsController extends GetxController {
-  Rx<Monitoring> submission = Monitoring().obs;
   Rx<Purchase> purchase = Purchase().obs;
   RxList<AssetRelations> items = <AssetRelations>[].obs;
   XFile? file;
@@ -22,9 +20,9 @@ class PurchaseDetailsController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     progress.value = true;
-    submission.value = Get.arguments['data'];
+    int findSupplierId = Get.arguments['findSupplierId'];
     await DioClient().post('/purchase-order/details',
-      data: { 'find_supplier_id': submission.value.findSupplierId }
+      data: { 'find_supplier_id': findSupplierId }
     ).then((res) {
       items.value = List.from(res['items'].map((json) => AssetRelations.fromJson(json)));
       purchase.value = Purchase.fromJson(res['purchase']);
@@ -91,5 +89,15 @@ class PurchaseDetailsController extends GetxController {
       throw Exception('Oppss..');
     }
   }
+
+  // void convertToAsset() async {
+  //   Get.to(const AddEditAssetPage(),
+  //     arguments: {
+  //       'type': 'convert',
+  //       'purchase': purchase,
+  //       'item': items,
+  //     }
+  //   );
+  // }
 }
 

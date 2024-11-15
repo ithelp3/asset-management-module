@@ -1,6 +1,10 @@
+import 'package:asset_management_module/model/submission.dart';
+import 'package:asset_management_module/submission/submission_details/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
+import 'add_edit_submission/view.dart';
 import 'controller.dart';
 
 class SubmissionPage extends StatelessWidget {
@@ -10,155 +14,145 @@ class SubmissionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder(
       init: SubmissionController(),
-      builder: (ctr) {
-        return Obx(() => Scaffold(
-          appBar: AppBar(
-            title: Text('submission'.tr),
-            centerTitle: true,
-            leading: IconButton(
-              onPressed: () => Get.back(),
-              icon: Icon(Icons.arrow_back_ios,
-                color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,),
-            ),
+      builder: (ctr) => Obx(() => Scaffold(
+        appBar: AppBar(
+          title: Text('purchase_order'.tr),
+          backgroundColor: Theme.of(context).brightness == Brightness.light
+              ? Colors.white
+              : const Color(0xFF272d34),
+          leading: IconButton(
+            onPressed: () => Get.back(),
+            icon: Icon(Icons.arrow_back_ios,
+              color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,),
           ),
-          body:Form(
-            key: ctr.formKey.value,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'subject'.tr,
-                      hintText: 'write_in_field'.trParams({'value': 'subject'.tr}),
-                      prefixIcon: const Icon(Icons.web_asset_outlined, color: Color(0xFF3f87b9), size: 22,),
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Color(0xFF3f87b9)
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    validator: (value) => (value == null || value.isEmpty)
-                        ? 'please_in_field'.trParams({'value': 'subject'.tr})
-                        : null,
-                    controller: ctr.fieldSubject.value,
+          centerTitle: true,
+        ),
+        body: ScrollConfiguration(
+          behavior: const ScrollBehavior(),
+          child: ListView.builder(
+              itemCount: ctr.submissions.length,
+              itemBuilder: (ctx, idx) {
+                Submission i = ctr.submissions[idx];
+                MaterialColor colorStatus = Colors.brown;
+                if(i.status == 'On Process') colorStatus = Colors.blue;
+                if(i.status == 'Approved' || i.status == 'Complete') colorStatus = Colors.green;
+                if(i.status == 'Rejected') colorStatus = Colors.red;
+                return Container(
+                  margin: EdgeInsets.only(top: 8, left: 12, right: 12, bottom: idx+1 == ctr.submissions.length ? 20 : 0),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.blue.shade100),
+                      boxShadow: [BoxShadow(
+                        color: Colors.blue.withOpacity(0.1),
+                        blurRadius: 2,
+                        spreadRadius: 2,
+                        offset: const Offset(1, 2),
+                      )]
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'needs'.tr,
-                      hintText: 'write_in_field'.trParams({'value': 'needs'.tr}),
-                      prefixIcon: const Icon(Icons.chat_outlined, color: Color(0xFF3f87b9), size: 22,),
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(40),
+                                color: Colors.yellow.shade100
+                            ),
+                            child: Icon(Icons.data_exploration,
+                              color: Colors.yellow.shade700,
+                              size: 24,
+                            ),
+                          ),
+                          Expanded(child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(i.submissionId ?? '',
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            decoration: BoxDecoration(
+                                color: colorStatus.shade50,
+                                borderRadius: BorderRadius.circular(4)
+                            ),
+                            child: Text(i.status?.tr ?? '',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: colorStatus.shade700),),
+                          ),
+                        ],
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Color(0xFF3f87b9)
+                      Divider(color: Colors.blue.shade100,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 2, bottom: 8, top: 8),
+                        child: Table(
+                          columnWidths: {
+                            0: FlexColumnWidth((i.status == null) ? 1 : 1.2),
+                            1: const FlexColumnWidth(0.1),
+                            2: const FlexColumnWidth(2),
+                          },
+                          children: [
+                            {'label': 'added_from'.tr, 'value': i.username ?? 'N/A'},
+                            {'label': 'subject'.tr, 'value': i.subject ?? 'N/A'},
+                            {'label': 'priority'.tr, 'value': i.priority ?? 'N/A'},
+                            {'label': 'date_used'.tr, 'value': DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!))},
+                          ].map((i) => TableRow(
+                              children: [
+                                Text(i['label'].toString(), style : const TextStyle(fontSize: 12, height: 1.2)),
+                                const Text(':', style: TextStyle(height: 1.2),),
+                                Text((i['value'] ?? '') != '' ? i['value'].toString() : 'N/A',
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(fontSize: 12, height: 1.2),
+                                ),
+                              ]
+                          )).toList(),
                         ),
-                        borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                    minLines: 2,
-                    maxLines: 4,
-                    validator: (value) => (value == null || value.isEmpty)
-                        ? 'please_in_field'.trParams({'value': 'needs'.tr})
-                        : null,
-                    controller: ctr.fieldNeeds.value,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                  child: TextFormField(
-                    readOnly: true,
-                    onTap: () => ctr.selectDate(context),
-                    enableInteractiveSelection: false,
-                    decoration: InputDecoration(
-                      labelText: 'date_needed'.tr,
-                      hintText: 'select_item_field'.trParams({'value': 'date_needed'.tr}),
-                      prefixIcon: const Icon(Icons.date_range_outlined, color: Color(0xFF3f87b9), size: 22,),
-                      suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9), size: 30,),
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Color(0xFF3f87b9)
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                            onPressed: () => Get.to(const SubmissionDetailsPage(),
+                                routeName: '/submission/details'
+                            ),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF3f87b9),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: EdgeInsets.zero
+                            ),
+                            child: Text('details'.tr, style: const TextStyle(color: Colors.white),)
                         ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    validator: (value) => (value == null || value.isEmpty)
-                        ? 'please_in_field'.trParams({'value': 'date_needed'.tr})
-                        : null,
-                    controller: ctr.fieldPoDate.value,
+                      )
+                    ],
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                  child: TextFormField(
-                    readOnly: true,
-                    onTap: () => ctr.selectPriority(context),
-                    enableInteractiveSelection: false,
-                    decoration: InputDecoration(
-                      labelText: 'priority'.tr,
-                      hintText: 'write_in_field'.trParams({'value': 'priority'.tr}),
-                      prefixIcon: const Icon(Icons.priority_high_outlined, color: Color(0xFF3f87b9), size: 22,),
-                      suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9), size: 30,),
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Color(0xFF3f87b9)
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    validator: (value) => (value == null || value.isEmpty)
-                        ? 'please_in_field'.trParams({'value': 'priority'.tr})
-                        : null,
-                    controller: ctr.fieldPriority.value,
-                  ),
-                ),
-              ],
+                );
+              }
+          ),
+        ),
+        floatingActionButton: Visibility(
+            visible: !(MediaQuery.of(context).viewInsets.bottom != 0),
+            child: FloatingActionButton(
+              onPressed: () => Get.to(const AddEditSubmissionPage(),
+                  routeName: '/submission/add'
+              ),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40)
+              ),
+              backgroundColor: const Color(0xFF3f87b9),
+              child: const Icon(Icons.add, size: 34, color: Colors.white,),
             )
-          ),
-          bottomNavigationBar: Container(
-              padding: const EdgeInsets.only(bottom: 30, top: 14, left: 10, right: 10),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? Colors.white
-                      : const Color(0xFF272d34)
-              ),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6)
-                      ),
-                      backgroundColor: const Color(0xFF3f87b9),
-                      foregroundColor: Colors.white
-                  ),
-                  onPressed: () {
-                    if(ctr.formKey.value.currentState!.validate()) ctr.save(context);
-                  },
-                  child: Text('save'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
-              ),
-            ),
-        ),);
-      }
+        ),
+      ))
     );
   }
 }

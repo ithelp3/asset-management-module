@@ -34,9 +34,10 @@ Widget activityLog(BuildContext context, SubmissionDetailsController ctr) {
                 color: Colors.blue.shade200,
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(left: 11, right: 14, bottom: 10),
+                    margin: const EdgeInsets.only(left: 11, right: 4, top: 14),
                     width: 10,
                     height: 10,
                     decoration: BoxDecoration(
@@ -46,21 +47,30 @@ Widget activityLog(BuildContext context, SubmissionDetailsController ctr) {
                   ),
                   Expanded(
                     child: Container(
-                      margin: const EdgeInsets.only(bottom: 10, right: 10),
-                      padding: const EdgeInsets.all(8),
+                      margin: const EdgeInsets.only(bottom: 10, right: 10, left: 4),
                       decoration: BoxDecoration(
                           color: Theme.of(context).brightness == Brightness.light
                               ? Colors.white
                               : const Color(0xFF272d34),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: const Color(0xFF3f87b9))
                       ),
-                      child: Column(
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(log.createdAt ?? 'N/A', style: const TextStyle(fontWeight: FontWeight.bold),),
-                          HtmlWidget(log.translatedActivity!, textStyle: const TextStyle(fontSize: 12),),
-                          // Text(log.translatedActivity!, style: const TextStyle(fontSize: 12),)
+                          const Icon(Icons.account_circle, size: 34, color: Colors.blueAccent,),
+                          const VerticalDivider(width: 8,),
+                          Expanded(child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(log.username ?? '', style: const TextStyle(fontWeight: FontWeight.bold)),
+                                  Text(log.createdAt ?? 'N/A', style: const TextStyle(color: Colors.grey, fontSize: 12),),
+                                ],
+                              ),
+                              HtmlWidget(log.translatedActivity!, textStyle: const TextStyle(fontSize: 12),),
+                            ],
+                          ),),
                         ],
                       ),
                     ),

@@ -1,10 +1,11 @@
 import 'package:asset_management_module/model/monitoring.dart';
 import 'package:asset_management_module/model/submission.dart';
-import 'package:asset_management_module/purchase_order/view.dart';
+import 'package:asset_management_module/purchase_order/add_edit_purchase/view.dart';
 import 'package:asset_management_module/submission/choose_approved_supplier/view.dart';
 import 'package:asset_management_module/submission/dialog_reason/view.dart';
 import 'package:asset_management_module/submission/set_suppliers/view.dart';
 import 'package:asset_management_module/utils/data/client.dart';
+import 'package:asset_management_module/utils/data/nav_key.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -29,7 +30,9 @@ class MonitoringController extends GetxController with GetTickerProviderStateMix
       for(final findSupplier in res['find_supplier']) {
         for(final po in res['submission']) {
           Monitoring submission = Monitoring.fromJson(po);
-          if(findSupplier == submission.findSupplierId) itemSubmissions.add(submission);
+          if(findSupplier == submission.findSupplierId) {
+            itemSubmissions.add(submission);
+          }
         }
       }
       for(final approve in res['approval']) {
@@ -41,7 +44,7 @@ class MonitoringController extends GetxController with GetTickerProviderStateMix
       for(final purchase in res['purchases']) {
         for(final po in res['submission']) {
           Monitoring submissionPurchase = Monitoring.fromJson(po);
-          if(purchase['find_supplier_id'] == submissionPurchase.findSupplierId) {
+          if(purchase['find_supplier_id'] != 0 && purchase['find_supplier_id'] == submissionPurchase.findSupplierId) {
             submissionPurchase.status = purchase['status'] == 1 ? 'un_paid' : 'paid';
             submissionPurchase.submissionId = purchase['purchase_id'];
             itemPurchases.add(submissionPurchase);
@@ -53,7 +56,12 @@ class MonitoringController extends GetxController with GetTickerProviderStateMix
   }
 
   void reject(Monitoring item) async {
-    final response = await DioClient().get('/submission/details/${item.id}',);
+    final response = await DioClient().post('/submission/details',
+      data : {
+        'id' : item.id,
+        'language': NavKey.pwa!.language
+      }
+    );
     final result = await Get.dialog(const DialogReasonPage(),
       arguments: {
         'type': item.step == 2
@@ -64,11 +72,16 @@ class MonitoringController extends GetxController with GetTickerProviderStateMix
     );
     if(result == null) return;
 
-    Get.back(result: true);
+    onInit();
   }
 
   void approve(Monitoring item) async {
-    final response = await DioClient().get('/submission/details/${item.id}',);
+    final response = await DioClient().post('/submission/details',
+        data : {
+          'id' : item.id,
+          'language': NavKey.pwa!.language
+        }
+    );
     final result = await Get.dialog(const DialogReasonPage(),
       arguments: {
         'type': item.step == 2
@@ -79,11 +92,16 @@ class MonitoringController extends GetxController with GetTickerProviderStateMix
     );
     if(result == null) return;
 
-    Get.back(result: true);
+    onInit();
   }
 
   void findSupplier(Monitoring item) async {
-    final response = await DioClient().get('/submission/details/${item.id}',);
+    final response = await DioClient().post('/submission/details',
+        data : {
+          'id' : item.id,
+          'language': NavKey.pwa!.language
+        }
+    );
     final result = await Get.to(const SetSuppliersPage(),
         routeName: '/submission/find-supplier',
         transition: Transition.rightToLeft,
@@ -97,7 +115,12 @@ class MonitoringController extends GetxController with GetTickerProviderStateMix
   }
 
   void chooseApprovedSupplier(Monitoring item) async {
-    final response = await DioClient().get('/submission/details/${item.id}',);
+    final response = await DioClient().post('/submission/details',
+        data : {
+          'id' : item.id,
+          'language': NavKey.pwa!.language
+        }
+    );
     final result = await Get.to(const ChooseApprovedSupplierPage(),
       arguments: {
         'data' : Submission.fromJson(response['data'])
@@ -110,8 +133,13 @@ class MonitoringController extends GetxController with GetTickerProviderStateMix
   }
 
   void createPurchaseOrder(Monitoring item) async {
-    final response = await DioClient().get('/submission/details/${item.id}',);
-    final result = await Get.to(const PurchaseOrderPage(),
+    final response = await DioClient().post('/submission/details',
+        data : {
+          'id' : item.id,
+          'language': NavKey.pwa!.language
+        }
+    );
+    final result = await Get.to(const AddEditPurchasePage(),
       arguments: {
         'type': 'submission',
         'data' : Submission.fromJson(response['data'])

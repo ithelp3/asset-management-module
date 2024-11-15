@@ -1,9 +1,9 @@
 import 'package:asset_management_module/component_widget/skeleton_purchase_order.dart';
-import 'package:asset_management_module/purchase_order/controller.dart';
+import 'package:asset_management_module/purchase_order/add_edit_purchase/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-formPo(BuildContext context, PurchaseOrderController ctr) {
+formPo(BuildContext context, AddEditPurchaseController ctr) {
   return !ctr.progress.value ? Form(
       key: ctr.formKey.value,
       child:Column(

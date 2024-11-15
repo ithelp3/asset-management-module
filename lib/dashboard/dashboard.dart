@@ -85,18 +85,18 @@ Widget dashboard(BuildContext context, HomeController ctr) {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Container(
-                              padding: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(14),
                               decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(40),
                                   boxShadow: [BoxShadow(
-                                    color: Colors.blue.withOpacity(0.1),
-                                    blurRadius: 2,
+                                    color: Colors.blue.withOpacity(0.2),
+                                    blurRadius: 4,
                                     spreadRadius: 2,
-                                    offset: const Offset(1, 4),
+                                    offset: const Offset(2, 4),
                                   )]
                               ),
-                              child: Icon(icon, size: 36, color: const Color(0xFF3f87b9),)),
+                              child: Icon(icon, size: 34, color: const Color(0xFF3f87b9),)),
                           Text(label,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -122,10 +122,7 @@ Widget dashboard(BuildContext context, HomeController ctr) {
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: [
-                    // 'all'.tr,
-                    'submission'.tr, 'purchase'.tr, 'lending'.tr, 'maintenance'.tr,
-                  ].map((i) {
+                  children: ['submission'.tr, 'purchase'.tr, 'lending'.tr, 'maintenance'.tr,].map((i) {
                     return GestureDetector(
                       onTap: () => ctr.selectedCapsule(i),
                       child: Container(

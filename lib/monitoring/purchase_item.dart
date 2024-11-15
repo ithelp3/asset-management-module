@@ -10,6 +10,7 @@ Widget purchaseItem(BuildContext context, MonitoringController ctr) {
   return ScrollConfiguration(
     behavior: const ScrollBehavior(),
     child: ListView.builder(
+      itemCount: ctr.itemPurchases.length,
       itemBuilder: (ctx, idx) {
         Monitoring i = ctr.itemPurchases[idx];
         MaterialColor colorStatus = Colors.brown;
@@ -131,7 +132,7 @@ Widget purchaseItem(BuildContext context, MonitoringController ctr) {
                             width: double.infinity,
                             child: ElevatedButton(
                                 onPressed: () => Get.to(const PurchaseDetailsPage(),
-                                  arguments: { 'data': i },
+                                  arguments: { 'findSupplierId': i.findSupplierId },
                                   routeName: '/purchase/details'
                                 ),
                                 style: ElevatedButton.styleFrom(
