@@ -21,7 +21,23 @@ class HomePage extends StatelessWidget {
           body: <Widget>[
             dashboard(context, ctr),
             assets(context, ctr),
-            reminder(context, ctr),
+            // reminder(context, ctr),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/img_no_data.png',
+                    width: 100,
+                    height: 100,
+                  ),
+                  const Divider(height: 20,),
+                  Text( 'Coming soon..',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w400, fontSize: 16),
+                  )
+                ],
+              ),
+            ),
             depreciation(context, ctr),
             account(context, ctr),
           ][ctr.navbarBottomIdx.value],

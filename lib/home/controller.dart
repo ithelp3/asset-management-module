@@ -208,11 +208,11 @@ class HomeController extends GetxController {
         scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
       }
     }
-    if(key == 'lending'.tr) {
-      Get.to(const LendingPage(),
-          routeName: '/Lending/add'
-      );
-    }
+    // if(key == 'lending'.tr) {
+    //   Get.to(const LendingPage(),
+    //       routeName: '/Lending/add'
+    //   );
+    // }
     if(key == 'component'.tr) {
       Permission permission = permissions.firstWhere((i) => i.feature == "component", orElse: () => Permission());
       if(user.administrator! || (permission.permissions?.isNotEmpty ?? false)) {
@@ -289,7 +289,7 @@ class HomeController extends GetxController {
         scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
       }
     }
-    if(key == 'supplier'.tr || key == 'brand'.tr) {
+    if(key == 'supplier'.tr || key == 'brand'.tr || key == 'lending'.tr) {
       scaffoldMessage(context, 'Coming soon..');
     }
 
