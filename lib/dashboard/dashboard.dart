@@ -47,7 +47,6 @@ Widget dashboard(BuildContext context, HomeController ctr) {
             dashboardMonitoring(context, ctr)
           ],
         ),
-      // )
     ))
   );
 }
