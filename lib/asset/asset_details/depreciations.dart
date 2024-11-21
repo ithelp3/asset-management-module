@@ -19,8 +19,8 @@ Widget depreciations(BuildContext context, List<AssetDepreciation> depreciations
             : Theme.of(context).brightness == Brightness.light
               ? Colors.white
               : const Color(0xFF272d34),
-          borderRadius: BorderRadius.circular(4),
-          border: Border.all(color: isTime ? Colors.white : const Color(0xFF3f87b9))
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: isTime ? Colors.grey.shade200 : const Color(0xFF3f87b9))
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,13 +57,10 @@ Widget depreciations(BuildContext context, List<AssetDepreciation> depreciations
               child: Table(
                 border: TableBorder(
                   horizontalInside: BorderSide(
-                    color: Colors.grey.shade200
-                  ),
-                  bottom: BorderSide(
-                    color: Colors.grey.shade200
+                    color: Colors.grey.shade100
                   ),
                   top: BorderSide(
-                    color: Colors.grey.shade200
+                    color: Colors.grey.shade100
                   ),
                 ),
                 columnWidths: const {
@@ -82,8 +79,9 @@ Widget depreciations(BuildContext context, List<AssetDepreciation> depreciations
                         child: Text(i['label'].toString(), style: TextStyle(color: isTime
                             ? Colors.white
                             : Theme.of(context).brightness == Brightness.light
-                              ? Colors.black
-                              : Colors.white
+                              ? Colors.grey.shade800
+                              : Colors.white,
+                          fontSize: 12
                         ),),
                       ),
                       Padding(
@@ -93,8 +91,9 @@ Widget depreciations(BuildContext context, List<AssetDepreciation> depreciations
                           style: TextStyle(color: isTime
                               ? Colors.white
                               : Theme.of(context).brightness == Brightness.light
-                                ? Colors.black
-                                : Colors.white
+                                ? Colors.grey.shade800
+                                : Colors.white,
+                            fontSize: 12
                           ),
                         ),
                       )

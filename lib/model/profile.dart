@@ -19,6 +19,7 @@ class Profile {
   int? isSaasSuperAdmin;
   Department? office;
   Department? department;
+  String? picPicture;
 
   Profile({
     this.id,
@@ -41,6 +42,7 @@ class Profile {
     this.isSaasSuperAdmin,
     this.office,
     this.department,
+    this.picPicture,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
@@ -53,7 +55,7 @@ class Profile {
     country: json["country"],
     address: json["address"],
     phone: json["phone"],
-    role: Department.fromJson(json["role"]),
+    role: json["role"] != null ? Department.fromJson(json["role"]) : Department(),
     officeId: json["office_id"],
     departmentId: json["department_id"],
     position: json["position"],
@@ -64,6 +66,7 @@ class Profile {
     isSaasSuperAdmin: json["is_saas_superadmin"],
     office: Department.fromJson(json["office"]),
     department: Department.fromJson(json["department"]),
+    picPicture: json['pic_picture'],
   );
 }
 

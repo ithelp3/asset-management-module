@@ -19,8 +19,8 @@ final darkTheme = ThemeData(
     backgroundColor: Color(0xFF272d34),
     centerTitle: true,
   ),
-  cardTheme: CardTheme(
-    color: const Color(0xFF272d34)
+  cardTheme: const CardTheme(
+    color: Color(0xFF272d34)
   ),
   // useMaterial3: true,
   pageTransitionsTheme: const PageTransitionsTheme(

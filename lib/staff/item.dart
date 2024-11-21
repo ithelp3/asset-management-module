@@ -36,35 +36,6 @@ Widget itemStaff(BuildContext context, StaffController ctr, Employee item) {
                 ),
                 child: Text(item.statusName ?? 'N/A', style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),),
               )
-              // PopupMenuButton(
-              //   itemBuilder: (ctx) => [
-              //     {'label': 'edit'.tr, 'icon': Icons.edit_note_outlined},
-              //     {'label': 'delete'.tr, 'icon': Icons.delete_outline_outlined},
-              //   ].map((i) {
-              //     String label = i['label'].toString();
-              //     IconData icon = i['icon'] as IconData;
-              //     return PopupMenuItem(
-              //       onTap: () {
-              //         if(label == 'edit'.tr) ctr.addEditDep('edit', item);
-              //         if(label == 'delete'.tr) ctr.deleteDep(context, item);
-              //       },
-              //       height: 34,
-              //       child: Row(
-              //         children: [
-              //           Icon(icon, color: const Color(0xFF3f87b9),),
-              //           const VerticalDivider(width: 10,),
-              //           Text(label, style: const TextStyle(color: Color(0xFF3f87b9)),),
-              //         ],
-              //       ),
-              //     );
-              //   }).toList(),
-              //   style: const ButtonStyle(
-              //       iconColor: WidgetStatePropertyAll(Color(0xFF3f87b9)),
-              //       padding: WidgetStatePropertyAll(EdgeInsets.zero)
-              //   ),
-              //   padding: EdgeInsets.zero,
-              //   icon: const Icon(Icons.more_vert_outlined),
-              // )
             ],
           ),
         ),

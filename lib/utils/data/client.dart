@@ -1,5 +1,6 @@
 import 'package:asset_management_module/utils/data/nav_key.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DioClient {
@@ -7,7 +8,10 @@ class DioClient {
     BaseOptions(
       baseUrl: '${dotenv.env['BASE_SOCKET_URL']}/api'
     )
-  );
+  )
+    ..interceptors.add(LogInterceptor(
+    logPrint: (o) => debugPrint(o.toString()),
+  ),);
 
   Options options = Options(
     contentType: 'application/json',
@@ -41,15 +45,20 @@ class DioClient {
 
   Future get(
     String uri, {
+      Map<String, dynamic>? data,
       Map<String, dynamic>? params,
-      CancelToken? cancelToken,
+      bool typeBytes = false,
   }) async {
+    if(typeBytes) {
+      options.responseType = ResponseType.bytes;
+      // options.followRedirects = false;
+    }
     try{
       final response = await dio.get(
         uri,
+        data: data,
         queryParameters: params,
         options: options,
-        cancelToken: cancelToken,
       );
       return response.data;
     } on DioException {
@@ -83,6 +92,19 @@ class DioClient {
       final response = await dio.delete(
         uri,
         data: data,
+        options: options,
+      );
+      return response.data;
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  Future download(String uri, String patch) async {
+    try{
+      final response = await dio.download(
+        uri,
+        patch,
         options: options,
       );
       return response.data;

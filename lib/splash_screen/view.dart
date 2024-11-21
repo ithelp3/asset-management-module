@@ -9,9 +9,12 @@ class SplashScreenPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder(
       init: SplashScreenController(),
-      builder: (ctr) => const SafeArea(child: Center(
-        child: CircularProgressIndicator(),
-      ))
+      builder: (ctr) => Scaffold(
+        body: SafeArea(child: Container(
+          alignment: Alignment.center,
+          child: const CircularProgressIndicator(),
+        )),
+      )
     );
   }
 }

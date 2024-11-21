@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:asset_management_module/component_widget/dialog_item_select.dart';
 import 'package:asset_management_module/component_widget/loading.dart';
 import 'package:asset_management_module/model/asset.dart';
@@ -138,7 +136,7 @@ class AddEditAssetController extends GetxController {
       fieldWarranty.value.value = TextEditingValue(text: asset.value.warranty ?? 'N/A');
       fieldCost.value.value = TextEditingValue(text: asset.value.cost ?? '0.0');
       fieldDescription.value.value = TextEditingValue(text: asset.value.description ?? '');
-      warrantyType.value = asset.value.warrantyType != 0 ? asset.value.warrantyType! : 0;
+      warrantyType.value = asset.value.warrantyType != 0 ? asset.value.warrantyType! : 1;
       fieldWarranty.value.value = TextEditingValue(text: asset.value.warranty ?? '0');
       if((asset.value.picture ?? '') != '') imageName.value = asset.value.picture!;
     }
@@ -372,7 +370,10 @@ class AddEditAssetController extends GetxController {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.lightBlue,
-            content: Text('successful_'.trParams({'value': 'add_asset'.tr})),
+            content: Text('successful_'.trParams({'value': type.value == 'add'
+                ? 'add_asset'.tr
+                : 'edit_asset'.tr
+            })),
             behavior: SnackBarBehavior.floating,
           )
       );

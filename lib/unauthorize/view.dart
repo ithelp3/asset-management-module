@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:js' as js;
+// import 'dart:js' as js;
 
 import 'controller.dart';
 
-class UnauthorizePage extends StatelessWidget {
-  const UnauthorizePage({super.key});
+class UnauthorizedPage extends StatelessWidget {
+  const UnauthorizedPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class UnauthorizePage extends StatelessWidget {
           backgroundColor: Colors.transparent,
           leading: GestureDetector(
               onTap: () {
-                js.context.callMethod('backToMainApp');
+                // js.context.callMethod('backToMainApp');
               },
               child: const Icon(Icons.arrow_back_ios, color: Colors.black,)),
         ),

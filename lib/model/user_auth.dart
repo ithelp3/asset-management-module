@@ -11,13 +11,21 @@ class UserAuth {
   String? updatedAt;
   String? currency;
   String? language;
-  String? submissionPrefix;
   int? checkoutDefaultStatus;
   int? checkInDefaultStatus;
   int? repairDefaultStatus;
+  String? submissionPrefix;
   int? saasCompanyId;
+  String? tagComponent;
+  int? counterDigit;
+  String? purchasePrefix;
+  List? approverLevel1;
+  List? approverLevel2;
+  List? approverLevel3;
   String? token;
   String? urlLogo;
+  int? userId;
+  bool? administrator;
 
   UserAuth({
     this.id,
@@ -32,13 +40,21 @@ class UserAuth {
     this.updatedAt,
     this.currency,
     this.language,
-    this.submissionPrefix,
     this.checkoutDefaultStatus,
     this.checkInDefaultStatus,
     this.repairDefaultStatus,
+    this.submissionPrefix,
     this.saasCompanyId,
+    this.tagComponent,
+    this.counterDigit,
+    this.purchasePrefix,
+    this.approverLevel1,
+    this.approverLevel2,
+    this.approverLevel3,
     this.token,
     this.urlLogo,
+    this.userId,
+    this.administrator
   });
 
   factory UserAuth.fromJson(Map<String, dynamic> json) => UserAuth(
@@ -54,12 +70,20 @@ class UserAuth {
     updatedAt: json["updated_at"],
     currency: json["currency"],
     language: json["language"],
-    submissionPrefix: json["submission_prefix"],
     checkoutDefaultStatus: json["checkout_default_status"],
     checkInDefaultStatus: json["checkin_default_status"],
     repairDefaultStatus: json["repair_default_status"],
+    submissionPrefix: json["submission_prefix"],
     saasCompanyId: json["saas_company_id"],
+    tagComponent: json["tag_component"],
+    counterDigit: json["counter_digit"],
+    purchasePrefix: json["purchase_prefix"],
+    approverLevel1: json["approver_level_1"].split(',').map((i) => int.tryParse(i)).toList(),
+    approverLevel2: json["approver_level_2"].split(',').map((i) => int.tryParse(i)).toList(),
+    approverLevel3: json["approver_level_3"].split(',').map((i) => int.tryParse(i)).toList(),
     token: json["token"],
     urlLogo: json["url_logo"],
+    userId: json["user_id"],
+    administrator: json['administrator'],
   );
 }

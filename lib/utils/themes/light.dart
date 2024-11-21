@@ -17,7 +17,7 @@ final lightTheme = ThemeData(
   ),
   appBarTheme: const AppBarTheme(
     surfaceTintColor: Color(0xFFECF3F8),
-    backgroundColor: Color(0xFF3f87b9),
+    // backgroundColor: Color(0xFF3f87b9),
   ),
   pageTransitionsTheme: const PageTransitionsTheme(
     builders: {

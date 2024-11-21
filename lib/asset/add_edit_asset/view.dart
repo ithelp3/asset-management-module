@@ -57,6 +57,7 @@ class AddEditAssetPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enableInteractiveSelection: false,
                         onTap: () => ctr.selectItem(context, 'status'),
                         decoration: InputDecoration(
                           labelText: 'status'.tr,
@@ -83,6 +84,7 @@ class AddEditAssetPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enableInteractiveSelection: false,
                         onTap: () => ctr.selectItem(context, 'person'),
                         decoration: InputDecoration(
                           labelText: 'person_on_charge'.tr,
@@ -109,6 +111,7 @@ class AddEditAssetPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enableInteractiveSelection: false,
                         onTap: () => ctr.selectItem(context, 'office'),
                         decoration: InputDecoration(
                           labelText: 'office'.tr,
@@ -135,6 +138,7 @@ class AddEditAssetPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enableInteractiveSelection: false,
                         enabled: ctr.buildings.isNotEmpty,
                         onTap: () => ctr.selectItem(context, 'building'),
                         decoration: InputDecoration(
@@ -162,6 +166,7 @@ class AddEditAssetPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enableInteractiveSelection: false,
                         enabled: ctr.floors.isNotEmpty,
                         onTap: () => ctr.selectItem(context, 'floor'),
                         decoration: InputDecoration(
@@ -186,6 +191,7 @@ class AddEditAssetPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enableInteractiveSelection: false,
                         enabled: ctr.rooms.isNotEmpty,
                         onTap: () => ctr.selectItem(context, 'room'),
                         decoration: InputDecoration(
@@ -210,6 +216,7 @@ class AddEditAssetPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enableInteractiveSelection: false,
                         onTap: () => ctr.selectItem(context, 'group'),
                         decoration: InputDecoration(
                           labelText: 'group'.tr,
@@ -236,6 +243,7 @@ class AddEditAssetPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enableInteractiveSelection: false,
                         enabled: ctr.categories.isNotEmpty,
                         onTap: () => ctr.selectItem(context, 'category'),
                         decoration: InputDecoration(
@@ -264,6 +272,7 @@ class AddEditAssetPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enableInteractiveSelection: false,
                         enabled: ctr.subCategories.isNotEmpty,
                         onTap: () => ctr.selectItem(context, 'sub-category'),
                         decoration: InputDecoration(
@@ -316,6 +325,7 @@ class AddEditAssetPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enableInteractiveSelection: false,
                         onTap: () => ctr.selectItem(context, 'supplier'),
                         decoration: InputDecoration(
                           labelText: 'supplier'.tr,
@@ -339,11 +349,12 @@ class AddEditAssetPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enableInteractiveSelection: false,
                         onTap: () => ctr.selectItem(context, 'brand'),
                         decoration: InputDecoration(
                           labelText: 'brand'.tr,
                           hintText: 'select_item_field'.trParams({'value': 'brand'.tr}),
-                          prefixIcon: const Icon(Icons.label_outline_rounded, color: Color(0xFF3f87b9), size: 22,),
+                          prefixIcon: const Icon(Icons.discount_outlined, color: Color(0xFF3f87b9), size: 22,),
                           suffixIcon: const Icon(Icons.expand_more_outlined, color: Color(0xFF3f87b9),),
                           filled: true,
                           border: OutlineInputBorder(
@@ -384,6 +395,7 @@ class AddEditAssetPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
                         readOnly: true,
+                        enableInteractiveSelection: false,
                         onTap: () => ctr.selectDate(context),
                         decoration: InputDecoration(
                           labelText: 'purchase_date'.tr,
@@ -546,7 +558,7 @@ class AddEditAssetPage extends StatelessWidget {
                       foregroundColor: Colors.white
                   ),
                   onPressed: () {
-                    if(ctr.formKey.value.currentState!.validate())ctr.save(context);
+                    if(ctr.formKey.value.currentState!.validate()) ctr.save(context);
                   },
                   child: Text('save'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
               ),

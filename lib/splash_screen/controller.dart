@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:asset_management_module/Model/pwa.dart';
 import 'package:asset_management_module/Model/user_auth.dart';
 import 'package:asset_management_module/home/view.dart';
+import 'package:asset_management_module/model/permissions.dart';
 import 'package:asset_management_module/unauthorize/view.dart';
 import 'package:asset_management_module/utils/data/client.dart';
 import 'package:asset_management_module/utils/data/nav_key.dart';
@@ -22,12 +23,18 @@ class SplashScreenController extends GetxController {
       params: {
         'data' : NavKey.data
       }
-    );
+    ).catchError((err) => Get.off(const UnauthorizedPage(),
+        arguments: {
+          'data': 'unauthorized'.tr
+        },
+        routeName: '/unauthorized'
+    ));
 
     Timer(const Duration(milliseconds: 100), () {
       if(response?['success'] ?? false ) {
         NavKey.user = UserAuth.fromJson(response['data']);
         NavKey.pwa = Pwa.fromJson(response['pwa']);
+        NavKey.permissions = List.from(response['permissions'].map((json) => Permission.fromJson(json)));
 
         if(NavKey.pwa!.language!.toLowerCase() == 'en') {
           Get.updateLocale(const Locale('en', 'US'));
@@ -41,12 +48,16 @@ class SplashScreenController extends GetxController {
           Get.changeTheme(darkTheme);
         }
 
+        // if(NavKey.pwa!.language !=  NavKey.user!.language) {
+        //   DioClient().
+        // }
+
         Get.off(const HomePage(),
           routeName: '/home'
         );
 
       } else {
-        Get.off(const UnauthorizePage(),
+        Get.off(const UnauthorizedPage(),
           arguments: {
             'data': 'unauthorized'.tr
           },

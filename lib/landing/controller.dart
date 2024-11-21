@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:asset_management_module/Model/pwa.dart';
 import 'package:asset_management_module/Model/user_auth.dart';
 import 'package:asset_management_module/home/view.dart';
+import 'package:asset_management_module/model/permissions.dart';
 import 'package:asset_management_module/utils/data/client.dart';
 import 'package:asset_management_module/utils/data/nav_key.dart';
 import 'package:asset_management_module/utils/themes/dart.dart';
@@ -41,6 +42,7 @@ class LandingController extends GetxController {
       if(response?['success'] ?? false) {
         NavKey.user = UserAuth.fromJson(response['data']);
         NavKey.pwa = Pwa.fromJson(response['pwa']);
+        NavKey.permissions = List.from(response['permissions'].map((json) => Permission.fromJson(json)));
       }
     });
   }
