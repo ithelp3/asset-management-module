@@ -32,8 +32,6 @@ Widget dashboardMenu(BuildContext context, HomeController ctr) {
             {'label': 'staff'.tr, 'icon': Icons.supervisor_account_sharp},
             {'label': 'supplier'.tr, 'icon': Icons.trolley},
             {'label': 'brand'.tr, 'icon': Icons.discount},
-            // {'label': 'location'.tr, 'icon': Icons.location_on},
-            // {'label': 'Q/A'.tr, 'icon': Icons.chat_outlined},
           ].map((i) {
             IconData icon = i['icon'] as IconData;
             String label = i['label'].toString();

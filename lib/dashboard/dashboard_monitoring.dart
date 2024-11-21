@@ -62,7 +62,7 @@ Widget dashboardMonitoring(BuildContext context, HomeController ctr) {
               if(i.status == 'Rejected') colorStatus = Colors.red;
               return Container(
                 margin: const EdgeInsets.only(top: 8),
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -79,49 +79,52 @@ Widget dashboardMonitoring(BuildContext context, HomeController ctr) {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40),
-                                color: Colors.yellow.shade100
-                            ),
-                            child: Icon(Icons.data_exploration,
-                              color: Colors.yellow.shade700,
-                              size: 24,
-                            ),
-                          ),
-                          Expanded(child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('submission'.tr,
-                                  style: const TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                Text(DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!)),
-                                  style: const TextStyle(fontSize: 12, color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                          ),),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                            decoration: BoxDecoration(
-                                color: colorStatus.shade50,
-                                borderRadius: BorderRadius.circular(4)
-                            ),
-                            child: Text(i.status?.tr ?? '',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: colorStatus.shade700),),
-                          ),
-                        ],
-                      ),
-                      Divider(color: Colors.blue.shade100,),
                       Padding(
-                        padding: const EdgeInsets.only(left: 2),
+                        padding: const EdgeInsets.only(bottom: 10, left: 2, right: 2),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40),
+                                  color: Colors.yellow.shade100
+                              ),
+                              child: Icon(Icons.data_exploration,
+                                color: Colors.yellow.shade700,
+                                size: 24,
+                              ),
+                            ),
+                            Expanded(child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('submission'.tr,
+                                    style: const TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!)),
+                                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                            ),),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                              decoration: BoxDecoration(
+                                  color: colorStatus.shade50,
+                                  borderRadius: BorderRadius.circular(4)
+                              ),
+                              child: Text(i.status?.tr ?? '',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: colorStatus.shade700),),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Divider(color: Colors.blue.shade50, height: 0,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4, top: 6, right: 2),
                         child: HtmlWidget(i.submissionDetail ?? '',
                           textStyle: const TextStyle(fontSize: 12),
                         ),

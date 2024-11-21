@@ -214,21 +214,35 @@ class HomeController extends GetxController {
       );
     }
     if(key == 'component'.tr) {
-      Permission permission = permissions.firstWhere((i) => i.feature == "component");
-      if(user.administrator! || permission.permissions!.any((i) => i == 'view')) {
+      Permission permission = permissions.firstWhere((i) => i.feature == "component", orElse: () => Permission());
+      if(user.administrator! || (permission.permissions?.isNotEmpty ?? false)) {
         result = Get.to(const ComponentPage(),
           routeName: '/component/list',
         );
+        if(permission.permissions!.any((i) => i == 'view')) {
+          result = Get.to(const ComponentPage(),
+            routeName: '/component/list',
+          );
+        } else {
+          scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+        }
       } else {
         scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
       }
     }
     if(key == 'maintenance'.tr) {
-      Permission permission = permissions.firstWhere((i) => i.feature == "maintenance");
-      if(user.administrator! || permission.permissions!.any((i) => i == 'view')) {
+      Permission permission = permissions.firstWhere((i) => i.feature == "maintenance", orElse: () => Permission());
+      if(user.administrator! || (permission.permissions?.isNotEmpty ?? false)) {
         result = Get.to(const MaintenancePage(),
           routeName: '/maintenance/list',
         );
+        if(permission.permissions!.any((i) => i == 'view')) {
+          result = Get.to(const MaintenancePage(),
+            routeName: '/maintenance/list',
+          );
+        } else {
+          scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+        }
       } else {
         scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
       }
@@ -259,16 +273,23 @@ class HomeController extends GetxController {
       }
     }
     if(key == 'staff'.tr) {
-      Get.to(const StaffPage(),
-        routeName: '/staff/list',
-      );
+      Permission permission = permissions.firstWhere((i) => i.feature == "users", orElse: () => Permission());
+      if(user.administrator! || (permission.permissions?.isNotEmpty ?? false)) {
+        result = Get.to(const StaffPage(),
+          routeName: '/staff/list',
+        );
+        if(permission.permissions!.any((i) => i == 'view')) {
+          result = Get.to(const StaffPage(),
+            routeName: '/staff/list',
+          );
+        } else {
+          scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+        }
+      } else {
+        scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+      }
     }
-    // if(label == 'Q/A') {
-    //   Get.to(const QaPage(),
-    //       routeName: '/qa'
-    //   );
-    // }
-    if(key == 'supplier'.tr || key == 'brand'.tr || key == 'location'.tr) {
+    if(key == 'supplier'.tr || key == 'brand'.tr) {
       scaffoldMessage(context, 'Coming soon..');
     }
 
