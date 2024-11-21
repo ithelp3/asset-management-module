@@ -17,7 +17,19 @@ Widget account(BuildContext context, HomeController ctr) {
       children: [
         if(!ctr.progressProfile.value) Column(
           children: [
-            const Icon(Icons.person, color: Color(0xFF3f87b9), size: 100,),
+            if((ctr.profile.value.picPicture ?? '') == '') const Icon(Icons.person, color: Color(0xFF3f87b9), size: 100,)
+            else Container(
+              height: 80,
+              width: 80,
+              margin: const EdgeInsets.symmetric(vertical: 14),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(ctr.profile.value.picPicture ?? '')
+                )
+              ),
+            ),
             Text(ctr.profile.value.fullName ?? 'N/A',
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
             Container(

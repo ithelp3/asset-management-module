@@ -174,7 +174,7 @@ class LendingPage extends StatelessWidget {
                                                 offset: const Offset(1, 2),
                                               )]
                                           ),
-                                          child: Text('Tanggal Pinjam',
+                                          child: const Text('Tanggal Pinjam',
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -204,7 +204,7 @@ class LendingPage extends StatelessWidget {
                                                 offset: const Offset(1, 2),
                                               )]
                                           ),
-                                          child: Text('Tanggal Kembali',
+                                          child: const Text('Tanggal Kembali',
                                             textAlign: TextAlign.center,
                                           ),
                                         ),

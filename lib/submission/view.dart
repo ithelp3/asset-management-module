@@ -1,10 +1,9 @@
+import 'package:asset_management_module/component_widget/skeleton_submission.dart';
 import 'package:asset_management_module/model/submission.dart';
 import 'package:asset_management_module/submission/submission_details/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
-import 'add_edit_submission/view.dart';
 import 'controller.dart';
 
 class SubmissionPage extends StatelessWidget {
@@ -16,12 +15,12 @@ class SubmissionPage extends StatelessWidget {
       init: SubmissionController(),
       builder: (ctr) => Obx(() => Scaffold(
         appBar: AppBar(
-          title: Text('purchase_order'.tr),
+          title: Text('submission'.tr),
           backgroundColor: Theme.of(context).brightness == Brightness.light
               ? Colors.white
               : const Color(0xFF272d34),
           leading: IconButton(
-            onPressed: () => Get.back(),
+            onPressed: () => Get.back(result: true),
             icon: Icon(Icons.arrow_back_ios,
               color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,),
           ),
@@ -29,7 +28,9 @@ class SubmissionPage extends StatelessWidget {
         ),
         body: ScrollConfiguration(
           behavior: const ScrollBehavior(),
-          child: ListView.builder(
+          child: ctr.progress.value
+            ? skeletonSubmissionItem()
+            : ListView.builder(
               itemCount: ctr.submissions.length,
               itemBuilder: (ctx, idx) {
                 Submission i = ctr.submissions[idx];
@@ -110,7 +111,7 @@ class SubmissionPage extends StatelessWidget {
                                 Text(i['label'].toString(), style : const TextStyle(fontSize: 12, height: 1.2)),
                                 const Text(':', style: TextStyle(height: 1.2),),
                                 Text((i['value'] ?? '') != '' ? i['value'].toString() : 'N/A',
-                                  textAlign: TextAlign.left,
+                                   textAlign: TextAlign.left,
                                   style: const TextStyle(fontSize: 12, height: 1.2),
                                 ),
                               ]
@@ -121,6 +122,9 @@ class SubmissionPage extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                             onPressed: () => Get.to(const SubmissionDetailsPage(),
+                                arguments: {
+                                  'id': i.id
+                                },
                                 routeName: '/submission/details'
                             ),
                             style: ElevatedButton.styleFrom(
@@ -142,9 +146,7 @@ class SubmissionPage extends StatelessWidget {
         floatingActionButton: Visibility(
             visible: !(MediaQuery.of(context).viewInsets.bottom != 0),
             child: FloatingActionButton(
-              onPressed: () => Get.to(const AddEditSubmissionPage(),
-                  routeName: '/submission/add'
-              ),
+              onPressed: () => ctr.addSubmission(context),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40)
               ),

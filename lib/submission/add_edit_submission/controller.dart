@@ -16,11 +16,13 @@ class AddEditSubmissionController extends GetxController {
   DateTime? selectedDate;
   RxString selectedPriority = 'NORMAL'.tr.obs;
   RxString type = ''.obs;
+  RxBool progress = false.obs;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    progress.value = true;
     type.value = Get.arguments['type'];
     if(type.value == 'edit') {
       submission.value = Get.arguments['data'];
@@ -30,6 +32,8 @@ class AddEditSubmissionController extends GetxController {
       fieldPriority.value.value = TextEditingValue(text: submission.value.priority!);
       selectedPriority.value = submission.value.priority!;
     }
+
+    progress.value = false;
   }
 
   void selectDate(context) async {
@@ -96,7 +100,7 @@ class AddEditSubmissionController extends GetxController {
             behavior: SnackBarBehavior.floating,
           )
       );
-      Get.back(result: type.value == 'edit');
+      Get.back(result: true);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

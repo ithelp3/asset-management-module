@@ -51,6 +51,8 @@ class MonitoringController extends GetxController with GetTickerProviderStateMix
           }
         }
       }
+    }).catchError((err) {
+       progress.value = false;
     });
     progress.value = false;
   }

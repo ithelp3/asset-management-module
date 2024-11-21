@@ -20,7 +20,7 @@ class AddEditPurchasePage extends StatelessWidget {
               ? Colors.white
               : const Color(0xFF272d34),
           leading: IconButton(
-            onPressed: () => Get.back(),
+            onPressed: () => Get.back(result: true),
             icon: Icon(Icons.arrow_back_ios,
               color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,),
           ),
@@ -32,7 +32,7 @@ class AddEditPurchasePage extends StatelessWidget {
             tabs: [
               Tab(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text('form_purchase'.tr),
                   )
               ),
@@ -54,75 +54,75 @@ class AddEditPurchasePage extends StatelessWidget {
         ),
         bottomSheet: ctr.tabController.index == 1 && ctr.items.isNotEmpty
             ? !ctr.showSetTaxDisc.value
-            ? Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            InkWell(
-              onTap: () => ctr.showModal(context, ctr),
-              child: Container(
-                padding: const EdgeInsets.only(left: 24, right: 18, top: 14, bottom: 14),
-                decoration: BoxDecoration(
-                    border: Border.symmetric(horizontal: BorderSide(color: Colors.blue.shade400)) ,
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24)
-                    ),
-                    color: Colors.blue.shade50
+              ? Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              InkWell(
+                onTap: () => ctr.showModal(context, ctr),
+                child: Container(
+                  padding: const EdgeInsets.only(left: 24, right: 18, top: 14, bottom: 14),
+                  decoration: BoxDecoration(
+                      border: Border.symmetric(horizontal: BorderSide(color: Colors.blue.shade400)) ,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24)
+                      ),
+                      color: Colors.blue.shade50
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(child: Text('insert_the_discount_amount_and_tax_your_assets'.tr)),
+                      const Icon(Icons.arrow_forward_ios_outlined, size: 18,)
+                    ],
+                  ),
                 ),
-                child: Row(
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                child: Column(
                   children: [
-                    Expanded(child: Text('insert_the_discount_amount_and_tax_your_assets'.tr)),
-                    const Icon(Icons.arrow_forward_ios_outlined, size: 18,)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: Table(
+                        columnWidths: const {
+                          0: FlexColumnWidth(0.3),
+                          1: IntrinsicColumnWidth(),
+                        },
+                        children: [
+                          {'label': 'Sub Total', 'value': ctr.subTotal.value},
+                          {'label': 'discount'.tr, 'value': (ctr.subTotal.value * (ctr.discount.value/100))},
+                          {'label': 'tax'.tr, 'value': (ctr.subTotal.value * (ctr.tax.value/100))},
+                        ].map((i) {
+                          double value = i['value'] as double;
+                          return TableRow(
+                              children: [
+                                Text(i['label'].toString(), style: const TextStyle(height: 1.6),),
+                                Text(value.toIdr(),
+                                  textAlign: TextAlign.right,
+                                  style: const TextStyle(height: 1.6),)
+                              ]
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    Divider(color: Colors.grey.shade200,),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 6),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text('total_payment'.tr,),
+                          const VerticalDivider(width: 20,),
+                          Text((ctr.subTotal.value-(ctr.subTotal.value*(ctr.discount.value/100))+((ctr.subTotal)*(ctr.tax/100))).toIdr())
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 6),
-                    child: Table(
-                      columnWidths: const {
-                        0: FlexColumnWidth(0.3),
-                        1: IntrinsicColumnWidth(),
-                      },
-                      children: [
-                        {'label': 'Sub Total', 'value': ctr.subTotal.value},
-                        {'label': 'discount'.tr, 'value': (ctr.subTotal.value * (ctr.discount.value/100))},
-                        {'label': 'tax'.tr, 'value': (ctr.subTotal.value * (ctr.tax.value/100))},
-                      ].map((i) {
-                        double value = i['value'] as double;
-                        return TableRow(
-                            children: [
-                              Text(i['label'].toString(), style: const TextStyle(height: 1.6),),
-                              Text(value.toIdr(),
-                                textAlign: TextAlign.right,
-                                style: const TextStyle(height: 1.6),)
-                            ]
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  Divider(color: Colors.grey.shade200,),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 6),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text('total_payment'.tr,),
-                        const VerticalDivider(width: 20,),
-                        Text((ctr.subTotal.value-(ctr.subTotal.value*(ctr.discount.value/100))+((ctr.subTotal)*(ctr.tax/100))).toIdr())
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        )
-            : null
+            ],
+          )
+              : null
             : null,
         bottomNavigationBar: !ctr.showSetTaxDisc.value ? Container(
           padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),

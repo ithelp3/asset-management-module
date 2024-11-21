@@ -20,3 +20,24 @@ Widget skeletonForm() {
     ],),
   );
 }
+
+Widget skeletonPurchaseItem() {
+  return Shimmer.fromColors(
+    baseColor: Colors.white,
+    highlightColor: Colors.blue.shade200,
+    child: Column( children: [
+      for(int i=0; i<4; i++) Container(
+        height: 140,
+        margin: EdgeInsets.only(
+            left: 12, right: 12,
+            top: i == 0 ? 10 : 14
+        ),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.blue.shade200,
+        ),
+      ),
+    ],),
+  );
+}

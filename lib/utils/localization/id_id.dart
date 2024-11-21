@@ -135,8 +135,8 @@ Map<String, String> idId = {
   'submission_step_6': 'Pengadaan aset',
   'submission_step_7': 'Pengadaan aset',
   'submission_step_0': 'Pengajuan Aset Selesai',
-  'On Process': 'Diproses',
-  'Approve': 'Disetujui',
+  'On Process': 'Proses',
+  'Approved': 'Disetujui',
   'Rejected': 'Ditolak',
   'Complete': 'Selesai',
   'added_from': 'Pembuat',
@@ -195,4 +195,5 @@ Map<String, String> idId = {
   'subject': 'Subjek',
   'items': 'Barang',
   'purchase_details': 'Detail Pembelian',
+  'sorry_you_dont_have_access': "Maaf, anda tidak memiliki akses"
 };

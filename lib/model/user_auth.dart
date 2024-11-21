@@ -25,6 +25,7 @@ class UserAuth {
   String? token;
   String? urlLogo;
   int? userId;
+  bool? administrator;
 
   UserAuth({
     this.id,
@@ -53,6 +54,7 @@ class UserAuth {
     this.token,
     this.urlLogo,
     this.userId,
+    this.administrator
   });
 
   factory UserAuth.fromJson(Map<String, dynamic> json) => UserAuth(
@@ -82,5 +84,6 @@ class UserAuth {
     token: json["token"],
     urlLogo: json["url_logo"],
     userId: json["user_id"],
+    administrator: json['administrator'],
   );
 }

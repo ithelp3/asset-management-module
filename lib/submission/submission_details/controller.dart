@@ -1,12 +1,11 @@
-import 'package:asset_management_module/depreciation/add_edit_depreciation/view.dart';
-import 'package:asset_management_module/model/monitoring.dart';
 import 'package:asset_management_module/model/submission.dart';
 import 'package:asset_management_module/model/submission_log.dart';
 import 'package:asset_management_module/model/submission_suppliers.dart';
+import 'package:asset_management_module/purchase_order/add_edit_purchase/view.dart';
+import 'package:asset_management_module/submission/add_edit_submission/view.dart';
 import 'package:asset_management_module/submission/choose_approved_supplier/view.dart';
 import 'package:asset_management_module/submission/dialog_reason/view.dart';
 import 'package:asset_management_module/submission/set_suppliers/view.dart';
-import 'package:asset_management_module/submission/view.dart';
 import 'package:asset_management_module/utils/data/client.dart';
 import 'package:asset_management_module/utils/data/nav_key.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,8 @@ import 'package:get/get.dart' hide FormData, MultipartFile;
 class SubmissionDetailsController extends GetxController with GetTickerProviderStateMixin {
   AnimationController? animationControllerRotation1;
   AnimationController? animationControllerRotation2;
-  Rx<Monitoring> monitoring = Monitoring().obs;
+  // Rx<Monitoring> monitoring = Monitoring().obs;
+  RxInt submissionId = 0.obs;
   Rx<Submission> submission = Submission().obs;
   RxList<SubmissionLog> logs = <SubmissionLog>[].obs;
   RxBool expandHead = false.obs;
@@ -39,14 +39,15 @@ class SubmissionDetailsController extends GetxController with GetTickerProviderS
         duration: const Duration(milliseconds: 200),
         upperBound: 0.5
     );
-    monitoring.value = Get.arguments['data'];
+    // monitoring.value = Get.arguments['data'];
+    submissionId.value = Get.arguments['id'];
     getData();
   }
 
   void getData() async {
     await DioClient().post('/submission/details',
       data: {
-        'id': monitoring.value.id,
+        'id': submissionId.value,
         'language': NavKey.pwa!.language
       }
     )
@@ -125,7 +126,7 @@ class SubmissionDetailsController extends GetxController with GetTickerProviderS
   }
 
   void createPurchaseOrder() async {
-    final result = await Get.to(const AddEditDepreciationPage(),
+    final result = await Get.to(const AddEditPurchasePage(),
       transition: Transition.rightToLeft,
       arguments: {
         'type': 'submission',
@@ -142,8 +143,8 @@ class SubmissionDetailsController extends GetxController with GetTickerProviderS
 
   
   void resubmission() async {
-    final result = await Get.to(const SubmissionPage(),
-      routeName: '/submission/add',
+    final result = await Get.to(const AddEditSubmissionPage(),
+      routeName: '/submission/edit',
       arguments: {
         'type': 'edit',
         'data': submission.value

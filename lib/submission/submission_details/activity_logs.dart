@@ -56,7 +56,19 @@ Widget activityLog(BuildContext context, SubmissionDetailsController ctr) {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(Icons.account_circle, size: 34, color: Colors.blueAccent,),
+                          if((log.profileUrl ?? '') == '') const Icon(Icons.account_circle, size: 34, color: Colors.blueAccent,)
+                          else Container(
+                            height: 30,
+                            width: 30,
+                            margin: const EdgeInsets.only(top: 2, left: 2, right: 2),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(log.profileUrl!, )
+                              )
+                            ),
+                          ),
                           const VerticalDivider(width: 8,),
                           Expanded(child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

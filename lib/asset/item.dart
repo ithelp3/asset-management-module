@@ -1,6 +1,7 @@
 import 'package:asset_management_module/asset/asset_details/view.dart';
 import 'package:asset_management_module/home/controller.dart';
 import 'package:asset_management_module/model/asset.dart';
+import 'package:asset_management_module/model/permissions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -61,32 +62,38 @@ Widget itemAsset(BuildContext context, HomeController ctr, Asset item) {
                           style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),))
                   ],
                 )),
-                PopupMenuButton(
-                  itemBuilder: (ctx) => [
-                    {'label': (item.status != '2') ? 'assign'.tr : 'un_assign'.tr, 'icon': Icons.file_present_outlined},
-                    {'label': 'edit'.tr, 'icon': Icons.edit_note_outlined},
-                    {'label': 'delete'.tr, 'icon': Icons.delete_outline_outlined},
-                  ].map((i) {
-                    String label = i['label'].toString();
-                    IconData icon = i['icon'] as IconData;
-                    bool enable =  !(item.approvalStatus == 1 && (label == 'assign'.tr || label == 'un_assign'.tr));
-                    return PopupMenuItem(
-                        onTap: () {
-                          if(label == 'edit'.tr) ctr.assetAddEdit('edit', item);
-                          if(label == 'delete'.tr) ctr.assetDelete(context, item);
-                          if(label == 'assign'.tr || label == 'un_assign'.tr) ctr.assignUnassign(item);
-                        },
-                        enabled: enable,
-                        height: 34,
-                        child: Row(
-                          children: [
-                            Icon(icon, color: const Color(0xFF3f87b9),),
-                            const VerticalDivider(width: 10,),
-                            Text(label, style: TextStyle(color: enable ? const Color(0xFF3f87b9) : Colors.blue.shade100),),
-                          ],
-                        )
-                    );
-                  }).toList(),
+                if(ctr.permissions.any((i) => i.feature == "asset") || ctr.user.administrator!) PopupMenuButton(
+                  itemBuilder: (ctx) {
+                    Permission permission = ctr.permissions.firstWhere((i) => i.feature == "asset");
+                    bool accessAssign = (ctr.user.administrator! || permission.permissions!.any((i) => i == 'assign'));
+                    bool accessEdit = (ctr.user.administrator! || permission.permissions!.any((i) => i == 'edit'));
+                    bool accessDelete = (ctr.user.administrator! || permission.permissions!.any((i) => i == 'delete'));
+                    return [
+                      if(accessAssign) {'label': (item.status != '2') ? 'assign'.tr : 'un_assign'.tr, 'icon': Icons.file_present_outlined},
+                      if(accessEdit) {'label': 'edit'.tr, 'icon': Icons.edit_note_outlined},
+                      if(accessDelete) {'label': 'delete'.tr, 'icon': Icons.delete_outline_outlined},
+                    ].map((i) {
+                      String label = i['label'].toString();
+                      IconData icon = i['icon'] as IconData;
+                      bool enable =  !(item.approvalStatus == 1 && (label == 'assign'.tr || label == 'un_assign'.tr));
+                      return PopupMenuItem(
+                          onTap: () {
+                            if(label == 'edit'.tr) ctr.assetAddEdit('edit', item);
+                            if(label == 'delete'.tr) ctr.assetDelete(context, item);
+                            if(label == 'assign'.tr || label == 'un_assign'.tr) ctr.assignUnassign(item);
+                          },
+                          enabled: enable,
+                          height: 34,
+                          child: Row(
+                            children: [
+                              Icon(icon, color: const Color(0xFF3f87b9),),
+                              const VerticalDivider(width: 10,),
+                              Text(label, style: TextStyle(color: enable ? const Color(0xFF3f87b9) : Colors.blue.shade100),),
+                            ],
+                          )
+                      );
+                    }).toList();
+                  },
                   style: const ButtonStyle(
                     iconColor: WidgetStatePropertyAll(Color(0xFF3f87b9)),
                   ),

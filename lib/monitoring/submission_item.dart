@@ -114,7 +114,7 @@ Widget submissionItem(BuildContext context, MonitoringController ctr) {
                       child: InkWell(
                         onTap: () => Get.to(const SubmissionDetailsPage(),
                             arguments: {
-                              'data': i
+                              'id': i.id
                             },
                             routeName: 'purchase-order/details'
                         ),

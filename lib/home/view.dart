@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
-                onTap: () => ctr.selectNavbarBottomIdx(0),
+                onTap: () => ctr.selectNavbarBottomIdx(context, 0),
                 child: SizedBox(
                   width: width/5,
                   child: Column(
@@ -57,7 +57,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () => ctr.selectNavbarBottomIdx(1),
+                onTap: () => ctr.selectNavbarBottomIdx(context, 1),
                 child: SizedBox(
                   width: width/5,
                   child: Column(
@@ -79,7 +79,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () => ctr.selectNavbarBottomIdx(2),
+                onTap: () => ctr.selectNavbarBottomIdx(context, 2),
                 child: SizedBox(
                   width: width/5,
                   child: Column(
@@ -102,7 +102,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () => ctr.selectNavbarBottomIdx(3),
+                onTap: () => ctr.selectNavbarBottomIdx(context, 3),
                 child: SizedBox(
                   width: width/5,
                   child: Column(
@@ -124,7 +124,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () => ctr.selectNavbarBottomIdx(4),
+                onTap: () => ctr.selectNavbarBottomIdx(context, 4),
                 child: SizedBox(
                   width: width/5,
                   child: Column(

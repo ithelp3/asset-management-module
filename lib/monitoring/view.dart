@@ -38,8 +38,38 @@ class MonitoringPage extends StatelessWidget {
           body: TabBarView(
             controller: ctr.tabController,
             children: [
-              ctr.itemSubmissions.isNotEmpty ? submissionItem(context, ctr) : skeletonMonitoringItem(),
-              ctr.itemPurchases.isNotEmpty ? purchaseItem(context, ctr) : skeletonMonitoringItem()
+              !ctr.progress.value
+                ? ctr.itemSubmissions.isNotEmpty
+                  ? submissionItem(context, ctr)
+                  : Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/4),
+                    child: Column(
+                        children: [
+                          const Icon(Icons.folder_off_outlined, size: 80, color: Color(0xFF3f87b9),),
+                          const Divider(height: 10,),
+                          Text('no_data_available'.tr,
+                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF3f87b9)),)
+                        ]
+                    ),
+                  )
+                : skeletonMonitoringItem(),
+              !ctr.progress.value
+                ? ctr.itemPurchases.isNotEmpty
+                  ? purchaseItem(context, ctr)
+                  : Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/4),
+                child: Column(
+                    children: [
+                      const Icon(Icons.folder_off_outlined, size: 80, color: Color(0xFF3f87b9),),
+                      const Divider(height: 10,),
+                      Text('no_data_available'.tr,
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF3f87b9)),)
+                    ]
+                ),
+              )
+                : skeletonMonitoringItem()
             ],
           ),
         );

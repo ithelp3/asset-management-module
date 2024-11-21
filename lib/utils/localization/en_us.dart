@@ -136,7 +136,7 @@ Map<String, String> enUs = {
   'submission_step_7': 'Asset procurement',
   'submission_step_0': 'Submission Asset Complete',
   'On Process': 'On Process',
-  'Approve': 'Approve',
+  'Approved': 'Approved',
   'Rejected': 'Rejected',
   'Complete': 'Completed',
   'added_from': 'Added From',
@@ -194,5 +194,6 @@ Map<String, String> enUs = {
   'resubmission': 'Re-Submission',
   'subject': 'Subject',
   'items': 'Items',
-  'purchase_details': 'Purchase Details'
+  'purchase_details': 'Purchase Details',
+  'sorry_you_dont_have_access': "Sorry, you don't have access"
 };

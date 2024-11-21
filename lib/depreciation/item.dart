@@ -1,5 +1,6 @@
 import 'package:asset_management_module/home/controller.dart';
 import 'package:asset_management_module/model/depreciation.dart';
+import 'package:asset_management_module/model/permissions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -27,28 +28,33 @@ Widget itemDepreciation(BuildContext context, HomeController ctr, Depreciation i
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF3f87b9)),),
               ),
-              PopupMenuButton(
-                itemBuilder: (ctx) => [
-                  {'label': 'edit'.tr, 'icon': Icons.edit_note_outlined},
-                  {'label': 'delete'.tr, 'icon': Icons.delete_outline_outlined},
-                ].map((i) {
-                  String label = i['label'].toString();
-                  IconData icon = i['icon'] as IconData;
-                  return PopupMenuItem(
-                      onTap: () {
-                        if(label == 'edit'.tr) ctr.addEditDep('edit', item);
-                        if(label == 'delete'.tr) ctr.deleteDep(context, item);
-                      },
-                      height: 34,
-                      child: Row(
-                        children: [
-                          Icon(icon, color: const Color(0xFF3f87b9),),
-                          const VerticalDivider(width: 10,),
-                          Text(label, style: const TextStyle(color: Color(0xFF3f87b9)),),
-                        ],
-                      ),
-                  );
-                }).toList(),
+              if(ctr.user.administrator! || ctr.permissions.any((i) => i.feature == "depreciations"))PopupMenuButton(
+                itemBuilder: (ctx) {
+                  Permission permission = ctr.permissions.firstWhere((i) => i.feature == "depreciations");
+                  bool accessEdit = (ctr.user.administrator! || permission.permissions!.any((i) => i == 'edit'));
+                  bool accessDelete = (ctr.user.administrator! || permission.permissions!.any((i) => i == 'delete'));
+                  return [
+                    if(accessEdit) {'label': 'edit'.tr, 'icon': Icons.edit_note_outlined},
+                    if(accessDelete) {'label': 'delete'.tr, 'icon': Icons.delete_outline_outlined},
+                  ].map((i) {
+                    String label = i['label'].toString();
+                    IconData icon = i['icon'] as IconData;
+                    return PopupMenuItem(
+                        onTap: () {
+                          if(label == 'edit'.tr) ctr.addEditDep('edit', item);
+                          if(label == 'delete'.tr) ctr.deleteDep(context, item);
+                        },
+                        height: 34,
+                        child: Row(
+                          children: [
+                            Icon(icon, color: const Color(0xFF3f87b9),),
+                            const VerticalDivider(width: 10,),
+                            Text(label, style: const TextStyle(color: Color(0xFF3f87b9)),),
+                          ],
+                        ),
+                    );
+                  }).toList();
+                },
                 style: const ButtonStyle(
                     iconColor: WidgetStatePropertyAll(Color(0xFF3f87b9)),
                     padding: WidgetStatePropertyAll(EdgeInsets.zero)

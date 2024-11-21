@@ -1,5 +1,5 @@
+import 'package:asset_management_module/component_widget/skeleton_purchase_order.dart';
 import 'package:asset_management_module/model/purchase.dart';
-import 'package:asset_management_module/purchase_order/add_edit_purchase/view.dart';
 import 'package:asset_management_module/purchase_order/purchase_details/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +21,7 @@ class PurchaseOrderPage extends StatelessWidget {
               ? Colors.white
               : const Color(0xFF272d34),
           leading: IconButton(
-            onPressed: () => Get.back(),
+            onPressed: () => Get.back(result: true),
             icon: Icon(Icons.arrow_back_ios,
               color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,),
           ),
@@ -29,7 +29,9 @@ class PurchaseOrderPage extends StatelessWidget {
         ),
         body: ScrollConfiguration(
           behavior: const ScrollBehavior(),
-          child: ListView.builder(
+          child: ctr.progress.value
+            ? skeletonPurchaseItem()
+            : ListView.builder(
               itemCount: ctr.purchases.length,
               itemBuilder: (ctx, idx) {
                 Purchase i = ctr.purchases[idx];
@@ -167,9 +169,7 @@ class PurchaseOrderPage extends StatelessWidget {
         floatingActionButton: Visibility(
             visible: !(MediaQuery.of(context).viewInsets.bottom != 0),
             child: FloatingActionButton(
-              onPressed: () => Get.to(const AddEditPurchasePage(),
-                routeName: '/purchase-order/add'
-              ),
+              onPressed: () => ctr.addPurchase(context),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40)
               ),

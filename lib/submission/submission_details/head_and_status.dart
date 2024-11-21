@@ -7,9 +7,9 @@ import 'package:intl/intl.dart';
 
 Widget headAndStatus(BuildContext context, SubmissionDetailsController ctr) {
   MaterialColor colorStatus = Colors.brown;
-  if(ctr.submission.value.status == 'On Process') colorStatus = Colors.blue;
-  if(ctr.submission.value.status == 'Approved' || ctr.submission.value.status == 'Complete') colorStatus = Colors.green;
-  if(ctr.submission.value.status == 'Rejected') colorStatus = Colors.red;
+  if(ctr.submission.value.status == 'On Process'.tr) colorStatus = Colors.blue;
+  if(ctr.submission.value.status == 'Approved'.tr || ctr.submission.value.status == 'Completed'.tr) colorStatus = Colors.green;
+  if(ctr.submission.value.status == 'Rejected'.tr) colorStatus = Colors.red;
   return Card(
     margin: const EdgeInsets.only(left: 8, right: 8, top: 8),
     child: Column(
@@ -31,7 +31,7 @@ Widget headAndStatus(BuildContext context, SubmissionDetailsController ctr) {
                     color: colorStatus.shade50,
                     borderRadius: BorderRadius.circular(4)
                 ),
-                child: Text(ctr.submission.value.status?.tr ?? '',
+                child: Text(ctr.submission.value.status ?? '',
                   style: TextStyle(
                       fontSize: 12,
                       color: colorStatus.shade700),),
@@ -105,17 +105,18 @@ Widget headAndStatus(BuildContext context, SubmissionDetailsController ctr) {
                             ),
                             child: ctr.submission.value.step == 2 ? AvatarGlow(
                                 startDelay: const Duration(milliseconds: 600),
-                                glowColor: (ctr.submission.value.status == 'Rejected')
+                                glowColor: (ctr.submission.value.status == 'Rejected'.tr)
                                     ? Colors.red.shade200
                                     : Colors.blue.shade200,
                                 animate: true,
                                 curve: Curves.fastEaseInToSlowEaseOut,
                               child: CircleAvatar(
                                 radius: 12,
-                                child: Icon(ctr.submission.value.status != 'Rejected'
+                                backgroundColor: Colors.transparent,
+                                child: Icon(ctr.submission.value.status != 'Rejected'.tr
                                     ? Icons.radio_button_checked
                                     : Icons.highlight_remove_outlined,
-                                    color: ctr.submission.value.status != 'Rejected' ? Colors.blue : Colors.red
+                                    color: ctr.submission.value.status != 'Rejected'.tr ? Colors.blue : Colors.red
                                 ),
                               )
                             ) : const Icon(Icons.check_circle, color: Colors.blue,)
@@ -139,17 +140,18 @@ Widget headAndStatus(BuildContext context, SubmissionDetailsController ctr) {
                             child: ctr.submission.value.step == 3
                                 ? AvatarGlow(
                                 startDelay: const Duration(milliseconds: 600),
-                                glowColor: (ctr.submission.value.status == 'Rejected' && ctr.submission.value.step == 3)
+                                glowColor: (ctr.submission.value.status == 'Rejected'.tr && ctr.submission.value.step == 3)
                                     ? Colors.red.shade200
                                     : Colors.blue.shade200,
                                 animate: true,
                                 curve: Curves.fastEaseInToSlowEaseOut,
                                 child: CircleAvatar(
                                   radius: 12,
-                                  child: Icon( ctr.submission.value.status != 'Rejected'
+                                  backgroundColor: Colors.transparent,
+                                  child: Icon( ctr.submission.value.status != 'Rejected'.tr
                                       ? Icons.radio_button_checked
                                       : Icons.highlight_remove_outlined,
-                                    color: (ctr.submission.value.status == 'Rejected' && ctr.submission.value.step == 3)
+                                    color: (ctr.submission.value.status == 'Rejected'.tr && ctr.submission.value.step == 3)
                                         ? Colors.red
                                         : Colors.blue,
                                   ),
@@ -178,18 +180,19 @@ Widget headAndStatus(BuildContext context, SubmissionDetailsController ctr) {
                             ),
                             child: ctr.submission.value.step == 4 ? AvatarGlow(
                               startDelay: const Duration(milliseconds: 600),
-                              glowColor: (ctr.submission.value.status == 'Rejected' && ctr.submission.value.step == 4)
-                                  ? Colors.red.shade400
+                              glowColor: (ctr.submission.value.status == 'Rejected'.tr && ctr.submission.value.step == 4)
+                                  ? Colors.red.shade200
                                   : Colors.blue.shade400,
                               animate: true,
                               glowRadiusFactor: 0.6,
                               curve: Curves.fastEaseInToSlowEaseOut,
                               child: CircleAvatar(
                                 radius: 12,
-                                child: Icon( ctr.submission.value.status != 'Rejected'
+                                backgroundColor: Colors.transparent,
+                                child: Icon( ctr.submission.value.status != 'Rejected'.tr
                                     ? Icons.radio_button_checked
                                     : Icons.highlight_remove_outlined,
-                                  color: (ctr.submission.value.status == 'Rejected' && ctr.submission.value.step == 4)
+                                  color: (ctr.submission.value.status == 'Rejected'.tr && ctr.submission.value.step == 4)
                                       ? Colors.red
                                       : Colors.blue,
                                 ),
@@ -230,6 +233,7 @@ Widget headAndStatus(BuildContext context, SubmissionDetailsController ctr) {
                                 curve: Curves.fastEaseInToSlowEaseOut,
                                 child: const CircleAvatar(
                                   radius: 12,
+                                  backgroundColor: Colors.transparent,
                                   child: Icon(Icons.radio_button_checked, color: Colors.blue,
                                   ),
                                 )
@@ -268,6 +272,7 @@ Widget headAndStatus(BuildContext context, SubmissionDetailsController ctr) {
                                 curve: Curves.fastEaseInToSlowEaseOut,
                                 child: const CircleAvatar(
                                   radius: 12,
+                                  backgroundColor: Colors.transparent,
                                   child: Icon(Icons.radio_button_checked, color: Colors.blue,
                                   ),
                                 )

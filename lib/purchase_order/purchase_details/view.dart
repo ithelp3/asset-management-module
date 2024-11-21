@@ -31,7 +31,7 @@ class PurchaseDetailsPage extends StatelessWidget {
               children: [
                 subject(context, ctr),
                 purchase(context, ctr),
-                invoice(context, ctr),
+                if((ctr.purchase.value.fileName ?? '' )!= '' && (ctr.purchase.value.fileUrl ?? '' ) != '') invoice(context, ctr),
               ],
             )
         ) : skeletonDetailSubmission(),

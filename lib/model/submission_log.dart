@@ -11,6 +11,7 @@ class SubmissionLog {
   String? userName;
   String? username;
   String? translatedActivity;
+  String? profileUrl;
 
   SubmissionLog({
     this.id,
@@ -25,6 +26,7 @@ class SubmissionLog {
     this.userName,
     this.username,
     this.translatedActivity,
+    this.profileUrl,
   });
 
   factory SubmissionLog.fromJson(Map<String, dynamic> json) => SubmissionLog(
@@ -40,5 +42,6 @@ class SubmissionLog {
     userName: json["user_name"],
     username: json["username"],
     translatedActivity: json["translated_activity"],
+    profileUrl: json['profile_url'],
   );
 }

@@ -98,7 +98,7 @@ class SetSuppliersController extends GetxController {
             filename: item.fileName, contentType: DioMediaType('file', item.fileName!.split('.').last)
         ),
       });
-      response = await DioClient().post('/submission/set-suppliers',
+      response = await DioClient().post('/submission/set-suppliers/create',
           data: payload
       );
     } else {

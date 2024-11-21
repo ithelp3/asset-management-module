@@ -3,15 +3,20 @@ import 'package:asset_management_module/asset/add_edit_asset/view.dart';
 import 'package:asset_management_module/asset/assign_unassign/view.dart';
 import 'package:asset_management_module/component/view.dart';
 import 'package:asset_management_module/component_widget/loading.dart';
+import 'package:asset_management_module/component_widget/scaffold_message.dart';
 import 'package:asset_management_module/depreciation/add_edit_depreciation/view.dart';
 import 'package:asset_management_module/lending/view.dart';
 import 'package:asset_management_module/maintenance/view.dart';
 import 'package:asset_management_module/model/asset.dart';
 import 'package:asset_management_module/model/depreciation.dart';
+import 'package:asset_management_module/model/permissions.dart';
 import 'package:asset_management_module/model/profile.dart';
 import 'package:asset_management_module/model/monitoring.dart';
+import 'package:asset_management_module/purchase_order/add_edit_purchase/view.dart';
 import 'package:asset_management_module/purchase_order/purchase_details/view.dart';
 import 'package:asset_management_module/purchase_order/view.dart';
+import 'package:asset_management_module/staff/view.dart';
+import 'package:asset_management_module/submission/add_edit_submission/view.dart';
 import 'package:asset_management_module/submission/submission_details/view.dart';
 import 'package:asset_management_module/submission/view.dart';
 import 'package:asset_management_module/utils/data/client.dart';
@@ -23,6 +28,7 @@ import 'package:get/get.dart';
 class HomeController extends GetxController {
   RxInt navbarBottomIdx = 0.obs;
   UserAuth user = NavKey.user!;
+  List<Permission> permissions = NavKey.permissions!;
   RxList allMonitoring = [].obs;
   RxList<Monitoring> itemPurchases = <Monitoring>[].obs;
   RxList<Monitoring> itemSubmission = <Monitoring>[].obs;
@@ -59,16 +65,52 @@ class HomeController extends GetxController {
     capsule.value = key;
   }
 
-  void selectNavbarBottomIdx(int idx) {
+  void selectNavbarBottomIdx(context, int idx) {
     navbarBottomIdx.value = idx;
     if(idx == 0){
       getDashboard();
     } else if(idx == 1) {
-      if(assets.isEmpty) getAssets();
+      if(user.administrator!) {
+        if(assets.isEmpty) getAssets();
+      } else if(permissions.any((i) => i.feature == "asset")) {
+        Permission permission = permissions.firstWhere((i) => i.feature == "asset");
+        if(permission.permissions!.any((i) => i == 'view')) {
+          if(assets.isEmpty) getAssets();
+        } else if(permission.permissions!.any((i) => i == 'add')) {
+          Get.to(const AddEditAssetPage(),
+            routeName: '/assets/add',
+            arguments: {
+              'type': 'add',
+            },
+          );
+        } else {
+          scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+        }
+      } else {
+        scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+      }
     } else if(idx == 2) {
 
     } else if(idx == 3) {
-      if(depreciations.isEmpty) getDepreciations();
+      if(user.administrator!) {
+        if(depreciations.isEmpty) getDepreciations();
+      } else if(permissions.any((i) => i.feature == "depreciations")) {
+        Permission permission = permissions.firstWhere((i) => i.feature == "depreciations");
+        if(permission.permissions!.any((i) => i == 'view')) {
+          if(depreciations.isEmpty) getDepreciations();
+        } else if(permission.permissions!.any((i) => i == 'add')) {
+          Get.to(const AddEditDepreciationPage(),
+            routeName: '/depreciations/add',
+            arguments: {
+              'type': 'add',
+            },
+          );
+        } else {
+          scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+        }
+      } else {
+        scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+      }
     } else if(idx == 4) {
       if(profile.value.id == null) getProfile();
     }
@@ -77,30 +119,30 @@ class HomeController extends GetxController {
 
   void getDashboard() async {
     await DioClient().get('/monitoring/list')
-        .then((res) {
-          for(final findSupplier in res['find_supplier']) {
-            for(final po in res['submission']) {
-              Monitoring submission = Monitoring.fromJson(po);
-              if(findSupplier == submission.findSupplierId) itemSubmission.add(submission);
+      .then((res) {
+        for(final findSupplier in res['find_supplier']) {
+          for(final po in res['submission']) {
+            Monitoring submission = Monitoring.fromJson(po);
+            if(findSupplier == submission.findSupplierId) itemSubmission.add(submission);
+          }
+        }
+        for(final approve in res['approval']) {
+          for(final po in res['submission']) {
+            Monitoring submission = Monitoring.fromJson(po);
+            if(approve == submission.id) itemSubmission.add(submission);
+          }
+        }
+        for(final purchase in res['purchases']) {
+          for(final po in res['submission']) {
+            Monitoring submissionPurchase = Monitoring.fromJson(po);
+            if(purchase['find_supplier_id'] != 0 && purchase['find_supplier_id'] == submissionPurchase.findSupplierId) {
+              submissionPurchase.status = purchase['status'] == 1 ? 'un_paid' : 'paid';
+              submissionPurchase.submissionId = purchase['purchase_id'];
+              itemPurchases.add(submissionPurchase);
             }
           }
-          for(final approve in res['approval']) {
-            for(final po in res['submission']) {
-              Monitoring submission = Monitoring.fromJson(po);
-              if(approve == submission.id) itemSubmission.add(submission);
-            }
-          }
-          for(final purchase in res['purchases']) {
-            for(final po in res['submission']) {
-              Monitoring submissionPurchase = Monitoring.fromJson(po);
-              if(purchase['find_supplier_id'] != 0 && purchase['find_supplier_id'] == submissionPurchase.findSupplierId) {
-                submissionPurchase.status = purchase['status'] == 1 ? 'un_paid' : 'paid';
-                submissionPurchase.submissionId = purchase['purchase_id'];
-                itemPurchases.add(submissionPurchase);
-              }
-            }
-          }
-        });
+        }
+      });
     // allMonitoring.addAll([
     //   PurchaseOrderSubmission(
     //       subject: 'peminjaman',
@@ -142,9 +184,29 @@ class HomeController extends GetxController {
   void selectItemIcon(context, String key) async {
     dynamic result;
     if(key == 'purchase_order'.tr) {
-      Get.to(const PurchaseOrderPage(),
-          routeName: '/purchase_order'
-      );
+      if(user.administrator!) {
+        result = await Get.to(const PurchaseOrderPage(),
+            routeName: '/purchase_order'
+        );
+      } else if(permissions.any((i) => i.feature == "purchase")) {
+        Permission permission = permissions.firstWhere((i) => i.feature == "purchase");
+        if(permission.permissions!.any((i) => i == 'view')) {
+          result = await Get.to(const PurchaseOrderPage(),
+              routeName: '/purchase_order'
+          );
+        } else if(permission.permissions!.any((i) => i == 'add')) {
+          result = await Get.to(const AddEditPurchasePage(),
+              routeName: '/purchase-order/add',
+              arguments: {
+                'type': 'add'
+              }
+          );
+        } else {
+          scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+        }
+      } else {
+        scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+      }
     }
     if(key == 'lending'.tr) {
       Get.to(const LendingPage(),
@@ -152,52 +214,67 @@ class HomeController extends GetxController {
       );
     }
     if(key == 'component'.tr) {
-      Get.to(const ComponentPage(),
-        routeName: '/component/list',
-      );
+      Permission permission = permissions.firstWhere((i) => i.feature == "component");
+      if(user.administrator! || permission.permissions!.any((i) => i == 'view')) {
+        result = Get.to(const ComponentPage(),
+          routeName: '/component/list',
+        );
+      } else {
+        scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+      }
     }
     if(key == 'maintenance'.tr) {
-      Get.to(const MaintenancePage(),
-        routeName: '/maintenance/list',
-      );
+      Permission permission = permissions.firstWhere((i) => i.feature == "maintenance");
+      if(user.administrator! || permission.permissions!.any((i) => i == 'view')) {
+        result = Get.to(const MaintenancePage(),
+          routeName: '/maintenance/list',
+        );
+      } else {
+        scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+      }
     }
     if(key == 'submission'.tr) {
-      result = await Get.to(const SubmissionPage(),
-        routeName: '/submission/add',
-        arguments: {
-          'type': 'add'
+      if(user.administrator!) {
+        result = await Get.to(const SubmissionPage(),
+          routeName: '/submission',
+        );
+      } else if(permissions.any((i) => i.feature == "submission")) {
+        Permission permission = permissions.firstWhere((i) => i.feature == "submission");
+        if(permission.permissions!.any((i) => i == 'view')) {
+          result = await Get.to(const SubmissionPage(),
+            routeName: '/submission',
+          );
+        } else if(permission.permissions!.any((i) => i == 'add')) {
+          result = await Get.to(const AddEditSubmissionPage(),
+              arguments: {
+                'type': 'add'
+              },
+              routeName: '/submission/add'
+          );
+        } else {
+          scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
         }
+      } else {
+        scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+      }
+    }
+    if(key == 'staff'.tr) {
+      Get.to(const StaffPage(),
+        routeName: '/staff/list',
       );
     }
-    // if(i['label'] == 'staff'.tr) {
-    //   Get.to(const StaffPage(),
-    //     routeName: '/staff/list',
-    //   );
-    // }
     // if(label == 'Q/A') {
     //   Get.to(const QaPage(),
     //       routeName: '/qa'
     //   );
     // }
     if(key == 'supplier'.tr || key == 'brand'.tr || key == 'location'.tr) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Colors.lightBlue,
-            content: Row(
-              children: [
-                Icon(Icons.info_outline, color: Colors.white, size: 20,),
-                VerticalDivider(width: 10,),
-                Text('Coming soon..')
-              ],
-            ),
-            behavior: SnackBarBehavior.floating,
-          )
-      );
-
-      if(result == null) return;
-
-      getDashboard();
+      scaffoldMessage(context, 'Coming soon..');
     }
+
+    if(result == null) return;
+
+    getDashboard();
   }
 
   void selectItemMonitoring(String key, dynamic data) async {
@@ -206,7 +283,7 @@ class HomeController extends GetxController {
     if(key == 'submission') {
       result = await Get.to(const SubmissionDetailsPage(),
           arguments: {
-            'data': item
+            'id': item.id
           },
           routeName: 'submission/details'
       );

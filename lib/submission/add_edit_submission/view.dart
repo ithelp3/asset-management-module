@@ -20,7 +20,7 @@ class AddEditSubmissionPage extends StatelessWidget {
               color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,),
           ),
         ),
-        body:Form(
+        body: Form(
             key: ctr.formKey.value,
             child: Column(
               children: [

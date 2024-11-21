@@ -36,9 +36,9 @@ class SubmissionDetailsPage extends StatelessWidget {
               ],
             ),
           ) : skeletonDetailSubmission(),
-          bottomNavigationBar: ctr.progress.value ? null : (ctr.submission.value.status != 'Rejected')
-            ? ((ctr.submission.value.step == 2 && NavKey.user!.approverLevel1!.contains(NavKey.user!.userId))
-              || (ctr.submission.value.step == 5 && NavKey.user!.approverLevel3!.contains(NavKey.user!.userId)))
+          bottomNavigationBar: ctr.progress.value ? null : (ctr.submission.value.status != 'Rejected'.tr)
+            ? ((ctr.submission.value.step == 2 && NavKey.user!.approverLevel1!.contains(NavKey.user!.userId) && ctr.submission.value.addedFromId != NavKey.user!.userId)
+              || (ctr.submission.value.step == 5 && NavKey.user!.approverLevel3!.contains(NavKey.user!.userId) && ctr.submission.value.addedFromId != NavKey.user!.userId))
               ? Container(
                 padding: const EdgeInsets.only(bottom: 20, top: 18),
                 width: double.infinity,
