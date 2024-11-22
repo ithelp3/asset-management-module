@@ -2,10 +2,12 @@ import 'package:asset_management_module/component_widget/skeleton_depreciation.d
 import 'package:asset_management_module/depreciation/item.dart';
 import 'package:asset_management_module/home/controller.dart';
 import 'package:asset_management_module/model/depreciation.dart';
+import 'package:asset_management_module/model/permissions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 Widget depreciation(BuildContext context, HomeController ctr) {
+  Permission permission = ctr.permissions.firstWhere((i) => i.feature == "depreciations", orElse: () => Permission());
   return Scaffold(
     key: const ValueKey(3),
     appBar: AppBar(
@@ -85,7 +87,8 @@ Widget depreciation(BuildContext context, HomeController ctr) {
         ]
       ),
     ),
-    floatingActionButton: Visibility(
+    floatingActionButton:  (ctr.user.administrator! || (permission.permissions?.isNotEmpty ?? false)) ?  ctr.user.administrator!
+      ? Visibility(
         visible: !(MediaQuery.of(context).viewInsets.bottom != 0),
         child: FloatingActionButton(
           onPressed: () => ctr.addEditDep('add', null),
@@ -95,6 +98,18 @@ Widget depreciation(BuildContext context, HomeController ctr) {
           backgroundColor: const Color(0xFF3f87b9),
           child: const Icon(Icons.add, size: 34, color: Colors.white,),
         )
-    ),
+    )
+      : permission.permissions!.any((i) => i == 'view') ? Visibility(
+        visible: !(MediaQuery.of(context).viewInsets.bottom != 0),
+        child: FloatingActionButton(
+          onPressed: () => ctr.addEditDep('add', null),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(40)
+          ),
+          backgroundColor: const Color(0xFF3f87b9),
+          child: const Icon(Icons.add, size: 34, color: Colors.white,),
+        )
+    ) : null
+        : null ,
   );
 }

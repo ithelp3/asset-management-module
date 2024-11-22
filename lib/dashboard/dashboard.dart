@@ -3,7 +3,7 @@ import 'package:asset_management_module/dashboard/dashboard_monitoring.dart';
 import 'package:asset_management_module/home/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'dart:js' as js;
+import 'dart:js' as js;
 
 @override
 Widget dashboard(BuildContext context, HomeController ctr) {
@@ -16,7 +16,7 @@ Widget dashboard(BuildContext context, HomeController ctr) {
       centerTitle: true,
       leading: GestureDetector(
           onTap: () {
-            // js.context.callMethod('backToMainApp');
+            js.context.callMethod('backToMainApp');
           },
           child: const Icon(Icons.arrow_back_ios, color: Colors.black,)),
       bottom: PreferredSize(

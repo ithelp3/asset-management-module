@@ -57,7 +57,7 @@ Widget account(BuildContext context, HomeController ctr) {
               ListTile(
                 leading: const Icon(Icons.mail_outline, color: Color(0xFF3f87b9),),
                 title: Text('email'.tr, style: const TextStyle(fontWeight: FontWeight.bold),),
-                subtitle: Text(ctr.user.email ?? 'N/A', style: const TextStyle(color: Colors.grey),),
+                subtitle: Text(ctr.profile.value.email ?? 'N/A', style: const TextStyle(color: Colors.grey),),
               ),
               ListTile(
                 leading: const Icon(Icons.maps_home_work_outlined, color: Color(0xFF3f87b9),),

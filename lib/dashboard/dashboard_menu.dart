@@ -23,7 +23,7 @@ Widget dashboardMenu(BuildContext context, HomeController ctr) {
           crossAxisCount: 4,
           childAspectRatio: 1,
           children: [
-            {'label': 'purchase_order'.tr, 'icon': Icons.assignment_rounded},
+            {'label': 'purchase'.tr, 'icon': Icons.assignment_rounded},
             {'label': 'lending'.tr, 'icon': Icons.real_estate_agent_rounded},
             {'label': 'maintenance'.tr, 'icon': Icons.construction_outlined},
             // {'label': 'reminder'.tr, 'icon': Icons.notifications_active_outlined},

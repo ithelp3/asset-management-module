@@ -1,4 +1,5 @@
 import 'package:asset_management_module/component_widget/skeleton_submission.dart';
+import 'package:asset_management_module/model/permissions.dart';
 import 'package:asset_management_module/submission/submission_details/activity_logs.dart';
 import 'package:asset_management_module/submission/submission_details/head_and_status.dart';
 import 'package:asset_management_module/submission/submission_details/rejected.dart';
@@ -13,6 +14,12 @@ class SubmissionDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Permission permission = NavKey.permissions!.firstWhere((i) => i.feature == "find-supplier", orElse: () => Permission());
+    bool accessAdd = false;
+    bool accessEdit = false;
+    bool isAdministrator = NavKey.user?.administrator ?? false;
+    if(permission.permissions?.isNotEmpty ?? false ) accessAdd = permission.permissions!.any((i) => i == 'add');
+    if(permission.permissions?.isNotEmpty ?? false ) accessEdit = permission.permissions!.any((i) => i == 'edit');
     return GetBuilder(
       init: SubmissionDetailsController(),
       builder: (ctr) {
@@ -36,7 +43,7 @@ class SubmissionDetailsPage extends StatelessWidget {
               ],
             ),
           ) : skeletonDetailSubmission(),
-          bottomNavigationBar: ctr.progress.value ? null : (ctr.submission.value.status != 'Rejected'.tr)
+          bottomNavigationBar: ctr.progress.value ? null : ctr.submission.value.addedFromId == NavKey.user!.userId ? null : (ctr.submission.value.status != 'Rejected'.tr)
             ? ((ctr.submission.value.step == 2 && NavKey.user!.approverLevel1!.contains(NavKey.user!.userId) && ctr.submission.value.addedFromId != NavKey.user!.userId)
               || (ctr.submission.value.step == 5 && NavKey.user!.approverLevel3!.contains(NavKey.user!.userId) && ctr.submission.value.addedFromId != NavKey.user!.userId))
               ? Container(
@@ -83,7 +90,7 @@ class SubmissionDetailsPage extends StatelessWidget {
                   ],
                 ),
               )
-              : (ctr.submission.value.step == 3 || (ctr.submission.value.step == 4 && NavKey.user!.approverLevel2!.contains(NavKey.user!.userId)) || ctr.submission.value.step == 6)
+              : ((ctr.submission.value.step == 3 && (isAdministrator || accessAdd || accessEdit)) || (ctr.submission.value.step == 4 && NavKey.user!.approverLevel2!.contains(NavKey.user!.userId)) || ctr.submission.value.step == 6)
                 ? Container(
             padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
             width: double.infinity,
@@ -92,7 +99,7 @@ class SubmissionDetailsPage extends StatelessWidget {
                 : const Color(0xFF272d34),
             child: ElevatedButton(
               onPressed: () {
-                if(ctr.submission.value.step == 3) ctr.findSupplier('add');
+                if(ctr.submission.value.step == 3 && (isAdministrator || accessAdd)) ctr.findSupplier('add');
                 if(ctr.submission.value.step == 4) ctr.chooseApprovedSupplier();
                 if(ctr.submission.value.step == 6) ctr.createPurchaseOrder();
               },
@@ -103,7 +110,7 @@ class SubmissionDetailsPage extends StatelessWidget {
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 20),
               ),
-              child: Text(ctr.submission.value.step == 3
+              child: Text(ctr.submission.value.step == 3 && (isAdministrator || accessAdd)
                   ? 'find_supplier'.tr
                   : ctr.submission.value.step == 4
                       ? 'choose_approved_supplier'.tr
@@ -121,7 +128,7 @@ class SubmissionDetailsPage extends StatelessWidget {
             child: ElevatedButton(
                 onPressed: () {
                   if(ctr.submission.value.step == 2) ctr.resubmission();
-                  if(ctr.submission.value.step == 4 || ctr.submission.value.step == 5) ctr.findSupplier('edit');
+                  if((ctr.submission.value.step == 4 || ctr.submission.value.step == 5) && (isAdministrator || accessEdit)) ctr.findSupplier('edit');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFF04747),
