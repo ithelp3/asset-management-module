@@ -1,13 +1,13 @@
 import 'package:asset_management_module/component_widget/skeleton_monitoring.dart';
 import 'package:asset_management_module/home/controller.dart';
-import 'package:asset_management_module/model/monitoring.dart';
+import 'package:asset_management_module/model/recent_asset.dart';
+import 'package:asset_management_module/model/recent_component.dart';
 import 'package:asset_management_module/monitoring/view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-Widget dashboardMonitoring(BuildContext context, HomeController ctr) {
+Widget dashboardRecent(BuildContext context, HomeController ctr) {
   return Column(
     children: [
       Container(
@@ -20,46 +20,39 @@ Widget dashboardMonitoring(BuildContext context, HomeController ctr) {
       Padding(
         padding: const EdgeInsets.only(top: 14,),
         child: Row(
-          children: ['submission'.tr, 'purchase'.tr,
+          children: ['recent_assets'.tr, 'recent_components'.tr,
             // 'lending'.tr, 'maintenance'.tr,
           ].map((i) {
             return GestureDetector(
               onTap: () => ctr.selectedCapsule(i),
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                margin: EdgeInsets.only(
-                    left: i == 'all'.tr ? 14 : 8,
-                    right: i == 'maintenance'.tr ? 14 : 0
-                ),
+                margin: EdgeInsets.only(left: 8,),
                 decoration: BoxDecoration(
-                  color: ctr.filterMonitoring.value == i ? Colors.blue.shade100 : null,
+                  color: ctr.filterRecent.value == i ? Colors.blue.shade100 : null,
                   borderRadius: BorderRadius.circular(16),
                   // border: Border.all(color: const Color(0xFF3f87b9))
                 ),
                 child: Text(i,
                   style: TextStyle(
-                      color: ctr.filterMonitoring.value == i ? Colors.blue.shade700 : Colors.black,
-                      fontWeight: ctr.filterMonitoring.value == i ? FontWeight.bold : FontWeight.normal
+                      color: ctr.filterRecent.value == i ? Colors.blue.shade700 : Colors.black,
+                      fontWeight: ctr.filterRecent.value == i ? FontWeight.bold : FontWeight.normal
                   ),),
               ),
             );
           }).toList(),
         ),
       ),
-      if(ctr.filterMonitoring.value == 'submission'.tr) Padding(
+      if(ctr.filterRecent.value == 'recent_assets'.tr) Padding(
         padding: const EdgeInsets.only(top: 10, left: 14, right: 14, bottom: 10),
         child: ctr.progressDashboard.value
-          ? skeletonMonitoringItemDashboard()
-          : ListView.builder(
+            ? skeletonMonitoringItemDashboard()
+            : ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: ctr.itemSubmission.length <= 10 ? ctr.itemSubmission.length : 10,
             itemBuilder: (ctx, idx) {
-              Monitoring i = ctr.itemSubmission[idx];
-              MaterialColor colorStatus = Colors.brown;
-              if(i.status == 'On Process') colorStatus = Colors.blue;
-              if(i.status == 'Approved' || i.status == 'Complete') colorStatus = Colors.green;
-              if(i.status == 'Rejected') colorStatus = Colors.red;
+              RecentAsset i = ctr.recentAssets[idx];
               return Container(
                 margin: const EdgeInsets.only(top: 8),
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
@@ -75,7 +68,7 @@ Widget dashboardMonitoring(BuildContext context, HomeController ctr) {
                     )]
                 ),
                 child: InkWell(
-                  onTap: () => ctr.selectItemMonitoring('submission', i),
+                  onTap: () => {},
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -99,34 +92,40 @@ Widget dashboardMonitoring(BuildContext context, HomeController ctr) {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('submission'.tr,
+                                  Text('asset'.tr,
                                     style: const TextStyle(fontWeight: FontWeight.bold),
                                   ),
-                                  Text(DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!)),
+                                  Text(DateFormat('dd MMMM yyyy').format(DateFormat('yyyy-MM-dd').parse(i.date!)),
                                     style: const TextStyle(fontSize: 12, color: Colors.grey),
                                   ),
                                 ],
                               ),
                             ),),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                              decoration: BoxDecoration(
-                                  color: colorStatus.shade50,
-                                  borderRadius: BorderRadius.circular(4)
-                              ),
-                              child: Text(i.status?.tr ?? '',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: colorStatus.shade700),),
-                            ),
                           ],
                         ),
                       ),
                       Divider(color: Colors.blue.shade50, height: 0,),
                       Padding(
                         padding: const EdgeInsets.only(left: 4, top: 6, right: 2),
-                        child: HtmlWidget(i.submissionDetail ?? '',
-                          textStyle: const TextStyle(fontSize: 12),
+                        child: Table(
+                          columnWidths: const {
+                            0: FlexColumnWidth(0.7),
+                            1: FlexColumnWidth(0.1),
+                            2: FlexColumnWidth(),
+                          },
+                          children: [
+                            {'label': 'employee'.tr, 'value': i.employeeName},
+                            {'label': 'asset_name'.tr, 'value': i.asset},
+                          ].map((i) => TableRow(
+                              children: [
+                                Text(i['label'].toString(), style : const TextStyle(fontSize: 12, height: 1.2)),
+                                const Text(':', style: TextStyle(height: 1.2),),
+                                Text((i['value'] ?? '') != '' ? i['value'].toString() : 'N/A',
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(fontSize: 12, height: 1.2),
+                                ),
+                              ]
+                          )).toList(),
                         ),
                       )
                     ],
@@ -136,17 +135,14 @@ Widget dashboardMonitoring(BuildContext context, HomeController ctr) {
             }
         ),
       ),
-      if(ctr.filterMonitoring.value == 'purchase'.tr) Padding(
+      if(ctr.filterRecent.value == 'recent_components'.tr) Padding(
         padding: const EdgeInsets.only(top: 10, left: 14, right: 14, bottom: 10),
         child: ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: ctr.itemPurchases.length <= 10 ? ctr.itemPurchases.length : 10,
+            itemCount: ctr.recentAssets.length,
             itemBuilder: (ctx, idx) {
-              Monitoring i = ctr.itemPurchases[idx];
-              MaterialColor colorStatus = Colors.brown;
-              if(i.status == 'un_paid') colorStatus = Colors.blue;
-              if(i.status == 'paid') colorStatus = Colors.green;
+              RecentComponent i = ctr.recentComponents[idx];
               return Container(
                 margin: const EdgeInsets.only(top: 8),
                 padding: const EdgeInsets.all(10),
@@ -162,7 +158,7 @@ Widget dashboardMonitoring(BuildContext context, HomeController ctr) {
                     )]
                 ),
                 child: InkWell(
-                  onTap: () => ctr.selectItemMonitoring('purchase', i),
+                  onTap: () {},
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -184,35 +180,24 @@ Widget dashboardMonitoring(BuildContext context, HomeController ctr) {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('purchase_order'.tr,
+                                Text('component'.tr,
                                   style: const TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                Text(DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.dateUsed!)),
+                                Text(DateFormat('dd MMMM yyyy').format(DateFormat('yyyy-MM-dd').parse(i.date!)),
                                   style: const TextStyle(fontSize: 12, color: Colors.grey),
                                 ),
                               ],
                             ),
                           ),),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                            decoration: BoxDecoration(
-                                color: colorStatus.shade50,
-                                borderRadius: BorderRadius.circular(4)
-                            ),
-                            child: Text(i.status?.tr ?? '',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: colorStatus.shade700),),
-                          ),
                         ],
                       ),
                       Divider(color: Colors.blue.shade100,),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 2),
-                        child: HtmlWidget(i.submissionDetail ?? '',
-                          textStyle: const TextStyle(fontSize: 12),
-                        ),
-                      )
+                      // Padding(
+                      //   padding: const EdgeInsets.only(left: 2),
+                      //   child: Text(i. ?? '',
+                      //     style: const TextStyle(fontSize: 12),
+                      //   ),
+                      // )
                     ],
                   ),
                 ),
@@ -221,18 +206,11 @@ Widget dashboardMonitoring(BuildContext context, HomeController ctr) {
         ),
       ),
       if(ctr.progressDashboard.value) Container(color: Colors.transparent,)
-      else if((ctr.filterMonitoring.value == 'purchase'.tr && ctr.itemPurchases.isNotEmpty) ||
-          (ctr.filterMonitoring.value == 'submission'.tr && ctr.itemSubmission.isNotEmpty) ||
-          (ctr.filterMonitoring.value == 'lending'.tr && ctr.lendings.isNotEmpty) ||
-          (ctr.filterMonitoring.value == 'maintenance'.tr && ctr.maintenances.isNotEmpty)) Padding(
+      else if((ctr.filterRecent.value == 'recent_assets'.tr && ctr.recentAssets.isNotEmpty) ||
+          (ctr.filterRecent.value == 'recent_components'.tr && ctr.recentComponents.isNotEmpty)) Padding(
         padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
         child: TextButton(
-            onPressed: () {
-              Get.to(const MonitoringPage(),
-                  arguments: { 'type': ctr.filterMonitoring.value },
-                  routeName: '/monitoring'
-              );
-            },
+            onPressed: () {},
             child: Text('see_all_monitoring_lists'.tr)
         ),
       ) else Container(

@@ -11,6 +11,8 @@ import 'package:asset_management_module/model/depreciation.dart';
 import 'package:asset_management_module/model/permissions.dart';
 import 'package:asset_management_module/model/profile.dart';
 import 'package:asset_management_module/model/monitoring.dart';
+import 'package:asset_management_module/model/recent_asset.dart';
+import 'package:asset_management_module/model/recent_component.dart';
 import 'package:asset_management_module/purchase_order/add_edit_purchase/view.dart';
 import 'package:asset_management_module/purchase_order/purchase_details/view.dart';
 import 'package:asset_management_module/purchase_order/view.dart';
@@ -28,6 +30,10 @@ class HomeController extends GetxController {
   RxInt navbarBottomIdx = 0.obs;
   UserAuth user = NavKey.user!;
   List<Permission> permissions = NavKey.permissions!;
+
+  RxList<RecentAsset> recentAssets = <RecentAsset>[].obs;
+  RxList<RecentComponent> recentComponents = <RecentComponent>[].obs;
+
   RxList allMonitoring = [].obs;
   RxList<Monitoring> itemPurchases = <Monitoring>[].obs;
   RxList<Monitoring> itemSubmission = <Monitoring>[].obs;
@@ -36,7 +42,8 @@ class HomeController extends GetxController {
   RxBool progressDashboard = false.obs;
   RxBool errorBanner = false.obs;
 
-  RxString capsule = 'submission'.tr.obs;
+  RxString filterMonitoring = 'submission'.tr.obs;
+  RxString filterRecent = 'recent_assets'.tr.obs;
 
   RxList<Asset> assets = <Asset>[].obs;
   RxList<Asset> assetSearch = <Asset>[].obs;
@@ -61,7 +68,7 @@ class HomeController extends GetxController {
   }
 
   void selectedCapsule(String key) {
-    capsule.value = key;
+    filterRecent.value = key;
   }
 
   void selectNavbarBottomIdx(context, int idx) {
@@ -122,6 +129,10 @@ class HomeController extends GetxController {
   }
 
   void getDashboard() async {
+    await DioClient().get('/dashboard/data-total').then((res) {
+      recentAssets.value = List.from(res['data']['recent_asset'].map((json) => RecentAsset.fromJson(json)));
+      recentComponents.value = List.from(res['data']['recent_component'].map((json) => RecentComponent.fromJson(json)));
+    });
     await DioClient().get('/monitoring/list')
       .then((res) {
         for(final findSupplier in res['find_supplier']) {
@@ -187,7 +198,7 @@ class HomeController extends GetxController {
 
   void selectItemIcon(context, String key) async {
     dynamic result;
-    if(key == 'purchase_order'.tr) {
+    if(key == 'purchase'.tr) {
       if(user.administrator!) {
         result = await Get.to(const PurchaseOrderPage(),
             routeName: '/purchase_order'

@@ -1,5 +1,6 @@
 import 'package:asset_management_module/dashboard/dashboard_menu.dart';
 import 'package:asset_management_module/dashboard/dashboard_monitoring.dart';
+import 'package:asset_management_module/dashboard/dashboard_recent.dart';
 import 'package:asset_management_module/home/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,6 +45,7 @@ Widget dashboard(BuildContext context, HomeController ctr) {
         child: ListView(
           children: [
             dashboardMenu(context, ctr),
+            dashboardRecent(context, ctr),
             dashboardMonitoring(context, ctr)
           ],
         ),
