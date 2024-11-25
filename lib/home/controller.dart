@@ -1,5 +1,6 @@
 import 'package:asset_management_module/Model/user_auth.dart';
 import 'package:asset_management_module/asset/add_edit_asset/view.dart';
+import 'package:asset_management_module/asset/asset_details/view.dart';
 import 'package:asset_management_module/asset/assign_unassign/view.dart';
 import 'package:asset_management_module/component/view.dart';
 import 'package:asset_management_module/component_widget/loading.dart';
@@ -43,7 +44,7 @@ class HomeController extends GetxController {
   RxBool errorBanner = false.obs;
 
   RxString filterMonitoring = 'submission'.tr.obs;
-  RxString filterRecent = 'recent_assets'.tr.obs;
+  RxString filterRecent = 'asset_activity'.tr.obs;
 
   RxList<Asset> assets = <Asset>[].obs;
   RxList<Asset> assetSearch = <Asset>[].obs;
@@ -373,6 +374,22 @@ class HomeController extends GetxController {
     fieldSearchAsset.value = TextEditingController();
     assetSearch.value = [];
     update();
+  }
+
+  void assetDetails(RecentAsset item) async {
+    Asset asset = await DioClient().post('/asset/details',
+      data: {'id': item.assetId }
+    ).then((res) => Asset.fromJson(res['data']['details']));
+
+    if(asset.id != null) {
+      await Get.to(const AssetDetailsPage(),
+        routeName: '/assets/details',
+        arguments: {
+          'data': Asset(id: item.assetId)
+        },
+        transition: Transition.rightToLeft
+      );
+    }
   }
 
   void assetAddEdit(String label, Asset? asset) async {

@@ -17,8 +17,8 @@ Map<String, String> idId = {
   'asset_by_category': 'Aset Berdasarkan Categori',
   'asset_by_status': 'Aset Berdasarkan Status',
   'submission': 'Pengajuan',
-  'recent_asset_activity': 'Aktivitas Aset Terakhir',
-  'recent_component_activity': 'Aktivitas Komponent Terakhir',
+  'asset_activity': 'Aktivitas Aset',
+  'component_activity': 'Aktivitas Komponent',
   'dashboard': 'Dashboard',
   'asset': 'Aset',
   'reminder': 'Pengingat',
@@ -195,5 +195,8 @@ Map<String, String> idId = {
   'subject': 'Subjek',
   'items': 'Barang',
   'purchase_details': 'Detail Pembelian',
-  'sorry_you_dont_have_access': "Maaf, anda tidak memiliki akses"
+  'sorry_you_dont_have_access': "Maaf, anda tidak memiliki akses",
+  'component_name': "Nama Komponen",
+  'see_all_asset_lists': 'Lihat semua daftar asset',
+  'see_all_component_lists': 'Lihat semua daftar komponen',
 };

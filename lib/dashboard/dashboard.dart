@@ -46,7 +46,7 @@ Widget dashboard(BuildContext context, HomeController ctr) {
           children: [
             dashboardMenu(context, ctr),
             dashboardRecent(context, ctr),
-            dashboardMonitoring(context, ctr)
+            // dashboardMonitoring(context, ctr)
           ],
         ),
       // )

@@ -17,8 +17,8 @@ Map<String, String> enUs = {
   'asset_by_category': 'Asset by Category',
   'asset_by_status': 'Asset by Status',
   'submission': 'Submission',
-  'recent_asset_activity': 'Recent Asset Activity',
-  'recent_component_activity': 'Recent Component Activity',
+  'asset_activity': 'Asset Activity',
+  'component_activity': 'Component Activity',
   'dashboard': 'Dashboard',
   'asset': 'Asset',
   'reminder': 'Reminder',
@@ -195,5 +195,6 @@ Map<String, String> enUs = {
   'subject': 'Subject',
   'items': 'Items',
   'purchase_details': 'Purchase Details',
-  'sorry_you_dont_have_access': "Sorry, you don't have access"
+  'sorry_you_dont_have_access': "Sorry, you don't have access",
+  'component_name': "Component Name",
 };

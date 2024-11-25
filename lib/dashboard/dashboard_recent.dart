@@ -1,8 +1,9 @@
+import 'package:asset_management_module/asset/asset_details/view.dart';
+import 'package:asset_management_module/component_widget/scaffold_message.dart';
 import 'package:asset_management_module/component_widget/skeleton_monitoring.dart';
 import 'package:asset_management_module/home/controller.dart';
 import 'package:asset_management_module/model/recent_asset.dart';
 import 'package:asset_management_module/model/recent_component.dart';
-import 'package:asset_management_module/monitoring/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -20,18 +21,15 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
       Padding(
         padding: const EdgeInsets.only(top: 14,),
         child: Row(
-          children: ['recent_assets'.tr, 'recent_components'.tr,
-            // 'lending'.tr, 'maintenance'.tr,
-          ].map((i) {
+          children: ['asset_activity'.tr, 'component_activity'.tr,].map((i) {
             return GestureDetector(
               onTap: () => ctr.selectedCapsule(i),
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                margin: EdgeInsets.only(left: 8,),
+                margin: const EdgeInsets.only(left: 8,),
                 decoration: BoxDecoration(
                   color: ctr.filterRecent.value == i ? Colors.blue.shade100 : null,
                   borderRadius: BorderRadius.circular(16),
-                  // border: Border.all(color: const Color(0xFF3f87b9))
                 ),
                 child: Text(i,
                   style: TextStyle(
@@ -43,7 +41,7 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
           }).toList(),
         ),
       ),
-      if(ctr.filterRecent.value == 'recent_assets'.tr) Padding(
+      if(ctr.filterRecent.value == 'asset_activity'.tr) Padding(
         padding: const EdgeInsets.only(top: 10, left: 14, right: 14, bottom: 10),
         child: ctr.progressDashboard.value
             ? skeletonMonitoringItemDashboard()
@@ -53,6 +51,8 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
             itemCount: ctr.itemSubmission.length <= 10 ? ctr.itemSubmission.length : 10,
             itemBuilder: (ctx, idx) {
               RecentAsset i = ctr.recentAssets[idx];
+              MaterialColor colorStatus = Colors.orange;
+              if(i.statusName == 'Un-assign') colorStatus = Colors.blue;
               return Container(
                 margin: const EdgeInsets.only(top: 8),
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
@@ -68,7 +68,7 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
                     )]
                 ),
                 child: InkWell(
-                  onTap: () => {},
+                  onTap: () => ctr.assetDetails(i),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -80,10 +80,10 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(40),
-                                  color: Colors.yellow.shade100
+                                  color: Colors.cyan.shade100
                               ),
-                              child: Icon(Icons.data_exploration,
-                                color: Colors.yellow.shade700,
+                              child: Icon(Icons.feed_outlined,
+                                color: Colors.cyan.shade700,
                                 size: 24,
                               ),
                             ),
@@ -101,6 +101,17 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
                                 ],
                               ),
                             ),),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                              decoration: BoxDecoration(
+                                  color: colorStatus.shade50,
+                                  borderRadius: BorderRadius.circular(4)
+                              ),
+                              child: Text(i.statusName?.tr ?? '',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: colorStatus.shade700),),
+                            ),
                           ],
                         ),
                       ),
@@ -109,9 +120,9 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
                         padding: const EdgeInsets.only(left: 4, top: 6, right: 2),
                         child: Table(
                           columnWidths: const {
-                            0: FlexColumnWidth(0.7),
+                            0: FlexColumnWidth(0.3),
                             1: FlexColumnWidth(0.1),
-                            2: FlexColumnWidth(),
+                            2: FlexColumnWidth(1),
                           },
                           children: [
                             {'label': 'employee'.tr, 'value': i.employeeName},
@@ -122,7 +133,7 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
                                 const Text(':', style: TextStyle(height: 1.2),),
                                 Text((i['value'] ?? '') != '' ? i['value'].toString() : 'N/A',
                                   textAlign: TextAlign.left,
-                                  style: const TextStyle(fontSize: 12, height: 1.2),
+                                  style: const TextStyle(fontSize: 12, height: 1.4),
                                 ),
                               ]
                           )).toList(),
@@ -135,7 +146,7 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
             }
         ),
       ),
-      if(ctr.filterRecent.value == 'recent_components'.tr) Padding(
+      if(ctr.filterRecent.value == 'component_activity'.tr) Padding(
         padding: const EdgeInsets.only(top: 10, left: 14, right: 14, bottom: 10),
         child: ListView.builder(
             shrinkWrap: true,
@@ -143,6 +154,8 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
             itemCount: ctr.recentAssets.length,
             itemBuilder: (ctx, idx) {
               RecentComponent i = ctr.recentComponents[idx];
+              MaterialColor colorStatus = Colors.orange;
+              if(i.statusName == 'Un-assign') colorStatus = Colors.blue;
               return Container(
                 margin: const EdgeInsets.only(top: 8),
                 padding: const EdgeInsets.all(10),
@@ -158,7 +171,7 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
                     )]
                 ),
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () => scaffoldMessage(context, 'Coming soon..'),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -168,10 +181,10 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40),
-                                color: Colors.orange.shade100
+                                color: Colors.indigo.shade100
                             ),
-                            child: Icon(Icons.assignment_rounded,
-                              color: Colors.orange.shade700,
+                            child: Icon(Icons.interests_outlined,
+                              color: Colors.indigo.shade700,
                               size: 24,
                             ),
                           ),
@@ -189,15 +202,43 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
                               ],
                             ),
                           ),),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            decoration: BoxDecoration(
+                                color: colorStatus.shade50,
+                                borderRadius: BorderRadius.circular(4)
+                            ),
+                            child: Text(i.statusName?.tr ?? '',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: colorStatus.shade700),),
+                          ),
                         ],
                       ),
                       Divider(color: Colors.blue.shade100,),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(left: 2),
-                      //   child: Text(i. ?? '',
-                      //     style: const TextStyle(fontSize: 12),
-                      //   ),
-                      // )
+                      Padding(
+                        padding: const EdgeInsets.only(left: 2),
+                        child: Table(
+                          columnWidths: const {
+                            0: FlexColumnWidth(0.5),
+                            1: FlexColumnWidth(0.1),
+                            2: FlexColumnWidth(1),
+                          },
+                          children: [
+                            {'label': 'component_name'.tr, 'value': i.component},
+                            {'label': 'asset_name'.tr, 'value': i.asset},
+                          ].map((i) => TableRow(
+                              children: [
+                                Text(i['label'].toString(), style : const TextStyle(fontSize: 12, height: 1.2)),
+                                const Text(':', style: TextStyle(height: 1.2),),
+                                Text((i['value'] ?? '') != '' ? i['value'].toString() : 'N/A',
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(fontSize: 12, height: 1.4),
+                                ),
+                              ]
+                          )).toList(),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -206,12 +247,18 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
         ),
       ),
       if(ctr.progressDashboard.value) Container(color: Colors.transparent,)
-      else if((ctr.filterRecent.value == 'recent_assets'.tr && ctr.recentAssets.isNotEmpty) ||
-          (ctr.filterRecent.value == 'recent_components'.tr && ctr.recentComponents.isNotEmpty)) Padding(
+      else if((ctr.filterRecent.value == 'asset_activity'.tr && ctr.recentAssets.isNotEmpty) ||
+          (ctr.filterRecent.value == 'component_activity'.tr && ctr.recentComponents.isNotEmpty)) Padding(
         padding: const EdgeInsets.only(left: 14, right: 14, bottom: 20),
         child: TextButton(
-            onPressed: () {},
-            child: Text('see_all_monitoring_lists'.tr)
+            onPressed: () {
+              if(ctr.filterRecent.value == 'asset_activity'.tr) ctr.selectNavbarBottomIdx(context, 1);
+              if(ctr.filterRecent.value == 'component_activity'.tr) ctr.selectItemIcon(context, 'component'.tr);
+            },
+            child: Text(ctr.filterRecent.value == 'asset_activity'.tr
+                ? 'see_all_asset_lists'.tr
+                : 'see_all_component_lists'.tr
+            )
         ),
       ) else Container(
         alignment: Alignment.center,
