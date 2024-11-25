@@ -113,7 +113,7 @@ Widget purchaseItem(BuildContext context, MonitoringController ctr) {
                           child: SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                                onPressed: () => ctr.uploadInvoice(i),
+                                onPressed: () => ctr.showModalUploadInvoice(i),
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF3f87b9),
                                     shape: RoundedRectangleBorder(

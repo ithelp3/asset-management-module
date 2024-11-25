@@ -5,7 +5,6 @@ import 'package:asset_management_module/component/view.dart';
 import 'package:asset_management_module/component_widget/loading.dart';
 import 'package:asset_management_module/component_widget/scaffold_message.dart';
 import 'package:asset_management_module/depreciation/add_edit_depreciation/view.dart';
-import 'package:asset_management_module/lending/view.dart';
 import 'package:asset_management_module/maintenance/view.dart';
 import 'package:asset_management_module/model/asset.dart';
 import 'package:asset_management_module/model/depreciation.dart';
@@ -66,15 +65,17 @@ class HomeController extends GetxController {
   }
 
   void selectNavbarBottomIdx(context, int idx) {
-    navbarBottomIdx.value = idx;
     if(idx == 0){
+      navbarBottomIdx.value = idx;
       getDashboard();
     } else if(idx == 1) {
       if(user.administrator!) {
+        navbarBottomIdx.value = idx;
         if(assets.isEmpty) getAssets();
       } else if(permissions.any((i) => i.feature == "asset")) {
         Permission permission = permissions.firstWhere((i) => i.feature == "asset");
         if(permission.permissions!.any((i) => i == 'view')) {
+          navbarBottomIdx.value = idx;
           if(assets.isEmpty) getAssets();
         } else if(permission.permissions!.any((i) => i == 'add')) {
           Get.to(const AddEditAssetPage(),
@@ -90,13 +91,15 @@ class HomeController extends GetxController {
         scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
       }
     } else if(idx == 2) {
-
+      navbarBottomIdx.value = idx;
     } else if(idx == 3) {
       if(user.administrator!) {
+        navbarBottomIdx.value = idx;
         if(depreciations.isEmpty) getDepreciations();
       } else if(permissions.any((i) => i.feature == "depreciations")) {
         Permission permission = permissions.firstWhere((i) => i.feature == "depreciations");
         if(permission.permissions!.any((i) => i == 'view')) {
+          navbarBottomIdx.value = idx;
           if(depreciations.isEmpty) getDepreciations();
         } else if(permission.permissions!.any((i) => i == 'add')) {
           Get.to(const AddEditDepreciationPage(),
@@ -112,6 +115,7 @@ class HomeController extends GetxController {
         scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
       }
     } else if(idx == 4) {
+      navbarBottomIdx.value = idx;
       if(profile.value.id == null) getProfile();
     }
     update();

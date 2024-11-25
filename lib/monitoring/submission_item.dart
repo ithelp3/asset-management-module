@@ -1,4 +1,5 @@
 import 'package:asset_management_module/model/monitoring.dart';
+import 'package:asset_management_module/model/permissions.dart';
 import 'package:asset_management_module/monitoring/controller.dart';
 import 'package:asset_management_module/submission/submission_details/view.dart';
 import 'package:asset_management_module/utils/data/nav_key.dart';
@@ -8,6 +9,10 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 Widget submissionItem(BuildContext context, MonitoringController ctr) {
+  Permission permission = NavKey.permissions!.firstWhere((i) => i.feature == "find-supplier", orElse: () => Permission());
+  bool access = false;
+  bool isAdministrator = NavKey.user?.administrator ?? false;
+  if(permission.permissions?.isNotEmpty ?? false ) access = permission.permissions!.any((i) => i == 'add');
   return ScrollConfiguration(
     behavior: const ScrollBehavior(),
     child: ListView.builder(
@@ -133,7 +138,7 @@ Widget submissionItem(BuildContext context, MonitoringController ctr) {
                       ),
                     ),
                     if(i.addedFromId != NavKey.user!.userId)
-                      if((i.step == 2 && NavKey.user!.approverLevel1!.contains(NavKey.user!.userId))|| (i.step == 5 && NavKey.user!.approverLevel3!.contains(NavKey.user!.userId))) Row(
+                      if((i.step == 2 && NavKey.user!.approverLevel1!.contains(NavKey.user!.userId))|| (i.step == 5 && NavKey.user!.approverLevel3!.contains(NavKey.user!.userId))) i.status != 'Rejected' ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
@@ -163,10 +168,23 @@ Widget submissionItem(BuildContext context, MonitoringController ctr) {
                           ),
                         ),
                       ],
-                    ) else if(i.step == 3) SizedBox(
+                    ) : SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                            onPressed: () => ctr.resubmission(i),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF3f87b9),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: EdgeInsets.zero
+                            ),
+                            child: Text('resubmission'.tr, style: const TextStyle(color: Colors.white),)
+                        ),
+                      ) else if(i.step == 3 && (isAdministrator || access)) SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                          onPressed: () => ctr.findSupplier(i),
+                          onPressed: () => ctr.findSupplier(i, 'add'),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF3f87b9),
                               shape: RoundedRectangleBorder(
@@ -176,7 +194,20 @@ Widget submissionItem(BuildContext context, MonitoringController ctr) {
                           ),
                           child: Text('find_supplier'.tr, style: const TextStyle(color: Colors.white),)
                       ),
-                    ) else if(i.step == 4 && NavKey.user!.approverLevel2!.contains(NavKey.user!.userId)) SizedBox(
+                    ) else if((i.step == 4 || i.step == 5) &&  i.status == 'Rejected') SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () => ctr.findSupplier(i, 'edit'),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            padding: EdgeInsets.zero
+                        ),
+                          child: Text('resubmission'.tr, style: const TextStyle(color: Colors.white),)
+                      ),
+                    ) else if(i.step == 4 && NavKey.user!.approverLevel2!.contains(NavKey.user!.userId) &&  i.status != 'Rejected') SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                           onPressed: () => ctr.chooseApprovedSupplier(i),
