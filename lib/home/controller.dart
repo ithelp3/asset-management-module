@@ -187,7 +187,7 @@ class HomeController extends GetxController {
 
   void selectItemIcon(context, String key) async {
     dynamic result;
-    if(key == 'purchase_order'.tr) {
+    if(key == 'purchase'.tr) {
       if(user.administrator!) {
         result = await Get.to(const PurchaseOrderPage(),
             routeName: '/purchase_order'
