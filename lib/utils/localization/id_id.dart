@@ -18,7 +18,7 @@ Map<String, String> idId = {
   'asset_by_status': 'Aset Berdasarkan Status',
   'submission': 'Pengajuan',
   'asset_activity': 'Aktivitas Aset',
-  'component_activity': 'Aktivitas Komponent',
+  'component_activity': 'Aktivitas Komponen',
   'dashboard': 'Dashboard',
   'asset': 'Aset',
   'reminder': 'Pengingat',

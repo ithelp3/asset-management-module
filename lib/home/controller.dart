@@ -134,100 +134,61 @@ class HomeController extends GetxController {
       recentAssets.value = List.from(res['data']['recent_asset'].map((json) => RecentAsset.fromJson(json)));
       recentComponents.value = List.from(res['data']['recent_component'].map((json) => RecentComponent.fromJson(json)));
     });
-    await DioClient().get('/monitoring/list')
-      .then((res) {
-        for(final findSupplier in res['find_supplier']) {
-          for(final po in res['submission']) {
-            Monitoring submission = Monitoring.fromJson(po);
-            if(findSupplier == submission.findSupplierId) itemSubmission.add(submission);
-          }
-        }
-        for(final approve in res['approval']) {
-          for(final po in res['submission']) {
-            Monitoring submission = Monitoring.fromJson(po);
-            if(approve == submission.id) itemSubmission.add(submission);
-          }
-        }
-        for(final purchase in res['purchases']) {
-          for(final po in res['submission']) {
-            Monitoring submissionPurchase = Monitoring.fromJson(po);
-            if(purchase['find_supplier_id'] != 0 && purchase['find_supplier_id'] == submissionPurchase.findSupplierId) {
-              submissionPurchase.status = purchase['status'] == 1 ? 'un_paid' : 'paid';
-              submissionPurchase.submissionId = purchase['purchase_id'];
-              itemPurchases.add(submissionPurchase);
-            }
-          }
-        }
-      });
-    // allMonitoring.addAll([
-    //   PurchaseOrderSubmission(
-    //       subject: 'peminjaman',
-    //       submissionDetail: 'Peminjaman alat 1',
-    //       status: 'On Process'
-    //   ),
-    //   PurchaseOrderSubmission(
-    //       subject: 'peminjaman',
-    //       submissionDetail: 'Peminjaman alat 2',
-    //       status: 'On Process'
-    //   ),
-    //   PurchaseOrderSubmission(
-    //       subject: 'peminjaman',
-    //       submissionDetail: 'Peminjaman alat 3',
-    //       status: 'On Process'
-    //   ),
-    // ]);
-    // allMonitoring.addAll([
-    //   PurchaseOrderSubmission(
-    //     subject: 'maintenance',
-    //     submissionDetail: 'Maintenance alat 1',
-    //     status: 'On Process'
-    //   ),
-    //   PurchaseOrderSubmission(
-    //     subject: 'maintenance',
-    //     submissionDetail: 'Maintenance alat 2',
-    //       status: 'On Process'
-    //   ),
-    //   PurchaseOrderSubmission(
-    //     subject: 'maintenance',
-    //     submissionDetail: 'Maintenance alat 3',
-    //       status: 'On Process'
-    //   ),
-    // ]);
+    // await DioClient().get('/monitoring/list')
+    //   .then((res) {
+    //     for(final findSupplier in res['find_supplier']) {
+    //       for(final po in res['submission']) {
+    //         Monitoring submission = Monitoring.fromJson(po);
+    //         if(findSupplier == submission.findSupplierId) itemSubmission.add(submission);
+    //       }
+    //     }
+    //     for(final approve in res['approval']) {
+    //       for(final po in res['submission']) {
+    //         Monitoring submission = Monitoring.fromJson(po);
+    //         if(approve == submission.id) itemSubmission.add(submission);
+    //       }
+    //     }
+    //     for(final purchase in res['purchases']) {
+    //       for(final po in res['submission']) {
+    //         Monitoring submissionPurchase = Monitoring.fromJson(po);
+    //         if(purchase['find_supplier_id'] != 0 && purchase['find_supplier_id'] == submissionPurchase.findSupplierId) {
+    //           submissionPurchase.status = purchase['status'] == 1 ? 'un_paid' : 'paid';
+    //           submissionPurchase.submissionId = purchase['purchase_id'];
+    //           itemPurchases.add(submissionPurchase);
+    //         }
+    //       }
+    //     }
+    //   });
     progressDashboard.value = false;
-    update();
+    // update();
   }
 
   void selectItemIcon(context, String key) async {
     dynamic result;
-    if(key == 'purchase'.tr) {
-      if(user.administrator!) {
-        result = await Get.to(const PurchaseOrderPage(),
-            routeName: '/purchase_order'
-        );
-      } else if(permissions.any((i) => i.feature == "purchase")) {
-        Permission permission = permissions.firstWhere((i) => i.feature == "purchase");
-        if(permission.permissions!.any((i) => i == 'view')) {
-          result = await Get.to(const PurchaseOrderPage(),
-              routeName: '/purchase_order'
-          );
-        } else if(permission.permissions!.any((i) => i == 'add')) {
-          result = await Get.to(const AddEditPurchasePage(),
-              routeName: '/purchase-order/add',
-              arguments: {
-                'type': 'add'
-              }
-          );
-        } else {
-          scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
-        }
-      } else {
-        scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
-      }
-    }
-    // if(key == 'lending'.tr) {
-    //   Get.to(const LendingPage(),
-    //       routeName: '/Lending/add'
-    //   );
+    // if(key == 'purchase'.tr) {
+    //   if(user.administrator!) {
+    //     result = await Get.to(const PurchaseOrderPage(),
+    //         routeName: '/purchase_order'
+    //     );
+    //   } else if(permissions.any((i) => i.feature == "purchase")) {
+    //     Permission permission = permissions.firstWhere((i) => i.feature == "purchase");
+    //     if(permission.permissions!.any((i) => i == 'view')) {
+    //       result = await Get.to(const PurchaseOrderPage(),
+    //           routeName: '/purchase_order'
+    //       );
+    //     } else if(permission.permissions!.any((i) => i == 'add')) {
+    //       result = await Get.to(const AddEditPurchasePage(),
+    //           routeName: '/purchase-order/add',
+    //           arguments: {
+    //             'type': 'add'
+    //           }
+    //       );
+    //     } else {
+    //       scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+    //     }
+    //   } else {
+    //     scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+    //   }
     // }
     if(key == 'component'.tr) {
       Permission permission = permissions.firstWhere((i) => i.feature == "component", orElse: () => Permission());
@@ -263,31 +224,31 @@ class HomeController extends GetxController {
         scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
       }
     }
-    if(key == 'submission'.tr) {
-      if(user.administrator!) {
-        result = await Get.to(const SubmissionPage(),
-          routeName: '/submission',
-        );
-      } else if(permissions.any((i) => i.feature == "submission")) {
-        Permission permission = permissions.firstWhere((i) => i.feature == "submission");
-        if(permission.permissions!.any((i) => i == 'view')) {
-          result = await Get.to(const SubmissionPage(),
-            routeName: '/submission',
-          );
-        } else if(permission.permissions!.any((i) => i == 'add')) {
-          result = await Get.to(const AddEditSubmissionPage(),
-              arguments: {
-                'type': 'add'
-              },
-              routeName: '/submission/add'
-          );
-        } else {
-          scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
-        }
-      } else {
-        scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
-      }
-    }
+    // if(key == 'submission'.tr) {
+    //   if(user.administrator!) {
+    //     result = await Get.to(const SubmissionPage(),
+    //       routeName: '/submission',
+    //     );
+    //   } else if(permissions.any((i) => i.feature == "submission")) {
+    //     Permission permission = permissions.firstWhere((i) => i.feature == "submission");
+    //     if(permission.permissions!.any((i) => i == 'view')) {
+    //       result = await Get.to(const SubmissionPage(),
+    //         routeName: '/submission',
+    //       );
+    //     } else if(permission.permissions!.any((i) => i == 'add')) {
+    //       result = await Get.to(const AddEditSubmissionPage(),
+    //           arguments: {
+    //             'type': 'add'
+    //           },
+    //           routeName: '/submission/add'
+    //       );
+    //     } else {
+    //       scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+    //     }
+    //   } else {
+    //     scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
+    //   }
+    // }
     if(key == 'staff'.tr) {
       Permission permission = permissions.firstWhere((i) => i.feature == "users", orElse: () => Permission());
       if(user.administrator! || (permission.permissions?.isNotEmpty ?? false)) {
@@ -305,7 +266,7 @@ class HomeController extends GetxController {
         scaffoldMessage(context, 'sorry_you_dont_have_access'.tr);
       }
     }
-    if(key == 'supplier'.tr || key == 'brand'.tr || key == 'lending'.tr) {
+    if(key == 'purchase'.tr || key == 'submission'.tr || key == 'supplier'.tr || key == 'brand'.tr || key == 'lending'.tr) {
       scaffoldMessage(context, 'Coming soon..');
     }
 

@@ -1,4 +1,3 @@
-import 'package:asset_management_module/asset/asset_details/view.dart';
 import 'package:asset_management_module/component_widget/scaffold_message.dart';
 import 'package:asset_management_module/component_widget/skeleton_monitoring.dart';
 import 'package:asset_management_module/home/controller.dart';
@@ -48,7 +47,7 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
             : ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: ctr.itemSubmission.length <= 10 ? ctr.itemSubmission.length : 10,
+            itemCount: ctr.recentAssets.length,
             itemBuilder: (ctx, idx) {
               RecentAsset i = ctr.recentAssets[idx];
               MaterialColor colorStatus = Colors.orange;
@@ -151,7 +150,7 @@ Widget dashboardRecent(BuildContext context, HomeController ctr) {
         child: ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: ctr.recentAssets.length,
+            itemCount: ctr.recentComponents.length,
             itemBuilder: (ctx, idx) {
               RecentComponent i = ctr.recentComponents[idx];
               MaterialColor colorStatus = Colors.orange;
