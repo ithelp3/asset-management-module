@@ -1,19 +1,25 @@
+import 'package:asset_management_module/component_widget/loading.dart';
 import 'package:asset_management_module/model/monitoring.dart';
 import 'package:asset_management_module/model/submission.dart';
 import 'package:asset_management_module/purchase_order/add_edit_purchase/view.dart';
+import 'package:asset_management_module/submission/add_edit_submission/view.dart';
 import 'package:asset_management_module/submission/choose_approved_supplier/view.dart';
 import 'package:asset_management_module/submission/dialog_reason/view.dart';
 import 'package:asset_management_module/submission/set_suppliers/view.dart';
 import 'package:asset_management_module/utils/data/client.dart';
 import 'package:asset_management_module/utils/data/nav_key.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide FormData, MultipartFile;
+import 'package:image_picker/image_picker.dart';
 
 class MonitoringController extends GetxController with GetTickerProviderStateMixin{
   TabController? tabController;
   RxBool progress = false.obs;
   RxList<Monitoring> itemSubmissions = <Monitoring>[].obs;
   RxList<Monitoring> itemPurchases = <Monitoring>[].obs;
+  XFile? file;
+  RxBool showUploadInvoice = false.obs;
 
   @override
   void onInit() async {
@@ -97,7 +103,7 @@ class MonitoringController extends GetxController with GetTickerProviderStateMix
     onInit();
   }
 
-  void findSupplier(Monitoring item) async {
+  void findSupplier(Monitoring item, String type) async {
     final response = await DioClient().post('/submission/details',
         data : {
           'id' : item.id,
@@ -108,6 +114,7 @@ class MonitoringController extends GetxController with GetTickerProviderStateMix
         routeName: '/submission/find-supplier',
         transition: Transition.rightToLeft,
         arguments: {
+          'type': type,
           'data': Submission.fromJson(response['data'])
         }
     );
@@ -151,5 +158,78 @@ class MonitoringController extends GetxController with GetTickerProviderStateMix
     if(result == null) return;
   }
 
-  void uploadInvoice(Monitoring item) async {}
+  void setFile(List<XFile> files) {
+    file = files.first;
+    update();
+  }
+
+  void uploadInvoice(context) async {
+    if(file == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.blue.shade400,
+            content: Text('please_add_file'.tr),
+            behavior: SnackBarBehavior.floating,
+          )
+      );
+      return;
+    }
+
+    LoadingFullscreen.startLoading();
+    // final fileBytes = await file!.readAsBytes();
+    // final payload = FormData.fromMap({
+    //   'id': purchase.value.id,
+    //   'file': MultipartFile.fromBytes(fileBytes,
+    //       filename: file!.name,
+    //       contentType: DioMediaType('file', file!.name.split('.').last)
+    //   )
+    // });
+
+    // final response = await DioClient().post('/purchase-order/upload-file',
+    //     data: payload
+    // );
+
+    LoadingFullscreen.stopLoading();
+    // if(response['success'] ?? false) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //       SnackBar(
+    //         backgroundColor: Colors.lightBlue,
+    //         content: Text('successful_'.trParams({'value': 'upload_file'.tr})),
+    //         behavior: SnackBarBehavior.floating,
+    //       )
+    //   );
+      showUploadInvoice.value = !showUploadInvoice.value;
+      onInit();
+    // } else {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //       const SnackBar(
+    //         backgroundColor: Colors.redAccent,
+    //         content: Text('Oppss..!!'),
+    //         behavior: SnackBarBehavior.floating,
+    //       )
+    //   );
+    // }
+
+
+  }
+
+  void resubmission(Monitoring item) async {
+    final response = await DioClient().post('/submission/details',
+        data : {
+          'id' : item.id,
+          'language': NavKey.pwa!.language
+        }
+    );
+    final result = await Get.to(const AddEditSubmissionPage(),
+        routeName: '/submission/edit',
+        arguments: {
+          'type': 'edit',
+          'data': Submission.fromJson(response['data'])
+        }
+    );
+
+    if(result == null) return;
+
+    onInit();
+  }
 }

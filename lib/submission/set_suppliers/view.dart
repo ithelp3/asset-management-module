@@ -57,7 +57,7 @@ class SetSuppliersPage extends StatelessWidget {
                     children: [
                       {'label': 'added_from'.tr, 'value': ctr.submission.value.username},
                       {'label': 'priority'.tr, 'value': ctr.submission.value.priority},
-                      {'label': 'date_used'.tr, 'value': DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(ctr.submission.value.dateUsed!))},
+                      {'label': 'date_used'.tr, 'value': DateFormat('dd MMMM yyyy').format(DateFormat('yyyy-MM-dd').parse(ctr.submission.value.dateUsed!))},
                     ].map((i) => TableRow(
                         children: [
                           Text(i['label'].toString(), style : const TextStyle(color: Colors.white)),
@@ -172,7 +172,6 @@ class SetSuppliersPage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              // Text(supplier.fileBytes.toString() ??'')
                             ],
                           ),
                         );

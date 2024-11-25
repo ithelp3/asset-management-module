@@ -185,7 +185,7 @@ Map<String, String> idId = {
   'created_purchase_order': 'Membuat pesanan pembelian',
   'please_fill_in_the_items_to_purchase': 'Silakan isi barang yang akan dibeli',
   'total': 'Total',
-  'purchase': 'Pembelian',
+  'purchase': 'Pengadaan',
   'sub_total': 'Sub Total',
   'upload_file': 'Unggah File',
   'choose_file': 'Pilih file',
