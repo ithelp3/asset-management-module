@@ -195,5 +195,6 @@ Map<String, String> enUs = {
   'subject': 'Subject',
   'items': 'Items',
   'purchase_details': 'Purchase Details',
-  'sorry_you_dont_have_access': "Sorry, you don't have access"
+  'sorry_you_dont_have_access': "Sorry, you don't have access",
+  'please_choose_supplier': 'Please choose supplier'
 };

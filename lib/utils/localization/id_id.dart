@@ -195,5 +195,6 @@ Map<String, String> idId = {
   'subject': 'Subjek',
   'items': 'Barang',
   'purchase_details': 'Detail Pembelian',
-  'sorry_you_dont_have_access': "Maaf, anda tidak memiliki akses"
+  'sorry_you_dont_have_access': "Maaf, anda tidak memiliki akses",
+  'please_choose_supplier': 'Silahkan pilih pemasok'
 };
