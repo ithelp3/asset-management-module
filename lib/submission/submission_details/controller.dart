@@ -73,9 +73,7 @@ class SubmissionDetailsController extends GetxController with GetTickerProviderS
   void reject() async {
     final result = await Get.dialog(const DialogReasonPage(),
         arguments: {
-          'type': submission.value.step == 2
-              ? 'reject_level_1'
-              : 'reject_level_3',
+          'type': 'reject_level_1',
           'data': submission.value
         }
     );
@@ -87,9 +85,7 @@ class SubmissionDetailsController extends GetxController with GetTickerProviderS
   void approve() async {
     final result = await Get.dialog(const DialogReasonPage(),
         arguments: {
-          'type': submission.value.step == 2
-              ? 'approve_level_1'
-              : 'approve_level_3',
+          'type': 'approve_level_1',
           'data': submission.value
         }
     );
