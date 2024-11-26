@@ -227,14 +227,21 @@ Widget headAndStatus(BuildContext context, SubmissionDetailsController ctr) {
                             child: ctr.submission.value.step == 5
                                 ? AvatarGlow(
                                 startDelay: const Duration(milliseconds: 600),
-                                glowColor: Colors.blue.shade400,
+                                glowColor: (ctr.submission.value.status == 'Rejected'.tr && ctr.submission.value.step == 5)
+                                    ? Colors.red.shade200
+                                    : Colors.blue.shade400,
                                 animate: true,
                                 glowRadiusFactor: 0.6,
                                 curve: Curves.fastEaseInToSlowEaseOut,
-                                child: const CircleAvatar(
+                                child: CircleAvatar(
                                   radius: 12,
                                   backgroundColor: Colors.transparent,
-                                  child: Icon(Icons.radio_button_checked, color: Colors.blue,
+                                  child: Icon( ctr.submission.value.status != 'Rejected'.tr
+                                      ? Icons.radio_button_checked
+                                      : Icons.highlight_remove_outlined,
+                                    color: (ctr.submission.value.status == 'Rejected'.tr && ctr.submission.value.step == 5)
+                                        ? Colors.red
+                                        : Colors.blue,
                                   ),
                                 )
                             )

@@ -96,24 +96,49 @@ class ChooseApprovedSupplierPage extends StatelessWidget {
             : skeletonSelectedSupplier()
         ),
         bottomNavigationBar: Container(
-          padding: const EdgeInsets.only(bottom: 30, top: 14, left: 10, right: 10),
-          width: double.infinity,
+          padding: const EdgeInsets.only(bottom: 30, top: 14, left: 12, right: 12),
           decoration: BoxDecoration(
               color: Theme.of(context).brightness == Brightness.light
                   ? Colors.white
                   : const Color(0xFF272d34)
           ),
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6)
+          child: Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6)
+                          ),
+                          backgroundColor: const Color(0xFF3f87b9),
+                          foregroundColor: Colors.white
+                      ),
+                      onPressed: () => ctr.reject(),
+                      child: Text('rejected'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
                   ),
-                  backgroundColor: const Color(0xFF3f87b9),
-                  foregroundColor: Colors.white
+                ),
               ),
-              onPressed: () => ctr.save(),
-              child: Text('save'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6)
+                          ),
+                          backgroundColor: const Color(0xFF3f87b9),
+                          foregroundColor: Colors.white
+                      ),
+                      onPressed: () => ctr.approve(),
+                      child: Text('save'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       )

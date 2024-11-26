@@ -2,6 +2,7 @@ import 'package:asset_management_module/component_widget/loading.dart';
 import 'package:asset_management_module/model/monitoring.dart';
 import 'package:asset_management_module/model/purchase.dart';
 import 'package:asset_management_module/model/submission.dart';
+import 'package:asset_management_module/model/submission_suppliers.dart';
 import 'package:asset_management_module/purchase_order/add_edit_purchase/view.dart';
 import 'package:asset_management_module/submission/add_edit_submission/view.dart';
 import 'package:asset_management_module/submission/choose_approved_supplier/view.dart';
@@ -107,18 +108,24 @@ class MonitoringController extends GetxController with GetTickerProviderStateMix
   }
 
   void findSupplier(Monitoring item, String type) async {
-    final response = await DioClient().post('/submission/details',
+    Submission submission = Submission();
+    List<SupplierRelations> suppliers = [];
+    await DioClient().post('/submission/details',
         data : {
           'id' : item.id,
           'language': NavKey.pwa!.language
         }
-    );
+    ).then((res) {
+      submission = Submission.fromJson(res['data']);
+      suppliers = List.from(res['suppliers'].map((json) => SupplierRelations.fromJson(json)));
+    });
     final result = await Get.to(const SetSuppliersPage(),
         routeName: '/submission/find-supplier',
         transition: Transition.rightToLeft,
         arguments: {
           'type': type,
-          'data': Submission.fromJson(response['data'])
+          'data': submission,
+          'suppliers': suppliers
         }
     );
     if(result == null) return;
