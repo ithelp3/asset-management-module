@@ -17,6 +17,7 @@ class ChooseApprovedSupplierController extends GetxController {
     submission.value = Get.arguments['data'];
     await DioClient().get('/submission/suppliers/${submission.value.id}').then((res)
       => supplierData.value = SubmissionSuppliers.fromJson(res['data']));
+    if(supplierData.value.suppliers!.isNotEmpty) selectedSupplier.value = supplierData.value.suppliers!.firstWhere((i) => i.isChecked == 1);
   }
 
   void downloadFile(SupplierRelations item) async {
@@ -26,7 +27,7 @@ class ChooseApprovedSupplierController extends GetxController {
     }
   }
 
-  void save() async {
+  void approve() async {
     final result = await Get.dialog(const DialogReasonPage(),
         arguments: {
           'type': 'approve_level_2',
@@ -38,4 +39,17 @@ class ChooseApprovedSupplierController extends GetxController {
 
     Get.back(result: true);
   }
+
+  void reject() async {
+    final result = await Get.dialog(const DialogReasonPage(),
+        arguments: {
+          'type': submission.value.approvalLevel == 1 ? 'reject_level_2' : 'reject_level_3',
+          'data': submission.value
+        }
+    );
+    if(result == null) return;
+
+    Get.back(result: true);
+  }
+
 }

@@ -17,9 +17,11 @@ class SubmissionDetailsPage extends StatelessWidget {
     Permission permission = NavKey.permissions!.firstWhere((i) => i.feature == "find-supplier", orElse: () => Permission());
     bool accessAdd = false;
     bool accessEdit = false;
+    bool accessView = false;
     bool isAdministrator = NavKey.user?.administrator ?? false;
     if(permission.permissions?.isNotEmpty ?? false ) accessAdd = permission.permissions!.any((i) => i == 'add');
     if(permission.permissions?.isNotEmpty ?? false ) accessEdit = permission.permissions!.any((i) => i == 'edit');
+    if(permission.permissions?.isNotEmpty ?? false ) accessView = permission.permissions!.any((i) => i == 'view');
     return GetBuilder(
       init: SubmissionDetailsController(),
       builder: (ctr) {
@@ -43,54 +45,53 @@ class SubmissionDetailsPage extends StatelessWidget {
               ],
             ),
           ) : skeletonDetailSubmission(),
-          bottomNavigationBar: ctr.progress.value ? null : ctr.submission.value.addedFromId == NavKey.user!.userId ? null : (ctr.submission.value.status != 'Rejected'.tr)
-            ? ((ctr.submission.value.step == 2 && NavKey.user!.approverLevel1!.contains(NavKey.user!.userId) && ctr.submission.value.addedFromId != NavKey.user!.userId)
-              || (ctr.submission.value.step == 5 && NavKey.user!.approverLevel3!.contains(NavKey.user!.userId) && ctr.submission.value.addedFromId != NavKey.user!.userId))
+          bottomNavigationBar: ctr.progress.value ? null : (ctr.submission.value.addedFromId != NavKey.user!.userId)
+            ? (ctr.submission.value.step == 2 && NavKey.user!.approverLevel1!.contains(NavKey.user!.userId) && ctr.submission.value.addedFromId != NavKey.user!.userId)
               ? Container(
-                padding: const EdgeInsets.only(bottom: 20, top: 18),
-                width: double.infinity,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.white
-                    : const Color(0xFF272d34),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 12, right: 5),
-                        child: ElevatedButton(
-                            onPressed: () => ctr.reject(),
-                            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.only(bottom: 20, top: 18),
+              width: double.infinity,
+              color: Theme.of(context).brightness == Brightness.light
+                  ? Colors.white
+                  : const Color(0xFF272d34),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 12, right: 5),
+                      child: ElevatedButton(
+                          onPressed: () => ctr.reject(),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                side: const BorderSide(color: Color(0xFF3f87b9)),
+                                borderRadius: BorderRadius.circular(8)
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 20)
+                          ),
+                          child: Text('Rejected'.tr, style: const TextStyle(color: Color(0xFF3f87b9), fontWeight: FontWeight.bold),)
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 12, left: 5),
+                      child: ElevatedButton(
+                          onPressed: () => ctr.approve(),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF3f87b9),
                               shape: RoundedRectangleBorder(
-                                  side: const BorderSide(color: Color(0xFF3f87b9)),
-                                  borderRadius: BorderRadius.circular(8)
+                                borderRadius: BorderRadius.circular(8),
                               ),
                               padding: const EdgeInsets.symmetric(vertical: 20)
-                            ),
-                            child: Text('Rejected'.tr, style: const TextStyle(color: Color(0xFF3f87b9), fontWeight: FontWeight.bold),)
-                        ),
+                          ),
+                          child: Text('yes,approved'.tr, style: const TextStyle(color: Colors.white),)
                       ),
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 12, left: 5),
-                        child: ElevatedButton(
-                            onPressed: () => ctr.approve(),
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF3f87b9),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                padding: const EdgeInsets.symmetric(vertical: 20)
-                            ),
-                            child: Text('yes,approved'.tr, style: const TextStyle(color: Colors.white),)
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-              : ((ctr.submission.value.step == 3 && (isAdministrator || accessAdd || accessEdit)) || (ctr.submission.value.step == 4 && NavKey.user!.approverLevel2!.contains(NavKey.user!.userId)) || ctr.submission.value.step == 6)
+                  ),
+                ],
+              ),
+            )
+              : (ctr.submission.value.step == 3 && (isAdministrator || accessAdd))
                 ? Container(
             padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
             width: double.infinity,
@@ -98,28 +99,20 @@ class SubmissionDetailsPage extends StatelessWidget {
                 ? Colors.white
                 : const Color(0xFF272d34),
             child: ElevatedButton(
-              onPressed: () {
-                if(ctr.submission.value.step == 3 && (isAdministrator || accessAdd)) ctr.findSupplier('add');
-                if(ctr.submission.value.step == 4) ctr.chooseApprovedSupplier();
-                if(ctr.submission.value.step == 6) ctr.createPurchaseOrder();
-              },
-              style: ElevatedButton.styleFrom(
+                onPressed: () => ctr.findSupplier('add'),
+                style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF3f87b9),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 20),
-              ),
-              child: Text(ctr.submission.value.step == 3 && (isAdministrator || accessAdd)
-                  ? 'find_supplier'.tr
-                  : ctr.submission.value.step == 4
-                      ? 'choose_approved_supplier'.tr
-                      : 'create_purchase_order'.tr,
-                style: const TextStyle(color: Colors.white),)
-          ),
-        )
-                : null
-            : Container(
+                ),
+                child: Text('find_supplier'.tr,
+                  style: const TextStyle(color: Colors.white),)
+            ),
+          )
+                : (((ctr.submission.value.step == 4 && NavKey.user!.approverLevel2!.contains(NavKey.user!.userId)) || (ctr.submission.value.step == 5 && NavKey.user!.approverLevel3!.contains(NavKey.user!.userId))) && (isAdministrator || accessEdit || accessAdd))
+                  ? Container(
             padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
             width: double.infinity,
             color: Theme.of(context).brightness == Brightness.light
@@ -127,9 +120,53 @@ class SubmissionDetailsPage extends StatelessWidget {
                 : const Color(0xFF272d34),
             child: ElevatedButton(
                 onPressed: () {
-                  if(ctr.submission.value.step == 2) ctr.resubmission();
-                  if((ctr.submission.value.step == 4 || ctr.submission.value.step == 5) && (isAdministrator || accessEdit)) ctr.findSupplier('edit');
+                  if (ctr.submission.value.status != 'Rejected'.tr && (isAdministrator || accessView)) ctr.chooseApprovedSupplier();
+                  if(ctr.submission.value.status == 'Rejected'.tr && (isAdministrator || accessEdit)) ctr.findSupplier('edit');
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:ctr.submission.value.status != 'Rejected'.tr
+                      ? const Color(0xFF3f87b9)
+                      : Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                ),
+                child: Text(ctr.submission.value.status != 'Rejected'.tr ? 'choose_approved_supplier'.tr : 'resubmission'.tr,
+                // 'create_purchase_order'.tr,
+                  style: const TextStyle(color: Colors.white),)
+            ),
+          )
+                  : (ctr.submission.value.step == 6)
+                    ? Container(
+            padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
+            width: double.infinity,
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : const Color(0xFF272d34),
+            child: ElevatedButton(
+                onPressed: () => ctr.createPurchaseOrder(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF3f87b9),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                ),
+                child: Text('create_purchase_order'.tr,
+                  style: const TextStyle(color: Colors.white),)
+            ),
+          )
+                    : null
+            : (ctr.submission.value.status != 'Rejected'.tr)
+              ? Container(
+            padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
+            width: double.infinity,
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : const Color(0xFF272d34),
+            child: ElevatedButton(
+                onPressed: () => ctr.resubmission(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFF04747),
                   shape: RoundedRectangleBorder(
@@ -140,7 +177,8 @@ class SubmissionDetailsPage extends StatelessWidget {
                 child: Text('resubmission'.tr,
                   style: const TextStyle(color: Colors.white),)
             ),
-          ),
+          )
+              : null,
         ));
       }
     );
