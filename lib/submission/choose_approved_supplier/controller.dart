@@ -36,7 +36,7 @@ class ChooseApprovedSupplierController extends GetxController {
 
     final result = await Get.dialog(const DialogReasonPage(),
         arguments: {
-          'type': submission.value.approvalLevel == 1 ? 'approve_level_2' : 'approve_level_2',
+          'type': submission.value.approvalLevel == 1 ? 'approve_level_2' : 'approve_level_3',
           'data': submission.value,
           'selected_supplier': selectedSupplier.value,
         }

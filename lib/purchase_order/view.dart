@@ -1,5 +1,7 @@
+import 'package:asset_management_module/component_widget/scaffold_message.dart';
 import 'package:asset_management_module/component_widget/skeleton_purchase_order.dart';
 import 'package:asset_management_module/model/purchase.dart';
+import 'package:asset_management_module/purchase_order/bottom_sheet.dart';
 import 'package:asset_management_module/purchase_order/purchase_details/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -103,7 +105,7 @@ class PurchaseOrderPage extends StatelessWidget {
                           },
                           children: [
                             {'label': 'added_from'.tr, 'value': i.addedFromName ?? 'N/A'},
-                            {'label': 'date_used'.tr, 'value': DateFormat('dd MMMM yyyy').format(DateFormat('dd-MM-yyyy').parse(i.date!))},
+                            {'label': 'date_used'.tr, 'value': DateFormat('dd MMMM yyyy').format(DateFormat('yyyy-MM-dd').parse(i.date!))},
                             if(i.status != null) {'label': 'purchase_order'.tr, 'value': i.status! == 1 ? 'un_paid'.tr : 'paid'.tr},
                           ].map((i) => TableRow(
                               children: [
@@ -125,7 +127,7 @@ class PurchaseOrderPage extends StatelessWidget {
                             child: SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () => ctr.showModalUploadInvoice(i),
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xFF3f87b9),
                                       shape: RoundedRectangleBorder(
@@ -143,10 +145,11 @@ class PurchaseOrderPage extends StatelessWidget {
                             child: SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
-                                  onPressed: () => Get.to(const PurchaseDetailsPage(),
-                                      arguments: { 'findSupplierId': i.findSupplierId },
-                                      routeName: '/purchase/details'
-                                  ),
+                                  // onPressed: () => Get.to(const PurchaseDetailsPage(),
+                                  //     arguments: { 'findSupplierId': i.findSupplierId },
+                                  //     routeName: '/purchase/details'
+                                  // ),
+                                  onPressed: () => scaffoldMessage(context, 'Coming soon..'),
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xFF3f87b9),
                                       shape: RoundedRectangleBorder(
@@ -177,6 +180,30 @@ class PurchaseOrderPage extends StatelessWidget {
               child: const Icon(Icons.add, size: 34, color: Colors.white,),
             )
         ),
+        bottomNavigationBar: ctr.showUploadInvoice.value ? Container(
+          padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
+          width: double.infinity,
+          color: Theme.of(context).brightness == Brightness.light
+              ? Colors.white
+              : const Color(0xFF272d34),
+          child: ElevatedButton(
+              onPressed: () => !ctr.showUploadInvoice.value
+                  ? ctr.showUploadInvoice.value = !ctr.showUploadInvoice.value
+                  : ctr.uploadInvoice(context),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF3f87b9),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 20),
+              ),
+              child: Text('upload'.tr,
+                style: const TextStyle(color: Colors.white),)
+          ),
+        ) : null,
+        bottomSheet: ctr.showUploadInvoice.value
+            ? bottomSheet(context, ctr)
+            : null,
       )),
     );
   }

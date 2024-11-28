@@ -54,7 +54,7 @@ class MonitoringController extends GetxController with GetTickerProviderStateMix
       for(final purchase in res['purchases']) {
         for(final po in res['submission']) {
           Monitoring submissionPurchase = Monitoring.fromJson(po);
-          if(purchase['find_supplier_id'] != 0 && purchase['find_supplier_id'] == submissionPurchase.findSupplierId) {
+          if((purchase['find_supplier_id'] ?? 0) != 0 && purchase['find_supplier_id'] == submissionPurchase.findSupplierId) {
             submissionPurchase.status = purchase['status'] == 1 ? 'un_paid' : 'paid';
             submissionPurchase.submissionId = purchase['purchase_id'];
             itemPurchases.add(submissionPurchase);
