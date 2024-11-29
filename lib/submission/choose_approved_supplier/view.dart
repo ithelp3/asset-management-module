@@ -47,9 +47,9 @@ class ChooseApprovedSupplierPage extends StatelessWidget {
                 ),
                 value: item,
                 groupValue: ctr.selectedSupplier.value,
-                onChanged: (selected) {
+                onChanged: ctr.submission.value.step == 4 ? (selected) {
                   ctr.selectedSupplier.value = selected as SupplierRelations;
-                },
+                } : null,
                 fillColor: const WidgetStatePropertyAll(Color(0xFF3f87b9)),
                 title: Container(
                   decoration: BoxDecoration(
@@ -117,7 +117,7 @@ class ChooseApprovedSupplierPage extends StatelessWidget {
                           foregroundColor: Colors.white
                       ),
                       onPressed: () => ctr.reject(),
-                      child: Text('rejected'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
+                      child: Text('Rejected'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
                   ),
                 ),
               ),
@@ -133,8 +133,9 @@ class ChooseApprovedSupplierPage extends StatelessWidget {
                           backgroundColor: const Color(0xFF3f87b9),
                           foregroundColor: Colors.white
                       ),
-                      onPressed: () => ctr.approve(),
-                      child: Text('save'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
+                      onPressed: () => ctr.approve(context),
+                      child: Text(ctr.submission.value.step == 4 ? 'save'.tr : 'Approved'.tr,
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
                   ),
                 ),
               ),

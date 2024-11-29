@@ -5,8 +5,7 @@ import 'package:flutter/cupertino.dart';
 
 class NavKey{
   static final navKey = GlobalKey<NavigatorState>();
-  static String? data;
-  static UserAuth? user;
+  static String? data;static UserAuth? user;
   static Pwa? pwa;
   static List<Permission>? permissions;
 }

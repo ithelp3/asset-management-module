@@ -1,3 +1,4 @@
+import 'package:asset_management_module/component_widget/scaffold_message.dart';
 import 'package:asset_management_module/model/submission.dart';
 import 'package:asset_management_module/model/submission_suppliers.dart';
 import 'package:asset_management_module/submission/dialog_reason/view.dart';
@@ -27,10 +28,15 @@ class ChooseApprovedSupplierController extends GetxController {
     }
   }
 
-  void approve() async {
+  void approve(context) async {
+    if(selectedSupplier.value.id == null) {
+      scaffoldMessage(context, 'please_choose_supplier'.tr);
+      return;
+    }
+
     final result = await Get.dialog(const DialogReasonPage(),
         arguments: {
-          'type': 'approve_level_2',
+          'type': submission.value.approvalLevel == 1 ? 'approve_level_2' : 'approve_level_3',
           'data': submission.value,
           'selected_supplier': selectedSupplier.value,
         }

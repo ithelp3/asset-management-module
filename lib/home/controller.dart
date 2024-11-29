@@ -139,7 +139,7 @@ class HomeController extends GetxController {
         for(final purchase in res['purchases']) {
           for(final po in res['submission']) {
             Monitoring submissionPurchase = Monitoring.fromJson(po);
-            if(purchase['find_supplier_id'] != 0 && purchase['find_supplier_id'] == submissionPurchase.findSupplierId) {
+            if((purchase['find_supplier_id'] ?? 0)!= 0 && purchase['find_supplier_id'] == submissionPurchase.findSupplierId) {
               submissionPurchase.status = purchase['status'] == 1 ? 'un_paid' : 'paid';
               submissionPurchase.submissionId = purchase['purchase_id'];
               itemPurchases.add(submissionPurchase);
@@ -302,9 +302,8 @@ class HomeController extends GetxController {
     getDashboard();
   }
 
-  void selectItemMonitoring(String key, dynamic data) async {
+  void selectItemMonitoring(String key, Monitoring item) async {
     dynamic result;
-    Monitoring item = data;
     if(key == 'submission') {
       result = await Get.to(const SubmissionDetailsPage(),
           arguments: {
@@ -313,6 +312,7 @@ class HomeController extends GetxController {
           routeName: 'submission/details'
       );
     } else if(key == 'purchase') {
+      print('~~ ${item.findSupplierId}');
       result = await Get.to(const PurchaseDetailsPage(),
           arguments: {
             'findSupplierId': item.findSupplierId

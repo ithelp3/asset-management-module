@@ -111,7 +111,7 @@ class SubmissionDetailsPage extends StatelessWidget {
                   style: const TextStyle(color: Colors.white),)
             ),
           )
-                : (((ctr.submission.value.step == 4 && NavKey.user!.approverLevel2!.contains(NavKey.user!.userId)) || (ctr.submission.value.step == 5 && NavKey.user!.approverLevel3!.contains(NavKey.user!.userId))) && (isAdministrator || accessEdit || accessAdd))
+                : (((ctr.submission.value.step == 4 && NavKey.user!.approverLevel2!.contains(NavKey.user!.userId)) || (ctr.submission.value.step == 5 && NavKey.user!.approverLevel3!.contains(NavKey.user!.userId))) && ctr.submission.value.status != 'Rejected'.tr)
                   ? Container(
             padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
             width: double.infinity,
@@ -119,26 +119,42 @@ class SubmissionDetailsPage extends StatelessWidget {
                 ? Colors.white
                 : const Color(0xFF272d34),
             child: ElevatedButton(
-                onPressed: () {
-                  if (ctr.submission.value.status != 'Rejected'.tr && (isAdministrator || accessView)) ctr.chooseApprovedSupplier();
-                  if(ctr.submission.value.status == 'Rejected'.tr && (isAdministrator || accessEdit)) ctr.findSupplier('edit');
-                },
+                onPressed: () => ctr.chooseApprovedSupplier(),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:ctr.submission.value.status != 'Rejected'.tr
-                      ? const Color(0xFF3f87b9)
-                      : Colors.red,
+                  backgroundColor: const Color(0xFF3f87b9),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 20),
                 ),
-                child: Text(ctr.submission.value.status != 'Rejected'.tr ? 'choose_approved_supplier'.tr : 'resubmission'.tr,
+                child: Text('choose_approved_supplier'.tr,
                 // 'create_purchase_order'.tr,
                   style: const TextStyle(color: Colors.white),)
             ),
           )
-                  : (ctr.submission.value.step == 6)
+                  : ((ctr.submission.value.step == 4 || ctr.submission.value.step == 5) && ctr.submission.value.status == 'Rejected'.tr && (isAdministrator || accessEdit))
                     ? Container(
+            padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
+            width: double.infinity,
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : const Color(0xFF272d34),
+            child: ElevatedButton(
+                onPressed: () => ctr.findSupplier('edit'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                ),
+                child: Text('resubmission'.tr,
+                  // 'create_purchase_order'.tr,
+                  style: const TextStyle(color: Colors.white),)
+            ),
+          )
+                    : (ctr.submission.value.step == 6)
+                      ? Container(
             padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
             width: double.infinity,
             color: Theme.of(context).brightness == Brightness.light
@@ -157,8 +173,8 @@ class SubmissionDetailsPage extends StatelessWidget {
                   style: const TextStyle(color: Colors.white),)
             ),
           )
-                    : null
-            : (ctr.submission.value.status != 'Rejected'.tr)
+                      : null
+            : (ctr.submission.value.status == 'Rejected'.tr)
               ? Container(
             padding: const EdgeInsets.only(bottom: 20, top: 18, left: 10, right: 10),
             width: double.infinity,
